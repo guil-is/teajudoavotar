@@ -5,9 +5,10 @@ Complementa o Instagram [@teajudoavotar](https://www.instagram.com/teajudoavotar
 
 Sem cadastro, sem anúncios, sem rastreadores. Funciona bem em celular antigo e internet fraca.
 
-**No ar:** https://guil-is.github.io/teajudoavotar/
-**Banco de dados:** projeto `teajudoavotar` no Supabase, organização "Te Ajudo a Votar", região São Paulo.
-**Painel:** https://supabase.com/dashboard/project/ponjknktdmsdgxrsmjjz
+- **No ar:** https://teajudoavotar.com.br (o endereço antigo `guil-is.github.io/teajudoavotar` redireciona para cá)
+- **Domínio:** registrado no Registro.br até 07/10/2027, com o DNS do próprio Registro.br apontando para o GitHub Pages.
+- **Banco de dados:** projeto `teajudoavotar` no Supabase, organização "Te Ajudo a Votar", região São Paulo.
+- **Painel:** https://supabase.com/dashboard/project/ponjknktdmsdgxrsmjjz
 
 Para mudar o site, edite os arquivos aqui no GitHub. O GitHub Pages publica sozinho em 1 ou 2 minutos.
 
