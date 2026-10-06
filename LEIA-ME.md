@@ -1,0 +1,123 @@
+# Te Ajudo a Votar
+
+Site simples para pedir e oferecer ajuda para votar no 2º turno, domingo, 25 de outubro de 2026.
+Complementa o Instagram [@teajudoavotar](https://www.instagram.com/teajudoavotar/).
+
+Sem cadastro, sem anúncios, sem rastreadores. Funciona bem em celular antigo e internet fraca.
+
+**No ar:** https://guil-is.github.io/teajudoavotar/
+**Banco de dados:** projeto `teajudoavotar` no Supabase, organização "Te Ajudo a Votar", região São Paulo.
+**Painel:** https://supabase.com/dashboard/project/ponjknktdmsdgxrsmjjz
+
+Para mudar o site, edite os arquivos aqui no GitHub. O GitHub Pages publica sozinho em 1 ou 2 minutos.
+
+## O que tem nesta pasta
+
+| Arquivo | Para que serve |
+|---|---|
+| `index.html` | O site inteiro |
+| `config.js` | Onde você cola o endereço e a chave do banco de dados |
+| `assets/` | Fonte, ilustração, ícone e imagem de compartilhamento |
+| `supabase.sql` | Cria o banco de dados (rodar uma vez no Supabase) |
+
+Sem o banco configurado, o site abre em **modo demonstração**: mostra exemplos e guarda o que a pessoa publica só no próprio aparelho. Serve para testar e mostrar para o time.
+
+## Como foi montado (para refazer do zero)
+
+### 1. Criar o banco de dados no Supabase (grátis)
+
+1. Entre em [supabase.com](https://supabase.com) e crie uma conta.
+2. Clique em **New project**. Nome: `teajudoavotar`. Região: **South America (São Paulo)**. Crie uma senha forte e guarde.
+3. Espere o projeto ficar pronto (1 a 2 minutos).
+4. No menu da esquerda, abra **SQL Editor** e clique em **New query**.
+5. Abra o arquivo `supabase.sql`, copie tudo, cole lá e clique em **Run**. Deve aparecer "Success".
+6. Pegue os dois dados de acesso:
+   - **Project Settings > Data API**: copie a **Project URL** (algo como `https://abcdefgh.supabase.co`).
+   - **Project Settings > API Keys**: copie a **Publishable key** (começa com `sb_publishable_`). Se só aparecer a antiga chave `anon`, pode usar ela.
+7. Abra `config.js` e cole os dois entre as aspas:
+
+```js
+SUPABASE_URL: 'https://abcdefgh.supabase.co',
+SUPABASE_KEY: 'sb_publishable_xxxxxxxx',
+```
+
+Essa chave é pública por natureza. Pode ficar no GitHub sem problema: o banco só aceita as ações que o site faz.
+
+### 2. Publicar no GitHub Pages
+
+1. No GitHub, crie um repositório público chamado `teajudoavotar`.
+2. Clique em **Add file > Upload files** e arraste `index.html`, `config.js`, a pasta `assets` e este `LEIA-ME.md`. Clique em **Commit changes**.
+3. Vá em **Settings > Pages**. Em **Source**, escolha **Deploy from a branch**, branch **main**, pasta **/ (root)**. Salve.
+4. Em 1 ou 2 minutos o site estará em `https://SEU-USUARIO.github.io/teajudoavotar/`.
+
+### 3. Ajustar a imagem de compartilhamento
+
+Para o link aparecer com imagem no WhatsApp e no Telegram, abra `index.html` e troque `SEU-USUARIO` pelo seu usuário do GitHub nesta linha:
+
+```html
+<meta property="og:image" content="https://SEU-USUARIO.github.io/teajudoavotar/assets/compartilhar.jpg">
+```
+
+### 4. Testar
+
+1. Abra o site no celular. A faixa amarela de "Modo demonstração" não deve aparecer.
+2. Publique um pedido de teste.
+3. No Supabase, abra **Table Editor > posts** e confira se ele está lá.
+4. No site, em "Você publicou", toque em **Apagar** duas vezes.
+
+## Como funciona
+
+- Quem precisa toca em **Preciso de ajuda**. Quem pode ajudar toca em **Quero ajudar**. Os dois preenchem o mesmo formulário curto.
+- O mural mostra primeiro nome, bairro, cidade, tipo de ajuda e horário. O telefone só aparece quando alguém toca em **Entrar em contato**.
+- A pessoa escolhe por onde quer conversar: ligação, WhatsApp, Telegram ou Signal.
+- Quem publicou vê seus anúncios no topo do mural (no mesmo aparelho) e pode marcar como resolvido ou apagar. Também recebe um link secreto para gerenciar de outro aparelho.
+- Depois das 17h de 25/10, o site para de aceitar publicações.
+
+### Proteções
+
+- Ninguém lê a tabela direto: o site só fala com o banco por funções que validam tudo.
+- Cada conexão pode publicar até 6 anúncios por hora e abrir até 60 contatos por hora. Isso atrapalha robôs que querem coletar telefones.
+- Três denúncias de pessoas diferentes tiram um anúncio do mural.
+- O banco guarda só um código embaralhado do IP para esses limites, nunca o IP.
+
+## Moderação
+
+No Supabase, abra **Table Editor > posts**.
+
+- **Esconder um anúncio:** mude `oculto` para `true`.
+- **Trazer de volta um denunciado:** mude `oculto` para `false` e `denuncias` para `0`.
+- **Apagar:** selecione a linha e apague.
+
+Para ver o que foi denunciado, rode no SQL Editor:
+
+```sql
+select nome, bairro, cidade, detalhes, denuncias, oculto from posts where denuncias > 0 order by denuncias desc;
+```
+
+Números da ação:
+
+```sql
+select tipo, count(*) as anuncios, count(*) filter (where resolvido) as resolvidos, sum(contatos) as contatos_abertos
+from posts group by tipo;
+```
+
+## Depois da eleição
+
+O site promete apagar tudo em 26 de outubro. No SQL Editor, rode:
+
+```sql
+delete from public.posts;
+delete from public.limites;
+```
+
+Ou apague o projeto inteiro em **Project Settings > General > Delete project**.
+
+## Se algo der errado
+
+- **Aparece "Não foi possível falar com o mural agora":** confira a URL e a chave em `config.js`. A URL não leva `/rest/v1` no final.
+- **Erro de permissão ou função não encontrada:** rode o `supabase.sql` de novo. Confira em **Project Settings > Data API** se a Data API está ligada e se o schema `public` está exposto.
+- **O projeto do Supabase "pausou":** projetos grátis pausam depois de 7 dias sem uso. Entre no painel e clique em **Restore**. Abrir o site de vez em quando evita isso.
+
+## Sobre carona
+
+O site não oferece carona de carro de propósito. A Lei 6.091/1974 limita o transporte de eleitores no dia da eleição, e um mural público organizando caronas pode ser lido como transporte irregular. A ajuda fica em ir junto a pé ou de transporte público, que deve ser gratuito no dia da votação.

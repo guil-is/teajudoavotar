@@ -1,0 +1,1231 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Te Ajudo a Votar</title>
+<meta name="description" content="Peça e ofereça ajuda para votar no 2º turno, domingo, 25 de outubro. Sem cadastro.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://guil-is.github.io/teajudoavotar/">
+<meta property="og:title" content="Ajuda para votar · 2º turno, 25 de outubro">
+<meta property="og:description" content="Peça e ofereça ajuda à sua comunidade para chegar até a urna. Sem cadastro.">
+<meta property="og:image" content="https://guil-is.github.io/teajudoavotar/assets/compartilhar.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FCF2B4">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="assets/icone.svg" type="image/svg+xml">
+<link rel="preload" href="assets/nunito.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face {
+  font-family: "Nunito";
+  src: url("assets/nunito.woff2") format("woff2");
+  font-weight: 200 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Mural de bairro ao sol: abertura com as duas portas (pedir / oferecer), mural de cartões, guia prático do dia. */
+:root {
+  --bg: #F6FAF3;
+  --surface: #FFFFFF;
+  --surface-2: #ECF4E8;
+  --ink: #13352C;
+  --muted: #48655B;
+  --line: #D2E2D7;
+  --green: #1D6A52;
+  --on-green: #FFFFFF;
+  --green-soft: #DDF0E4;
+  --green-ink: #145440;
+  --blue: #0A62AC;
+  --on-blue: #FFFFFF;
+  --blue-soft: #E0EDF9;
+  --blue-ink: #0A5799;
+  --sun: #FCF2B4;
+  --mint: #EAF6E1;
+  --sky: #A9E0F1;
+  --yellow: #F9BF15;
+  --on-yellow: #3A2A00;
+  --yellow-soft: #FFF3C6;
+  --red: #E5484F;
+  --on-red: #FFFFFF;
+  --danger: #B42318;
+  --focus: #0A62AC;
+  --accent: var(--green);
+  --on-accent: var(--on-green);
+  --accent-soft: var(--green-soft);
+  --accent-ink: var(--green-ink);
+  --shadow: 0 1px 2px rgba(19, 53, 44, .06), 0 10px 24px -14px rgba(19, 53, 44, .25);
+  --font: "Nunito", ui-rounded, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --r-lg: 22px;
+  --r: 16px;
+  --r-sm: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C1C17; --surface: #132A23; --surface-2: #1A362D; --ink: #E8F3EC; --muted: #A3BFB4; --line: #29493F;
+    --green: #57D0A0; --on-green: #062219; --green-soft: #173B2F; --green-ink: #8BE2BD;
+    --blue: #7DB4FF; --on-blue: #04162B; --blue-soft: #13304F; --blue-ink: #A3CBFF;
+    --sun: #1F2C17; --mint: #12291F; --sky: #0E2B37;
+    --yellow: #FFCB3D; --on-yellow: #2A2000; --yellow-soft: #322F12; --red: #FF6B70; --danger: #FF8A80; --focus: #A3CBFF;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 24px -14px rgba(0, 0, 0, .7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0C1C17; --surface: #132A23; --surface-2: #1A362D; --ink: #E8F3EC; --muted: #A3BFB4; --line: #29493F;
+  --green: #57D0A0; --on-green: #062219; --green-soft: #173B2F; --green-ink: #8BE2BD;
+  --blue: #7DB4FF; --on-blue: #04162B; --blue-soft: #13304F; --blue-ink: #A3CBFF;
+  --sun: #1F2C17; --mint: #12291F; --sky: #0E2B37;
+  --yellow: #FFCB3D; --on-yellow: #2A2000; --yellow-soft: #322F12; --red: #FF6B70; --danger: #FF8A80; --focus: #A3CBFF;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 24px -14px rgba(0, 0, 0, .7);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1.125rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--blue-ink); }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.i { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vertical-align: -.2em; }
+.wrap { width: 100%; max-width: 1080px; margin-inline: auto; padding-inline: 16px; }
+@media (min-width: 600px) { .wrap { padding-inline: 24px; } }
+
+/* Aviso de demonstração */
+.demo { background: var(--yellow-soft); border-bottom: 1px solid var(--line); font-size: .95rem; font-weight: 700; padding-block: 10px; text-align: center; }
+
+/* Abertura */
+.hero { background: linear-gradient(120deg, var(--sun) 0%, var(--mint) 48%, var(--sky) 100%); padding-block: 10px 0; overflow: hidden; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 4px; }
+.marca { display: inline-flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1.05rem; letter-spacing: -.01em; color: var(--green-ink); text-decoration: none; }
+.marca svg { width: 30px; height: 30px; flex: none; }
+.btn-share { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--green-ink); font-weight: 800; font-size: .95rem; cursor: pointer; }
+.hero-grid { display: grid; gap: 22px; padding-block: 18px 0; }
+@media (min-width: 900px) { .hero-grid { grid-template-columns: 1.05fr 1fr; align-items: end; gap: 36px; padding-block: 28px 0; } }
+.hero-text { display: grid; gap: 18px; }
+@media (min-width: 900px) { .hero-text { padding-bottom: 44px; } }
+.quando { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; font-weight: 800; font-size: 1rem; color: var(--green-ink); }
+.contagem { background: var(--yellow); color: var(--on-yellow); border-radius: 999px; padding: 4px 12px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.titulo { font-weight: 900; font-size: clamp(2.7rem, 12vw, 4.8rem); line-height: .98; letter-spacing: -.025em; color: var(--green-ink); }
+.titulo span { display: block; }
+.titulo .votar { display: flex; align-items: center; gap: .14em; color: var(--blue-ink); }
+.raios { width: .4em; height: .62em; color: var(--yellow); flex: none; }
+.lede { font-size: 1.25rem; font-weight: 700; color: var(--green-ink); max-width: 30ch; }
+.portas { display: grid; gap: 12px; }
+@media (min-width: 560px) { .portas { grid-template-columns: 1fr 1fr; } }
+.porta { display: flex; align-items: center; gap: 14px; min-height: 86px; padding: 14px 18px; border-radius: var(--r-lg); text-decoration: none; box-shadow: var(--shadow); transition: transform .15s ease; }
+.porta:hover { transform: translateY(-2px); }
+.porta-pedir { background: var(--blue); color: var(--on-blue); }
+.porta-ajudar { background: var(--green); color: var(--on-green); }
+.porta .ico { display: grid; place-items: center; width: 50px; height: 50px; border-radius: 50%; background: var(--surface); flex: none; }
+.porta .ico .i { width: 26px; height: 26px; }
+.porta-pedir .ico { color: var(--blue-ink); }
+.porta-ajudar .ico { color: var(--green-ink); }
+.porta strong { display: block; font-size: 1.3rem; font-weight: 900; line-height: 1.15; }
+.porta small { display: block; font-size: .95rem; font-weight: 700; opacity: .9; }
+.fim { background: var(--surface); border-radius: var(--r); padding: 16px 18px; font-weight: 800; box-shadow: var(--shadow); }
+.hero-art { margin: 0; align-self: end; }
+.hero-art img { display: block; width: 100%; height: auto; border-radius: var(--r-lg) var(--r-lg) 0 0; }
+@media (max-width: 899px) { .hero-art img { aspect-ratio: 16 / 8; object-fit: cover; object-position: 50% 30%; } }
+
+/* Mural */
+.mural { display: grid; gap: 16px; padding-block: 28px 16px; }
+.mural-cab { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+.mural-cab h2, .saber h2, .combinados h2 { font-size: 1.75rem; font-weight: 900; color: var(--green-ink); }
+.stats { color: var(--muted); font-size: 1rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.abas { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 5px; border-radius: 999px; background: var(--surface-2); }
+.aba { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 6px 10px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font-weight: 800; font-size: 1rem; line-height: 1.15; cursor: pointer; }
+.aba[aria-selected="true"][data-tab="pedido"] { background: var(--blue); color: var(--on-blue); }
+.aba[aria-selected="true"][data-tab="oferta"] { background: var(--green); color: var(--on-green); }
+.aba .n { min-width: 1.9em; padding: 0 7px; border-radius: 999px; background: var(--surface); color: var(--ink); font-size: .85rem; font-variant-numeric: tabular-nums; }
+.filtros { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 10px; }
+@media (max-width: 479px) { .filtros { grid-template-columns: 1fr; } }
+select, input, textarea { width: 100%; min-height: 52px; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: var(--r-sm); background: var(--surface); color: var(--ink); font-weight: 600; }
+textarea { resize: vertical; min-height: 96px; }
+input::placeholder, textarea::placeholder { color: var(--muted); opacity: .85; }
+select:focus, input:focus, textarea:focus { border-color: var(--accent); }
+.sel { position: relative; }
+.sel select { appearance: none; -webkit-appearance: none; padding-right: 40px; }
+.sel .i { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--muted); }
+.busca { position: relative; }
+.busca .i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--muted); }
+.busca input { padding-left: 44px; }
+.lista { display: grid; gap: 12px; }
+@media (min-width: 760px) { .lista { grid-template-columns: 1fr 1fr; align-items: start; } }
+.card { display: grid; gap: 10px; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); box-shadow: var(--shadow); min-width: 0; }
+.card.is-ok { box-shadow: none; opacity: .72; }
+.card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--muted); font-size: .9rem; font-weight: 700; }
+.selo { display: inline-flex; align-items: center; gap: 6px; padding: 3px 11px; border-radius: 999px; font-size: .85rem; font-weight: 800; letter-spacing: .02em; }
+.selo-pedido { background: var(--blue-soft); color: var(--blue-ink); }
+.selo-oferta { background: var(--green-soft); color: var(--green-ink); }
+.is-ok .selo { background: var(--surface-2); color: var(--muted); }
+.seu { margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: var(--yellow-soft); color: var(--ink); font-size: .8rem; font-weight: 800; }
+.card-nome { font-size: 1.35rem; font-weight: 900; overflow-wrap: anywhere; }
+.card-linha { display: flex; align-items: flex-start; gap: 8px; color: var(--muted); font-size: 1rem; font-weight: 700; }
+.card-linha .i { margin-top: .2em; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.chips li { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; background: var(--surface-2); font-size: .95rem; font-weight: 700; }
+.card-det { font-size: 1.05rem; overflow-wrap: anywhere; }
+.exemplo { justify-self: start; padding: 2px 8px; border: 1px dashed var(--line); border-radius: 6px; color: var(--muted); font-size: .8rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.card-acoes { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.btn-contato { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 10px 18px; border: 0; border-radius: 999px; font-weight: 900; font-size: 1.05rem; cursor: pointer; }
+.card-pedido .btn-contato { background: var(--green); color: var(--on-green); }
+.card-oferta .btn-contato { background: var(--blue); color: var(--on-blue); }
+.link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 6px 4px; border: 0; background: none; color: var(--muted); font-weight: 700; font-size: .92rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.nota { color: var(--muted); font-size: .92rem; font-weight: 700; }
+.contato { display: grid; gap: 10px; width: 100%; }
+.contato-fone { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 1.5rem; font-weight: 900; font-variant-numeric: tabular-nums; }
+.canais { display: flex; flex-wrap: wrap; gap: 8px; }
+.canal { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 10px 16px; border: 1.5px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--ink); font-weight: 800; text-decoration: none; }
+.canal.off { opacity: .55; }
+.mini { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 14px; border: 1.5px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font-size: .92rem; font-weight: 800; cursor: pointer; }
+.mini.perigo { color: var(--danger); }
+.vazio { display: grid; justify-items: center; gap: 12px; padding: 28px 18px; border: 2px dashed var(--line); border-radius: var(--r); color: var(--muted); font-weight: 700; text-align: center; }
+@media (min-width: 760px) { .vazio { grid-column: 1 / -1; } }
+.vazio .btn-contato { background: var(--accent); color: var(--on-accent); }
+.carregando { color: var(--muted); font-weight: 700; padding: 16px 0; }
+.mais { justify-self: center; }
+.meus { display: grid; gap: 10px; padding: 16px 18px; border-radius: var(--r); background: var(--yellow-soft); }
+.meus h3 { font-size: 1.15rem; font-weight: 900; }
+.meus ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.meus li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: var(--r-sm); background: var(--surface); }
+.meu-info { display: grid; min-width: 0; }
+.meu-info span { color: var(--muted); font-size: .95rem; font-weight: 700; }
+.meu-acoes { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Bom saber e combinados */
+.saber { display: grid; gap: 20px; padding-block: 40px 8px; }
+.saber-grid { display: grid; gap: 20px; margin: 0; padding: 0; list-style: none; }
+@media (min-width: 640px) { .saber-grid { grid-template-columns: 1fr 1fr; gap: 24px 32px; } }
+@media (min-width: 960px) { .saber-grid { grid-template-columns: repeat(3, 1fr); } }
+.saber-grid li { display: flex; align-items: flex-start; gap: 14px; }
+.saber-ico { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--yellow-soft); color: var(--green-ink); flex: none; }
+.saber-ico .i { width: 24px; height: 24px; }
+.saber-grid h3 { margin-bottom: 2px; font-size: 1.12rem; font-weight: 900; }
+.saber-grid p { color: var(--muted); font-size: 1rem; font-weight: 600; }
+.combinados { padding-block: 32px 44px; }
+.combinados-box { display: grid; gap: 14px; padding: 22px 20px; border-radius: var(--r-lg); background: var(--green-soft); }
+@media (min-width: 760px) { .combinados-box { padding: 28px 32px; } }
+.combinados ul { display: grid; gap: 10px; margin: 0; padding-left: 1.2em; }
+.combinados li::marker { color: var(--green-ink); }
+.rodape { padding-block: 24px 44px; border-top: 1px solid var(--line); color: var(--muted); font-size: .95rem; font-weight: 600; }
+.rodape .wrap { display: grid; gap: 10px; }
+.rodape a { font-weight: 800; }
+
+/* Formulário */
+.form-view { padding-block: 8px 56px; }
+.form-pedido { --accent: var(--blue); --on-accent: var(--on-blue); --accent-soft: var(--blue-soft); --accent-ink: var(--blue-ink); }
+.form-oferta { --accent: var(--green); --on-accent: var(--on-green); --accent-soft: var(--green-soft); --accent-ink: var(--green-ink); }
+.form-wrap { max-width: 700px; }
+.voltar { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; color: var(--green-ink); font-weight: 800; text-decoration: none; }
+.form-cab { display: grid; gap: 8px; margin-block: 6px 24px; }
+.form-cab h1 { font-size: clamp(2.1rem, 9vw, 2.9rem); font-weight: 900; letter-spacing: -.02em; color: var(--accent-ink); }
+.form-cab p { font-size: 1.1rem; font-weight: 600; color: var(--muted); }
+form { display: grid; gap: 28px; }
+fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+legend, .rotulo { display: block; margin-bottom: 10px; padding: 0; font-size: 1.2rem; font-weight: 900; }
+.campo { display: grid; gap: 8px; }
+.campo > label:not(.consent) { font-size: 1.2rem; font-weight: 900; }
+.opc { color: var(--muted); font-weight: 700; font-size: 1rem; }
+.dica { color: var(--muted); font-size: .95rem; font-weight: 600; }
+.tiles { display: grid; gap: 10px; }
+@media (min-width: 540px) { .tiles { grid-template-columns: 1fr 1fr; } }
+.tile { position: relative; display: flex; align-items: flex-start; gap: 12px; min-height: 76px; padding: 14px; border: 2px solid var(--line); border-radius: var(--r); background: var(--surface); cursor: pointer; }
+.tile input, .pill input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; min-height: 0; }
+.tile-ico { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--surface-2); color: var(--accent-ink); flex: none; }
+.tile-txt { min-width: 0; flex: 1; }
+.tile b { display: block; font-size: 1.05rem; font-weight: 900; line-height: 1.2; }
+.tile small { display: block; margin-top: 2px; color: var(--muted); font-size: .92rem; font-weight: 600; line-height: 1.3; }
+.tick { display: grid; place-items: center; width: 26px; height: 26px; border: 2px solid var(--line); border-radius: 50%; color: transparent; flex: none; }
+.tick .i { width: 16px; height: 16px; stroke-width: 3; }
+.tile.on { border-color: var(--accent); background: var(--accent-soft); }
+.tile.on .tile-ico { background: var(--surface); }
+.tile.on .tick { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 50px; padding: 10px 16px; border: 2px solid var(--line); border-radius: 999px; background: var(--surface); font-weight: 800; cursor: pointer; }
+.pill.on { border-color: var(--accent); background: var(--accent-soft); }
+.tile:focus-within, .pill:focus-within { outline: 3px solid var(--focus); outline-offset: 2px; }
+.onde { display: grid; gap: 12px; }
+@media (min-width: 540px) { .onde { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); } .onde .full { grid-column: 1 / -1; } }
+.onde label { display: block; margin-bottom: 6px; font-weight: 800; }
+.erro { color: var(--danger); font-size: .98rem; font-weight: 800; }
+[aria-invalid="true"] { border-color: var(--danger); }
+.consent { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: var(--r-sm); background: var(--surface-2); font-size: 1rem; font-weight: 600; cursor: pointer; }
+.consent input { width: 26px; height: 26px; min-height: 0; margin: 1px 0 0; padding: 0; flex: none; accent-color: var(--accent); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.btn-big { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 60px; padding: 12px 24px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 900; font-size: 1.2rem; text-decoration: none; cursor: pointer; }
+.btn-big[disabled] { opacity: .6; cursor: progress; }
+.erro-geral { padding: 12px 14px; border-radius: var(--r-sm); background: var(--surface-2); color: var(--danger); font-weight: 800; }
+.sucesso { display: grid; gap: 18px; }
+.sucesso-ico { display: grid; place-items: center; width: 68px; height: 68px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-ink); }
+.sucesso-ico .i { width: 36px; height: 36px; }
+.sucesso h2 { font-size: 2rem; font-weight: 900; color: var(--accent-ink); }
+.gestao { display: grid; gap: 10px; padding: 16px; border-radius: var(--r); background: var(--yellow-soft); }
+.linkbox { display: flex; gap: 8px; }
+.linkbox input { min-width: 0; font-size: .9rem; }
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 10; max-width: calc(100% - 32px); transform: translateX(-50%); padding: 12px 20px; border-radius: 999px; background: var(--ink); color: var(--bg); font-weight: 800; box-shadow: var(--shadow); text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="i-companhia" viewBox="0 0 24 24"><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"/><path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"/><path d="M16 17h4"/><path d="M4 13h4"/></symbol>
+<symbol id="i-local" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+<symbol id="i-duvidas" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+<symbol id="i-cuidar" viewBox="0 0 24 24"><path d="M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5"/><path d="M15 12h.01"/><path d="M19.38 6.813A9 9 0 0 1 20.8 10.2a2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1"/><path d="M9 12h.01"/></symbol>
+<symbol id="i-acessibilidade" viewBox="0 0 24 24"><circle cx="16" cy="4" r="1"/><path d="m18 19 1-7-6 1"/><path d="m5 8 3-3 5.5 3-2.36 3.5"/><path d="M4.24 14.5a5 5 0 0 0 6.88 6"/><path d="M13.76 17.5a5 5 0 0 0-6.88-6"/></symbol>
+<symbol id="i-outro" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></symbol>
+<symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/></symbol>
+<symbol id="i-telegram" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
+<symbol id="i-signal" viewBox="0 0 24 24"><path d="M22 8.5V5a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v16.286a.71.71 0 0 0 1.212.502l2.202-2.202A2 2 0 0 1 6.828 19H10"/><path d="M20 15v-2a2 2 0 0 0-4 0v2"/><rect x="14" y="15" width="8" height="5" rx="1"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+<symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+<symbol id="i-brand" viewBox="0 0 24 24"><path d="M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762"/></symbol>
+<symbol id="i-bus" viewBox="0 0 24 24"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></symbol>
+<symbol id="i-idcard" viewBox="0 0 24 24"><path d="M13 19a4 4 0 00-8 0"/><path d="M16 10h2"/><path d="M16 14h2"/><circle cx="9" cy="12" r="3"/><rect x="2" y="5" width="20" height="14" rx="2"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></symbol>
+<symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+</svg>
+
+<div class="demo" id="demo" hidden>Modo demonstração: os anúncios são exemplos e o que você publicar fica só neste aparelho.</div>
+
+<div id="home">
+  <header class="hero">
+    <div class="wrap">
+      <div class="topbar">
+        <a class="marca" href="#" data-ir="">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 53S9 40 9 24.5A11.5 11.5 0 0 1 32 19a11.5 11.5 0 0 1 23 5.5C55 40 32 53 32 53z" style="fill:var(--red)"/><path d="M22.5 30.5l6.5 6.5 12.5-12.5" style="fill:none;stroke:var(--on-red)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Te Ajudo a Votar
+        </a>
+        <button class="btn-share" type="button" id="compartilhar"><svg class="i" aria-hidden="true"><use href="#i-share"/></svg>Compartilhar</button>
+      </div>
+      <div class="hero-grid">
+        <div class="hero-text">
+          <p class="quando"><span class="contagem" id="contagem">Eleições 2026</span><span>2º turno · domingo, 25 de outubro · 8h às 17h</span></p>
+          <h1 class="titulo">
+            <span>Ajuda para</span>
+            <span class="votar">
+              <svg class="raios" viewBox="0 0 26 40" aria-hidden="true"><path d="M5 7l15 6M3 20h17M5 33l15-6" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/></svg>votar<svg class="raios" viewBox="0 0 26 40" aria-hidden="true"><path d="M21 7L6 13M23 20H6M21 33L6 27" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/></svg>
+            </span>
+          </h1>
+          <p class="lede">Peça e ofereça ajuda à sua comunidade para chegar até a urna.</p>
+          <div class="portas" id="portas">
+            <a class="porta porta-pedir" href="#pedir" data-ir="pedir">
+              <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-acessibilidade"/></svg></span>
+              <span><strong>Preciso de ajuda</strong><small>Para mim ou para alguém da família</small></span>
+            </a>
+            <a class="porta porta-ajudar" href="#oferecer" data-ir="oferecer">
+              <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-brand"/></svg></span>
+              <span><strong>Quero ajudar</strong><small>Ir junto, explicar, dar uma força</small></span>
+            </a>
+          </div>
+          <p class="fim" id="fim" hidden>A votação terminou. Obrigado a todo mundo que pediu e ofereceu ajuda.</p>
+        </div>
+        <figure class="hero-art">
+          <img src="assets/ilustracao.webp" width="1100" height="709" alt="Vizinhos acompanham uma senhora de bengala e uma jovem em cadeira de rodas até a urna.">
+        </figure>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="mural wrap" id="mural" aria-labelledby="mural-t">
+      <div class="mural-cab">
+        <h2 id="mural-t">Mural da vizinhança</h2>
+        <p class="stats" id="stats" aria-live="polite"></p>
+      </div>
+
+      <div class="meus" id="meus" hidden></div>
+
+      <div class="abas" role="tablist" aria-label="O que mostrar">
+        <button class="aba" type="button" role="tab" data-tab="pedido" aria-selected="true" aria-controls="lista">Pedem ajuda <span class="n" id="n-pedido">0</span></button>
+        <button class="aba" type="button" role="tab" data-tab="oferta" aria-selected="false" aria-controls="lista">Podem ajudar <span class="n" id="n-oferta">0</span></button>
+      </div>
+      <div class="filtros">
+        <div class="sel">
+          <label class="sr-only" for="f-uf">Estado</label>
+          <select id="f-uf"><option value="">Todo o Brasil</option></select>
+          <svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </div>
+        <div class="busca">
+          <label class="sr-only" for="f-busca">Buscar cidade ou bairro</label>
+          <svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
+          <input id="f-busca" type="search" placeholder="Cidade ou bairro" autocomplete="off" enterkeyhint="search">
+        </div>
+      </div>
+      <div class="lista" id="lista" role="tabpanel"></div>
+      <button class="mini mais" type="button" id="mais" hidden>Mostrar mais</button>
+    </section>
+
+    <section class="saber wrap" aria-labelledby="saber-t">
+      <h2 id="saber-t">Bom saber para domingo</h2>
+      <ul class="saber-grid">
+        <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-calendar"/></svg></span><div><h3>Quando</h3><p>Domingo, 25 de outubro, das 8h às 17h, horário de Brasília. Quem estiver na fila às 17h ainda vota.</p></div></li>
+        <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-idcard"/></svg></span><div><h3>O que levar</h3><p>Documento oficial com foto: RG, CNH, carteira de trabalho ou passaporte. O e-Título vale se tiver sua foto.</p></div></li>
+        <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-local"/></svg></span><div><h3>Onde votar</h3><p>Veja no app e-Título ou no <a href="https://www.tse.jus.br/servicos-eleitorais/autoatendimento-eleitoral" target="_blank" rel="noopener">site do TSE</a>, com seu nome ou CPF.</p></div></li>
+        <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-bus"/></svg></span><div><h3>Transporte</h3><p>Ônibus, metrô e trem urbanos devem ser gratuitos no dia da votação. Confira na sua cidade.</p></div></li>
+        <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg></span><div><h3>Fila preferencial</h3><p>Pessoas idosas, com deficiência ou autismo, gestantes e quem está com criança de colo têm preferência.</p></div></li>
+        <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-acessibilidade"/></svg></span><div><h3>Ajuda na cabine</h3><p>Quem tem deficiência ou mobilidade reduzida pode levar uma pessoa de confiança para ajudar na cabine, com autorização da mesa. Essa pessoa não pode trabalhar para partido ou candidatura.</p></div></li>
+      </ul>
+    </section>
+
+    <section class="combinados wrap" aria-labelledby="comb-t">
+      <div class="combinados-box">
+        <h2 id="comb-t">Nossos combinados</h2>
+        <ul>
+          <li><strong>Ajuda é de graça.</strong> Ninguém cobra nem dá nada em troca.</li>
+          <li><strong>Sem campanha.</strong> Aqui ninguém fala de candidato nem pede voto. O voto é secreto.</li>
+          <li><strong>Sem carona de carro.</strong> A lei eleitoral limita o transporte de eleitores. Vá junto a pé ou de transporte público.</li>
+          <li><strong>Segurança primeiro.</strong> Combine antes por telefone, encontre em lugar movimentado e avise alguém da família. Nunca passe documentos, senhas ou dinheiro.</li>
+          <li><strong>Viu algo errado?</strong> Toque em “Denunciar”. Com três denúncias, o anúncio sai do mural.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="wrap">
+      <p>Te Ajudo a Votar é uma iniciativa voluntária e apartidária. Sem cadastro, sem anúncios e sem rastreadores.</p>
+      <p>Guardamos só o que você publica. Seu telefone aparece apenas para quem tocar em “Entrar em contato”. Tudo será apagado em 26 de outubro.</p>
+      <p><a id="link-insta" href="https://www.instagram.com/teajudoavotar/" target="_blank" rel="noopener">Também estamos no Instagram</a></p>
+    </div>
+  </footer>
+</div>
+
+<section class="form-view" id="form-view" hidden>
+  <div class="wrap form-wrap">
+    <a class="voltar" href="#" data-ir=""><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Voltar ao mural</a>
+
+    <div id="form-area">
+      <div class="form-cab">
+        <h1 id="form-t" tabindex="-1">Preciso de ajuda</h1>
+        <p id="form-lede"></p>
+      </div>
+      <p class="fim" id="form-fim" hidden>A votação terminou. Não é mais possível publicar.</p>
+      <form id="form" novalidate>
+        <fieldset class="campo">
+          <legend id="l-ajudas">Que ajuda você precisa?</legend>
+          <div class="tiles" id="c-ajudas"></div>
+          <p class="erro" id="e-ajudas" hidden></p>
+        </fieldset>
+
+        <div class="campo">
+          <label for="c-nome">Primeiro nome ou apelido</label>
+          <input id="c-nome" maxlength="40" autocomplete="given-name" aria-describedby="d-nome e-nome">
+          <p class="dica" id="d-nome"></p>
+          <p class="erro" id="e-nome" hidden></p>
+        </div>
+
+        <fieldset class="campo">
+          <legend>Onde?</legend>
+          <div class="onde">
+            <div>
+              <label for="c-uf">Estado</label>
+              <div class="sel"><select id="c-uf" aria-describedby="e-uf"><option value="">Escolha</option></select><svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg></div>
+              <p class="erro" id="e-uf" hidden></p>
+            </div>
+            <div>
+              <label for="c-cidade">Cidade</label>
+              <input id="c-cidade" maxlength="60" autocomplete="address-level2" list="dl-cidades" aria-describedby="e-cidade">
+              <p class="erro" id="e-cidade" hidden></p>
+            </div>
+            <div class="full">
+              <label for="c-bairro">Bairro</label>
+              <input id="c-bairro" maxlength="60" autocomplete="address-level3" list="dl-bairros" aria-describedby="e-bairro">
+              <p class="erro" id="e-bairro" hidden></p>
+            </div>
+          </div>
+          <datalist id="dl-cidades"></datalist>
+          <datalist id="dl-bairros"></datalist>
+        </fieldset>
+
+        <fieldset class="campo">
+          <legend>Em que horário?</legend>
+          <div class="pills" id="c-periodo"></div>
+          <p class="erro" id="e-periodo" hidden></p>
+        </fieldset>
+
+        <div class="campo">
+          <label for="c-detalhes">Quer contar mais? <span class="opc">(opcional)</span></label>
+          <textarea id="c-detalhes" maxlength="300" rows="3" aria-describedby="d-detalhes"></textarea>
+          <p class="dica" id="d-detalhes"><span id="c-conta">0</span> de 300 letras</p>
+        </div>
+
+        <fieldset class="campo">
+          <legend>Seu telefone, com DDD</legend>
+          <input id="c-telefone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(11) 91234-5678" aria-label="Telefone com DDD" aria-describedby="e-telefone">
+          <p class="erro" id="e-telefone" hidden></p>
+          <p class="rotulo" style="margin:8px 0 0;font-size:1.05rem">Por onde prefere conversar?</p>
+          <div class="pills" id="c-canais"></div>
+          <p class="erro" id="e-canais" hidden></p>
+        </fieldset>
+
+        <div class="campo">
+          <label class="consent"><input type="checkbox" id="c-ok" aria-describedby="e-ok"><span>Entendo que meu primeiro nome e bairro ficam no mural, e meu telefone aparece para quem tocar em “Entrar em contato”. Tudo é apagado em 26 de outubro.</span></label>
+          <p class="erro" id="e-ok" hidden></p>
+        </div>
+
+        <div class="hp" aria-hidden="true"><label>Não preencha este campo <input id="c-site" tabindex="-1" autocomplete="off"></label></div>
+
+        <p class="dica">Ao publicar, você aceita os combinados: ajuda de graça, sem campanha política e sem carona de carro.</p>
+        <p class="erro-geral" id="e-geral" role="alert" hidden></p>
+        <button class="btn-big" type="submit" id="c-enviar">Publicar pedido</button>
+      </form>
+    </div>
+
+    <div class="sucesso" id="sucesso" hidden>
+      <span class="sucesso-ico"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>
+      <h2 id="suc-t" tabindex="-1">Seu pedido está no mural</h2>
+      <p id="suc-txt"></p>
+      <div class="gestao">
+        <p><strong>Quando resolver, marque como resolvido.</strong> Neste aparelho, o botão aparece no topo do mural. Em outro aparelho, use este link secreto:</p>
+        <div class="linkbox">
+          <label class="sr-only" for="suc-link">Link secreto para gerenciar</label>
+          <input id="suc-link" readonly>
+          <button class="mini" type="button" id="suc-copiar"><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg>Copiar</button>
+        </div>
+      </div>
+      <button class="btn-big" type="button" id="suc-ver">Ver o mural</button>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast" role="status" hidden></div>
+<noscript><p class="wrap" style="padding-block:16px">Este site precisa de JavaScript ligado para funcionar.</p></noscript>
+
+<script src="config.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var CFG = window.TAV_CONFIG || {};
+  var REMOTO = !!(CFG.SUPABASE_URL && CFG.SUPABASE_KEY);
+  var INICIO = Date.UTC(2026, 9, 25, 11, 0, 0);   // 8h em Brasília
+  var FIM = Date.UTC(2026, 9, 25, 20, 0, 0);      // 17h em Brasília
+  var DIA = Date.UTC(2026, 9, 25);
+
+  var AJUDAS = {
+    companhia: { curto: 'Ir junto', longo: 'Ir junto até o local de votação', dica: 'A pé, de ônibus ou de metrô' },
+    local: { curto: 'Achar o local', longo: 'Descobrir onde votar', dica: 'Com o e-Título ou o site do TSE' },
+    duvidas: { curto: 'Tirar dúvidas', longo: 'Entender como votar', dica: 'Documentos, urna, ordem dos votos' },
+    cuidar: { curto: 'Ficar com alguém', longo: 'Ficar com alguém na hora do voto', dica: 'Criança ou pessoa que precisa de cuidado' },
+    acessibilidade: { curto: 'Acessibilidade', longo: 'Apoio para pessoa idosa ou com deficiência', dica: 'Cadeira de rodas, escadas, fila' },
+    outro: { curto: 'Outra ajuda', longo: 'Outra ajuda', dica: 'Conte nos detalhes' }
+  };
+  var PERIODOS = { manha: 'Manhã (8h–12h)', tarde: 'Tarde (12h–17h)', qualquer: 'Qualquer horário' };
+  var CANAIS = { ligacao: 'Ligação', whatsapp: 'WhatsApp', telegram: 'Telegram', signal: 'Signal' };
+  var CANAL_ICO = { ligacao: 'phone', whatsapp: 'whatsapp', telegram: 'telegram', signal: 'signal' };
+  var UFS = [['AC','Acre'],['AL','Alagoas'],['AP','Amapá'],['AM','Amazonas'],['BA','Bahia'],['CE','Ceará'],['DF','Distrito Federal'],['ES','Espírito Santo'],['GO','Goiás'],['MA','Maranhão'],['MT','Mato Grosso'],['MS','Mato Grosso do Sul'],['MG','Minas Gerais'],['PA','Pará'],['PB','Paraíba'],['PR','Paraná'],['PE','Pernambuco'],['PI','Piauí'],['RJ','Rio de Janeiro'],['RN','Rio Grande do Norte'],['RS','Rio Grande do Sul'],['RO','Rondônia'],['RR','Roraima'],['SC','Santa Catarina'],['SP','São Paulo'],['SE','Sergipe'],['TO','Tocantins']];
+
+  // ---------- utilidades ----------
+  function $(s) { return document.querySelector(s); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function norm(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim(); }
+  function icon(n) { return '<svg class="i" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
+  var memoria = {};
+  function lsGet(k, d) {
+    try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }
+    catch (e) { return memoria[k] !== undefined ? memoria[k] : d; }
+  }
+  function lsSet(k, v) {
+    memoria[k] = v;
+    try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {}
+  }
+  function digitos(s) {
+    var d = String(s || '').replace(/\D/g, '');
+    if ((d.length === 12 || d.length === 13) && d.slice(0, 2) === '55') d = d.slice(2);
+    return d.replace(/^0/, '');
+  }
+  function foneOk(d) { return /^[1-9][0-9]{9,10}$/.test(d); }
+  function foneFmt(d) {
+    return d.length === 11
+      ? '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7)
+      : '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
+  }
+  function haQuanto(iso) {
+    var s = (Date.now() - new Date(iso).getTime()) / 1000;
+    if (s < 90) return 'agora';
+    var m = Math.round(s / 60); if (m < 60) return 'há ' + m + ' min';
+    var h = Math.round(m / 60); if (h < 24) return 'há ' + h + ' h';
+    var d = Math.round(h / 24); return d === 1 ? 'ontem' : 'há ' + d + ' dias';
+  }
+  function encerrado() { return Date.now() >= FIM; }
+  function baseUrl() {
+    if (CFG.SITE_URL) return CFG.SITE_URL;
+    try { return location.origin + location.pathname; } catch (e) { return ''; }
+  }
+  var toastT;
+  function toast(t) {
+    var el = $('#toast'); el.textContent = t; el.hidden = false;
+    clearTimeout(toastT); toastT = setTimeout(function () { el.hidden = true; }, 3200);
+  }
+  function copiar(t, ok) {
+    function reserva() {
+      var ta = document.createElement('textarea');
+      ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var r = false; try { r = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      toast(r ? ok : 'Não deu para copiar. Anote: ' + t);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t).then(function () { toast(ok); }, reserva);
+    } else { reserva(); }
+  }
+  function erro(c) { var e = new Error(c); e.codigo = c; return e; }
+  function msg(e, ctx) {
+    var c = (e && e.codigo) || 'rede';
+    if (c === 'limite') return ctx === 'criar'
+      ? 'Muitas publicações seguidas desta conexão. Espere uma hora e tente de novo.'
+      : 'Muitas tentativas em pouco tempo. Espere alguns minutos e tente de novo.';
+    if (c === 'encerrado') return 'A votação já terminou. Obrigado por participar!';
+    if (c === 'dados') return 'Algum campo ficou com problema. Confira os dados e tente de novo.';
+    if (c === 'nao_encontrado') return ctx === 'contato'
+      ? 'Este anúncio não está mais disponível.'
+      : 'Não encontramos este anúncio. Talvez já tenha sido apagado.';
+    return 'Não foi possível falar com o mural agora. Confira sua internet e tente de novo.';
+  }
+
+  // ---------- dados: Supabase ----------
+  function rpc(fn, args) {
+    var url = CFG.SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/rpc/' + fn;
+    var h = { 'Content-Type': 'application/json', 'apikey': CFG.SUPABASE_KEY };
+    if (/^eyJ/.test(CFG.SUPABASE_KEY)) h.Authorization = 'Bearer ' + CFG.SUPABASE_KEY;
+    return fetch(url, { method: 'POST', headers: h, body: JSON.stringify(args || {}) })
+      .then(function (r) {
+        return r.text().then(function (t) {
+          var d = null; try { d = t ? JSON.parse(t) : null; } catch (e) {}
+          if (!r.ok) throw erro((d && d.message) || 'rede');
+          return d;
+        });
+      }, function () { throw erro('rede'); });
+  }
+  var remoto = {
+    listar: function (uf) { return rpc('listar', { p_uf: uf || null }); },
+    criar: function (p) {
+      return rpc('criar', { p_tipo: p.tipo, p_ajudas: p.ajudas, p_nome: p.nome, p_uf: p.uf, p_cidade: p.cidade,
+        p_bairro: p.bairro, p_periodo: p.periodo, p_detalhes: p.detalhes || null, p_telefone: p.telefone, p_canais: p.canais });
+    },
+    verContato: function (id) { return rpc('ver_contato', { p_id: id }); },
+    atualizar: function (id, token, r) { return rpc('atualizar', { p_id: id, p_token: token, p_resolvido: r }); },
+    apagar: function (id, token) { return rpc('apagar', { p_id: id, p_token: token }); },
+    denunciar: function (id) { return rpc('denunciar', { p_id: id }); }
+  };
+
+  // ---------- dados: demonstração (fica no aparelho) ----------
+  function demo() {
+    var KEY = 'tav-demo-v1';
+    function ha(h) { return new Date(Date.now() - h * 3600e3).toISOString(); }
+    function ex(i, tipo, nome, uf, cidade, bairro, periodo, ajudas, detalhes, canais, h, resolvido) {
+      return { id: 'exemplo-' + i, token: 'exemplo', exemplo: true, tipo: tipo, nome: nome, uf: uf, cidade: cidade, bairro: bairro,
+        periodo: periodo, ajudas: ajudas, detalhes: detalhes, canais: canais, criado_em: ha(h), resolvido: !!resolvido, telefone: '11900000000' };
+    }
+    var dados = lsGet(KEY, null);
+    if (!dados) {
+      dados = [
+        ex(1, 'pedido', 'Dona Lúcia', 'SP', 'São Paulo', 'Vila Mariana', 'manha', ['companhia', 'acessibilidade'], 'Uso andador e minha seção fica no 2º andar da escola.', ['ligacao'], 2),
+        ex(2, 'oferta', 'Rafa', 'SP', 'São Paulo', 'Vila Mariana', 'qualquer', ['companhia', 'local', 'duvidas'], 'Moro perto da escola do bairro. Posso ir junto e ajudar com o e-Título.', ['whatsapp', 'telegram'], 5),
+        ex(3, 'pedido', 'Seu Antônio', 'PE', 'Recife', 'Casa Amarela', 'tarde', ['local', 'duvidas'], 'Perdi o título e não sei onde voto.', ['ligacao'], 7),
+        ex(4, 'oferta', 'Bia', 'RJ', 'Rio de Janeiro', 'Tijuca', 'manha', ['cuidar'], 'Sou professora. Fico com as crianças na praça enquanto você vota.', ['whatsapp', 'signal'], 9),
+        ex(5, 'pedido', 'Marcos', 'MG', 'Belo Horizonte', 'Santa Tereza', 'qualquer', ['cuidar'], 'Cuido da minha mãe acamada e não posso deixar ela sozinha por uma hora.', ['whatsapp'], 20),
+        ex(6, 'oferta', 'Dani', 'BA', 'Salvador', 'Rio Vermelho', 'tarde', ['companhia', 'acessibilidade'], 'Trabalho como cuidadora. Posso empurrar cadeira de rodas.', ['ligacao', 'whatsapp'], 26),
+        ex(7, 'oferta', 'Léo', 'CE', 'Fortaleza', 'Benfica', 'qualquer', ['duvidas', 'local'], 'Explico como funciona a urna e ajudo a achar o local de votação pelo celular.', ['telegram', 'whatsapp'], 30),
+        ex(8, 'pedido', 'Cida', 'RS', 'Porto Alegre', 'Partenon', 'manha', ['companhia'], 'Tenho 82 anos e não gosto de ir sozinha.', ['ligacao'], 40, true)
+      ];
+      lsSet(KEY, dados);
+    }
+    function salvar() { lsSet(KEY, dados); }
+    function depois(v) { return new Promise(function (res) { setTimeout(function () { res(v); }, 200); }); }
+    function falha(c) { return new Promise(function (res, rej) { setTimeout(function () { rej(erro(c)); }, 200); }); }
+    function achar(id) { for (var i = 0; i < dados.length; i++) if (dados[i].id === id) return dados[i]; return null; }
+    function novoId() {
+      try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+      return 'd' + Date.now().toString(16) + Math.random().toString(16).slice(2, 10);
+    }
+    return {
+      listar: function (uf) {
+        var l = dados.filter(function (p) { return !p.oculto && (!uf || p.uf === uf); })
+          .sort(function (a, b) { return a.resolvido === b.resolvido ? (a.criado_em < b.criado_em ? 1 : -1) : (a.resolvido ? 1 : -1); })
+          .map(function (p) {
+            return { id: p.id, criado_em: p.criado_em, tipo: p.tipo, ajudas: p.ajudas, nome: p.nome, uf: p.uf, cidade: p.cidade,
+              bairro: p.bairro, periodo: p.periodo, detalhes: p.detalhes, canais: p.canais, resolvido: p.resolvido, exemplo: !!p.exemplo };
+          });
+        return depois(l);
+      },
+      criar: function (p) {
+        if (encerrado()) return falha('encerrado');
+        var n = { id: novoId(), token: novoId(), tipo: p.tipo, ajudas: p.ajudas, nome: p.nome.trim(), uf: p.uf, cidade: p.cidade.trim(),
+          bairro: p.bairro.trim(), periodo: p.periodo, detalhes: (p.detalhes || '').trim() || null, telefone: p.telefone, canais: p.canais,
+          resolvido: false, criado_em: new Date().toISOString() };
+        dados.unshift(n); salvar();
+        return depois({ id: n.id, token: n.token, criado_em: n.criado_em });
+      },
+      verContato: function (id) {
+        var p = achar(id);
+        if (!p || p.resolvido || p.oculto) return falha('nao_encontrado');
+        return depois({ telefone: p.telefone, canais: p.canais });
+      },
+      atualizar: function (id, token, r) {
+        var p = achar(id); if (!p || p.token !== token) return falha('nao_encontrado');
+        p.resolvido = r; salvar(); return depois(true);
+      },
+      apagar: function (id, token) {
+        var p = achar(id); if (!p || p.token !== token) return falha('nao_encontrado');
+        dados = dados.filter(function (x) { return x.id !== id; }); salvar(); return depois(true);
+      },
+      denunciar: function (id) {
+        var p = achar(id); if (p) { p.denuncias = (p.denuncias || 0) + 1; if (p.denuncias >= 3) p.oculto = true; salvar(); }
+        return depois(true);
+      }
+    };
+  }
+
+  var api = REMOTO ? remoto : demo();
+
+  // ---------- estado ----------
+  var filtrosSalvos = lsGet('tav-filtros', {});
+  var st = {
+    posts: [], carregando: true, erroLista: null,
+    uf: filtrosSalvos.uf || '', tab: filtrosSalvos.tab === 'oferta' ? 'oferta' : 'pedido', busca: '',
+    limite: 40, contatos: {}, denuncia: {}, apagando: {},
+    view: 'home', tipoForm: null, formEnviado: false, scrollHome: 0, rolarPara: null
+  };
+  function salvarFiltros() { lsSet('tav-filtros', { uf: st.uf, tab: st.tab }); }
+  function meus() { return lsGet('tav-meus', []); }
+  function salvarMeus(l) { lsSet('tav-meus', l); }
+  function eMeu(id) { return meus().some(function (m) { return m.id === id; }); }
+  function jaDenunciei(id) { return lsGet('tav-denuncias', []).indexOf(id) >= 0; }
+  function acharPost(id) { for (var i = 0; i < st.posts.length; i++) if (st.posts[i].id === id) return st.posts[i]; return null; }
+
+  // ---------- mural ----------
+  function carregar() {
+    var uf = st.uf;
+    st.carregando = !st.posts.length;
+    if (st.carregando) renderLista();
+    return api.listar(uf).then(function (l) {
+      if (uf !== st.uf) return;
+      st.posts = l || []; st.erroLista = null;
+    }, function (e) {
+      if (uf !== st.uf) return;
+      st.erroLista = msg(e, 'listar');
+    }).then(function () {
+      st.carregando = false;
+      renderLista(); renderMeus(); atualizarListas();
+      if (st.rolarPara) { var alvo = document.getElementById(st.rolarPara); st.rolarPara = null; if (alvo && !alvo.hidden) alvo.scrollIntoView({ block: 'start' }); }
+    });
+  }
+
+  function filtrados() {
+    var q = norm(st.busca);
+    if (!q) return st.posts;
+    return st.posts.filter(function (p) { return norm(p.cidade + ' ' + p.bairro).indexOf(q) >= 0; });
+  }
+
+  function renderLista() {
+    var lista = $('#lista');
+    var todos = filtrados();
+    var abertos = { pedido: 0, oferta: 0 }, resolvidos = 0;
+    todos.forEach(function (p) { if (p.resolvido) resolvidos++; else abertos[p.tipo]++; });
+    $('#n-pedido').textContent = abertos.pedido;
+    $('#n-oferta').textContent = abertos.oferta;
+    document.querySelectorAll('.aba').forEach(function (b) { b.setAttribute('aria-selected', String(b.getAttribute('data-tab') === st.tab)); });
+
+    if (st.carregando) { lista.innerHTML = '<p class="carregando">Carregando o mural…</p>'; $('#stats').textContent = ''; $('#mais').hidden = true; return; }
+    if (st.erroLista) {
+      lista.innerHTML = '<div class="vazio"><p>' + esc(st.erroLista) + '</p><button class="btn-contato" type="button" data-acao="recarregar">Tentar de novo</button></div>';
+      $('#mais').hidden = true; return;
+    }
+
+    var onde = st.busca ? '“' + st.busca + '”' : (st.uf ? nomeUf(st.uf) : 'no Brasil');
+    $('#stats').textContent = abertos.pedido + (abertos.pedido === 1 ? ' pedido' : ' pedidos') + ' · ' +
+      abertos.oferta + (abertos.oferta === 1 ? ' oferta' : ' ofertas') + ' · ' +
+      resolvidos + (resolvidos === 1 ? ' resolvido' : ' resolvidos') + (st.uf || st.busca ? ' em ' + onde : '');
+
+    var desta = todos.filter(function (p) { return p.tipo === st.tab; });
+    if (!desta.length) {
+      lista.innerHTML = vazioHtml();
+      $('#mais').hidden = true; return;
+    }
+    lista.innerHTML = desta.slice(0, st.limite).map(cardHtml).join('');
+    var resto = desta.length - st.limite;
+    $('#mais').hidden = resto <= 0;
+    if (resto > 0) $('#mais').textContent = 'Mostrar mais (' + resto + ')';
+  }
+
+  function vazioHtml() {
+    var aqui = st.busca ? 'em “' + esc(st.busca) + '”' : (st.uf ? 'em ' + esc(nomeUf(st.uf)) : 'ainda');
+    if (st.tab === 'pedido') {
+      return '<div class="vazio" style="--accent:var(--blue);--on-accent:var(--on-blue)"><p>Nenhum pedido de ajuda ' + aqui + '.<br>Conhece alguém que precisa? Você pode publicar por essa pessoa, com a permissão dela.</p>' +
+        '<button class="btn-contato" type="button" data-acao="ir-pedir">' + icon('acessibilidade') + 'Publicar um pedido</button></div>';
+    }
+    return '<div class="vazio"><p>Ninguém se ofereceu para ajudar ' + aqui + '.<br>Que tal ser a primeira pessoa?</p>' +
+      '<button class="btn-contato" type="button" data-acao="ir-oferecer">' + icon('brand') + 'Quero ajudar</button></div>';
+  }
+
+  function nomeUf(uf) { for (var i = 0; i < UFS.length; i++) if (UFS[i][0] === uf) return UFS[i][1]; return uf; }
+
+  function cardHtml(p) {
+    var meu = eMeu(p.id);
+    var selo = p.resolvido ? icon('check') + 'Resolvido' : (p.tipo === 'pedido' ? 'Precisa de ajuda' : 'Pode ajudar');
+    var h = '<article class="card card-' + p.tipo + (p.resolvido ? ' is-ok' : '') + '" data-id="' + esc(p.id) + '">';
+    h += '<div class="card-top"><span><span class="selo selo-' + p.tipo + '">' + selo + '</span>' + (meu ? '<span class="seu">Seu</span>' : '') + '</span>' +
+      '<time datetime="' + esc(p.criado_em) + '">' + haQuanto(p.criado_em) + '</time></div>';
+    h += '<h3 class="card-nome">' + esc(p.nome) + '</h3>';
+    h += '<p class="card-linha">' + icon('local') + '<span>' + esc(p.bairro) + ' · ' + esc(p.cidade) + '/' + esc(p.uf) + '</span></p>';
+    h += '<ul class="chips">' + (p.ajudas || []).map(function (a) {
+      return '<li>' + icon(AJUDAS[a] ? a : 'outro') + esc(AJUDAS[a] ? AJUDAS[a].curto : a) + '</li>';
+    }).join('') + '</ul>';
+    h += '<p class="card-linha">' + icon('clock') + '<span>' + esc(PERIODOS[p.periodo] || '') + '</span></p>';
+    if (p.detalhes) h += '<p class="card-det">' + esc(p.detalhes) + '</p>';
+    if (p.exemplo) h += '<span class="exemplo">Exemplo</span>';
+    if (!p.resolvido && !encerrado()) {
+      h += '<div class="card-acoes">';
+      if (meu) h += '<span class="nota">Este anúncio é seu. Gerencie no topo do mural.</span>';
+      else h += contatoHtml(p) + denunciaHtml(p);
+      h += '</div>';
+    }
+    return h + '</article>';
+  }
+
+  function contatoHtml(p) {
+    var c = st.contatos[p.id];
+    if (!c) return '<button class="btn-contato" type="button" data-acao="contato">' + icon('phone') + 'Entrar em contato</button>';
+    if (c === 'carregando') return '<p class="nota">Buscando o contato…</p>';
+    if (c.erro) return '<div class="contato"><p class="erro">' + esc(c.erro) + '</p><button class="mini" type="button" data-acao="contato">Tentar de novo</button></div>';
+    var d = c.telefone, intl = '55' + d;
+    var texto = p.tipo === 'pedido'
+      ? 'Oi, ' + p.nome + '! Vi seu pedido no Te Ajudo a Votar e posso ajudar no domingo, 25/10. Vamos combinar?'
+      : 'Oi, ' + p.nome + '! Vi sua oferta no Te Ajudo a Votar. Preciso de ajuda para votar no domingo, 25/10. Podemos combinar?';
+    var hrefs = {
+      ligacao: 'tel:+' + intl,
+      whatsapp: 'https://wa.me/' + intl + '?text=' + encodeURIComponent(texto),
+      telegram: 'https://t.me/+' + intl,
+      signal: 'https://signal.me/#p/+' + intl
+    };
+    var rotulos = { ligacao: 'Ligar', whatsapp: 'WhatsApp', telegram: 'Telegram', signal: 'Signal' };
+    var links = ['ligacao', 'whatsapp', 'telegram', 'signal'].filter(function (k) { return (c.canais || []).indexOf(k) >= 0; }).map(function (k) {
+      if (p.exemplo) return '<span class="canal off">' + icon(CANAL_ICO[k]) + rotulos[k] + '</span>';
+      var ext = k === 'ligacao' ? '' : ' target="_blank" rel="noopener"';
+      return '<a class="canal" href="' + esc(hrefs[k]) + '"' + ext + '>' + icon(CANAL_ICO[k]) + rotulos[k] + '</a>';
+    });
+    return '<div class="contato">' +
+      '<p class="contato-fone"><span>' + foneFmt(d) + '</span><button class="mini" type="button" data-acao="copiar" data-fone="' + esc(d) + '">' + icon('copy') + 'Copiar</button></p>' +
+      (p.exemplo ? '<p class="nota">Número fictício: este anúncio é um exemplo.</p>' : '') +
+      '<div class="canais">' + links.join('') + '</div>' +
+      '<p class="nota">Combine o ponto de encontro e o horário antes de sair.</p>' +
+      '</div>';
+  }
+
+  function denunciaHtml(p) {
+    var s = st.denuncia[p.id];
+    if (s === 'ok' || jaDenunciei(p.id)) return '<span class="nota">Denúncia recebida</span>';
+    if (s === 'confirmar') {
+      return '<span class="nota">Denunciar este anúncio? <button class="link" type="button" data-acao="denunciar-sim">Sim</button> <button class="link" type="button" data-acao="denunciar-nao">Não</button></span>';
+    }
+    return '<button class="link" type="button" data-acao="denunciar">' + icon('flag') + 'Denunciar</button>';
+  }
+
+  function renderCard(id) {
+    var el = document.querySelector('.card[data-id="' + id + '"]');
+    var p = acharPost(id);
+    if (el && p) el.outerHTML = cardHtml(p);
+  }
+
+  function abrirContato(p) {
+    st.contatos[p.id] = 'carregando'; renderCard(p.id);
+    api.verContato(p.id).then(function (c) { st.contatos[p.id] = c; }, function (e) { st.contatos[p.id] = { erro: msg(e, 'contato') }; })
+      .then(function () {
+        renderCard(p.id);
+        var a = document.querySelector('.card[data-id="' + p.id + '"] .canal, .card[data-id="' + p.id + '"] .mini');
+        if (a) a.focus();
+      });
+  }
+
+  function denunciar(p) {
+    api.denunciar(p.id).then(null, function (e) { if (e.codigo !== 'limite') throw e; }).then(function () {
+      var l = lsGet('tav-denuncias', []); l.push(p.id); lsSet('tav-denuncias', l);
+      st.denuncia[p.id] = 'ok'; renderCard(p.id); toast('Obrigado. A denúncia foi registrada.');
+    }, function (e) { delete st.denuncia[p.id]; renderCard(p.id); toast(msg(e, 'denunciar')); });
+  }
+
+  // ---------- meus anúncios ----------
+  function renderMeus() {
+    var box = $('#meus');
+    var lista = meus();
+    if (!lista.length) { box.hidden = true; return; }
+    var mudou = false;
+    lista.forEach(function (m) {
+      var p = acharPost(m.id);
+      if (p) {
+        ['nome', 'tipo', 'bairro', 'cidade', 'uf', 'resolvido', 'criado_em'].forEach(function (k) { if (m[k] !== p[k]) { m[k] = p[k]; mudou = true; } });
+      }
+    });
+    if (mudou) salvarMeus(lista);
+    box.hidden = false;
+    box.innerHTML = '<h3>Você publicou</h3><ul>' + lista.map(function (m) {
+      var tipo = m.tipo === 'oferta' ? 'Oferta' : (m.tipo === 'pedido' ? 'Pedido' : 'Anúncio');
+      var info = (m.resolvido ? 'Resolvido' : 'No mural') + (m.bairro ? ' · ' + esc(m.bairro) : '') + (m.criado_em ? ' · ' + haQuanto(m.criado_em) : '');
+      return '<li data-meu="' + esc(m.id) + '"><div class="meu-info"><strong>' + tipo + (m.nome ? ' · ' + esc(m.nome) : '') + '</strong><span>' + info + '</span></div>' +
+        '<div class="meu-acoes">' +
+        '<button class="mini" type="button" data-meu-acao="resolver">' + icon('check') + (m.resolvido ? 'Reabrir' : 'Já resolvi') + '</button>' +
+        '<button class="mini" type="button" data-meu-acao="link">' + icon('copy') + 'Link</button>' +
+        '<button class="mini perigo" type="button" data-meu-acao="apagar">' + icon('trash') + (st.apagando[m.id] ? 'Confirmar: apagar' : 'Apagar') + '</button>' +
+        '</div></li>';
+    }).join('') + '</ul><p class="dica">Esta lista fica só neste aparelho.</p>';
+  }
+
+  function acaoMeu(id, acao) {
+    var lista = meus();
+    var m = null; lista.forEach(function (x) { if (x.id === id) m = x; });
+    if (!m) return;
+    if (acao === 'link') { copiar(baseUrl() + '#gerenciar.' + m.id + '.' + m.token, 'Link secreto copiado'); return; }
+    if (acao === 'resolver') {
+      var novo = !m.resolvido;
+      api.atualizar(m.id, m.token, novo).then(function () {
+        m.resolvido = novo; salvarMeus(lista);
+        var p = acharPost(m.id); if (p) p.resolvido = novo;
+        renderLista(); renderMeus();
+        toast(novo ? 'Marcado como resolvido. Obrigado!' : 'Seu anúncio voltou para o mural.');
+      }, function (e) { toast(msg(e, 'gerenciar')); });
+      return;
+    }
+    if (acao === 'apagar') {
+      if (!st.apagando[id]) {
+        st.apagando[id] = true; renderMeus();
+        setTimeout(function () { if (st.apagando[id]) { delete st.apagando[id]; renderMeus(); } }, 5000);
+        return;
+      }
+      delete st.apagando[id];
+      api.apagar(m.id, m.token).then(null, function (e) { if (e.codigo !== 'nao_encontrado') throw e; }).then(function () {
+        salvarMeus(meus().filter(function (x) { return x.id !== id; }));
+        st.posts = st.posts.filter(function (x) { return x.id !== id; });
+        renderLista(); renderMeus(); toast('Anúncio apagado.');
+      }, function (e) { renderMeus(); toast(msg(e, 'gerenciar')); });
+    }
+  }
+
+  function tratarGerenciar(h) {
+    var m = /^gerenciar\.([0-9A-Za-z-]{8,64})\.([0-9A-Za-z-]{8,64})$/.exec(h);
+    if (!m) return;
+    var lista = meus();
+    if (!lista.some(function (x) { return x.id === m[1]; })) { lista.unshift({ id: m[1], token: m[2] }); salvarMeus(lista); }
+    if (st.uf) { st.uf = ''; $('#f-uf').value = ''; salvarFiltros(); st.posts = []; }
+    st.rolarPara = 'meus';
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  }
+
+  // ---------- contagem regressiva ----------
+  function renderContagem() {
+    var agora = Date.now();
+    var b = new Date(agora - 3 * 3600e3);
+    var hoje = Date.UTC(b.getUTCFullYear(), b.getUTCMonth(), b.getUTCDate());
+    var dias = Math.round((DIA - hoje) / 86400e3);
+    var t;
+    if (agora >= FIM) t = 'Votação encerrada';
+    else if (agora >= INICIO) t = 'É hoje! Vote até as 17h';
+    else if (dias <= 0) t = 'É hoje! Começa às 8h';
+    else if (dias === 1) t = 'É amanhã';
+    else t = 'Faltam ' + dias + ' dias';
+    $('#contagem').textContent = t;
+    var fim = agora >= FIM;
+    $('#portas').hidden = fim; $('#fim').hidden = !fim;
+    $('#form').hidden = fim; $('#form-fim').hidden = !fim;
+  }
+
+  // ---------- formulário ----------
+  function montarForm() {
+    $('#c-ajudas').innerHTML = Object.keys(AJUDAS).map(function (k) {
+      var a = AJUDAS[k];
+      return '<label class="tile"><input type="checkbox" name="ajuda" value="' + k + '">' +
+        '<span class="tile-ico">' + icon(k) + '</span><span class="tile-txt"><b>' + a.longo + '</b><small>' + a.dica + '</small></span>' +
+        '<span class="tick">' + icon('check') + '</span></label>';
+    }).join('');
+    $('#c-periodo').innerHTML = Object.keys(PERIODOS).map(function (k) {
+      return '<label class="pill"><input type="radio" name="periodo" value="' + k + '">' + icon('clock') + PERIODOS[k] + '</label>';
+    }).join('');
+    $('#c-canais').innerHTML = Object.keys(CANAIS).map(function (k) {
+      return '<label class="pill"><input type="checkbox" name="canal" value="' + k + '">' + icon(CANAL_ICO[k]) + CANAIS[k] + '</label>';
+    }).join('');
+    var opts = UFS.map(function (u) { return '<option value="' + u[0] + '">' + u[1] + '</option>'; }).join('');
+    $('#c-uf').insertAdjacentHTML('beforeend', opts);
+    $('#f-uf').insertAdjacentHTML('beforeend', opts);
+  }
+
+  function marcarOn() {
+    document.querySelectorAll('#form .tile, #form .pill').forEach(function (l) {
+      var i = l.querySelector('input'); l.classList.toggle('on', i.checked);
+    });
+  }
+
+  function resetForm(tipo) {
+    var f = $('#form');
+    f.reset();
+    f.querySelector('input[name="periodo"][value="qualquer"]').checked = true;
+    f.querySelector('input[name="canal"][value="ligacao"]').checked = true;
+    f.querySelector('input[name="canal"][value="whatsapp"]').checked = true;
+    $('#c-uf').value = st.uf || '';
+    $('#c-conta').textContent = '0';
+    limparErros(); marcarOn();
+    st.tipoForm = tipo; st.formEnviado = false;
+  }
+
+  function textosForm(tipo) {
+    var pedido = tipo === 'pedido';
+    var v = $('#form-view');
+    v.classList.toggle('form-pedido', pedido); v.classList.toggle('form-oferta', !pedido);
+    $('#form-t').textContent = pedido ? 'Preciso de ajuda' : 'Quero ajudar';
+    $('#form-lede').textContent = pedido
+      ? 'Conte o que você precisa. Alguém perto de você entra em contato. Leva 2 minutos e não tem cadastro.'
+      : 'Diga como pode ajudar. Quem precisar entra em contato com você. Leva 2 minutos e não tem cadastro.';
+    $('#l-ajudas').textContent = pedido ? 'Que ajuda você precisa?' : 'Como você pode ajudar?';
+    $('#d-nome').textContent = pedido
+      ? 'Pode publicar por outra pessoa, com a permissão dela. Ex.: Dona Lúcia.'
+      : 'Só o primeiro nome já basta.';
+    $('#c-detalhes').placeholder = pedido
+      ? 'Ex.: Uso andador e minha seção fica no 2º andar da escola.'
+      : 'Ex.: Moro perto da praça e posso ir junto de manhã.';
+    $('#c-enviar').textContent = pedido ? 'Publicar pedido' : 'Publicar oferta';
+  }
+
+  function lerForm() {
+    function marcados(n) { return Array.prototype.map.call(document.querySelectorAll('#form input[name="' + n + '"]:checked'), function (i) { return i.value; }); }
+    return {
+      tipo: st.tipoForm, ajudas: marcados('ajuda'), nome: $('#c-nome').value.trim(), uf: $('#c-uf').value,
+      cidade: $('#c-cidade').value.trim(), bairro: $('#c-bairro').value.trim(), periodo: marcados('periodo')[0] || '',
+      detalhes: $('#c-detalhes').value.trim(), telefone: digitos($('#c-telefone').value), canais: marcados('canal'),
+      ok: $('#c-ok').checked, hp: $('#c-site').value
+    };
+  }
+
+  function validar(d) {
+    var e = {};
+    if (!d.ajudas.length) e.ajudas = 'Escolha pelo menos um tipo de ajuda.';
+    if (!d.nome) e.nome = 'Escreva um nome ou apelido.';
+    if (!d.uf) e.uf = 'Escolha o estado.';
+    if (d.cidade.length < 2) e.cidade = 'Escreva a cidade.';
+    if (d.bairro.length < 2) e.bairro = 'Escreva o bairro.';
+    if (!d.periodo) e.periodo = 'Escolha um horário.';
+    if (!foneOk(d.telefone)) e.telefone = 'Escreva o telefone com DDD. Ex.: (11) 91234-5678.';
+    if (!d.canais.length) e.canais = 'Escolha pelo menos uma forma de contato.';
+    if (!d.ok) e.ok = 'Marque esta caixa para publicar.';
+    return e;
+  }
+
+  var CAMPO_FOCO = { ajudas: '#form input[name="ajuda"]', nome: '#c-nome', uf: '#c-uf', cidade: '#c-cidade', bairro: '#c-bairro',
+    periodo: '#form input[name="periodo"]', telefone: '#c-telefone', canais: '#form input[name="canal"]', ok: '#c-ok' };
+
+  function limparErros() {
+    Object.keys(CAMPO_FOCO).forEach(function (k) {
+      var p = document.getElementById('e-' + k); if (p) { p.hidden = true; p.textContent = ''; }
+      var c = $(CAMPO_FOCO[k]); if (c) c.removeAttribute('aria-invalid');
+    });
+    $('#e-geral').hidden = true;
+  }
+
+  function limparErroDe(el) {
+    var porNome = { ajuda: 'ajudas', periodo: 'periodo', canal: 'canais' };
+    var k = porNome[el.name] || (el.id || '').replace(/^c-/, '');
+    var p = document.getElementById('e-' + k);
+    if (p && !p.hidden) { p.hidden = true; el.removeAttribute('aria-invalid'); }
+  }
+
+  function mostrarErros(e) {
+    var primeiro = null;
+    Object.keys(CAMPO_FOCO).forEach(function (k) {
+      if (!e[k]) return;
+      var p = document.getElementById('e-' + k); p.textContent = e[k]; p.hidden = false;
+      var c = $(CAMPO_FOCO[k]); if (c && c.type !== 'checkbox' && c.type !== 'radio') c.setAttribute('aria-invalid', 'true');
+      if (!primeiro) primeiro = k;
+    });
+    if (primeiro) {
+      var alvo = $(CAMPO_FOCO[primeiro]);
+      var bloco = (alvo.closest('.campo') || alvo);
+      bloco.scrollIntoView({ block: 'center' });
+      try { alvo.focus({ preventScroll: true }); } catch (x) { alvo.focus(); }
+    }
+  }
+
+  function enviar(ev) {
+    ev.preventDefault();
+    limparErros();
+    var d = lerForm();
+    var e = validar(d);
+    if (Object.keys(e).length) { mostrarErros(e); return; }
+    var btn = $('#c-enviar'), rot = btn.textContent;
+    if (d.hp) { sucesso({ id: 'x', token: 'x' }, d); return; }
+    btn.disabled = true; btn.textContent = 'Publicando…';
+    api.criar(d).then(function (r) {
+      var l = meus().filter(function (x) { return x.id !== r.id; });
+      l.unshift({ id: r.id, token: r.token, tipo: d.tipo, nome: d.nome, bairro: d.bairro, cidade: d.cidade, uf: d.uf, criado_em: r.criado_em, resolvido: false });
+      salvarMeus(l);
+      st.uf = d.uf; $('#f-uf').value = d.uf; salvarFiltros();
+      sucesso(r, d);
+      carregar();
+    }, function (err) {
+      var g = $('#e-geral'); g.textContent = msg(err, 'criar'); g.hidden = false; g.scrollIntoView({ block: 'center' });
+    }).then(function () { btn.disabled = false; btn.textContent = rot; });
+  }
+
+  function sucesso(r, d) {
+    st.formEnviado = true;
+    st.ultimo = d;
+    $('#form-area').hidden = true; $('#sucesso').hidden = false;
+    var pedido = d.tipo === 'pedido';
+    $('#suc-t').textContent = pedido ? 'Seu pedido está no mural' : 'Sua oferta está no mural';
+    $('#suc-txt').textContent = pedido
+      ? 'Quem puder ajudar vai ligar ou mandar mensagem. Fique de olho no telefone. Enquanto isso, veja quem já se ofereceu perto de você.'
+      : 'Quem precisar vai entrar em contato. Você também pode procurar pedidos perto de você e ligar primeiro.';
+    $('#suc-link').value = baseUrl() + '#gerenciar.' + r.id + '.' + r.token;
+    $('#suc-ver').textContent = pedido ? 'Ver quem pode ajudar' : 'Ver pedidos perto de você';
+    window.scrollTo(0, 0);
+    $('#suc-t').focus();
+  }
+
+  // ---------- navegação ----------
+  function aplicarRota(h) {
+    h = (h || '').replace(/^#/, '');
+    if (h === 'pedir' || h === 'oferecer') {
+      var tipo = h === 'pedir' ? 'pedido' : 'oferta';
+      if (st.view === 'home') st.scrollHome = window.pageYOffset;
+      st.view = 'form';
+      if (st.tipoForm !== tipo || st.formEnviado) resetForm(tipo);
+      textosForm(tipo);
+      $('#home').hidden = true; $('#form-view').hidden = false;
+      $('#form-area').hidden = false; $('#sucesso').hidden = true;
+      window.scrollTo(0, 0);
+      $('#form-t').focus();
+      return;
+    }
+    if (h.indexOf('gerenciar.') === 0) { tratarGerenciar(h); carregar(); }
+    var vinhaDoForm = st.view === 'form';
+    st.view = 'home';
+    $('#form-view').hidden = true; $('#home').hidden = false;
+    if (st.rolarPara === 'mural') { st.rolarPara = null; $('#mural').scrollIntoView({ block: 'start' }); }
+    else if (vinhaDoForm) window.scrollTo(0, st.scrollHome);
+  }
+
+  function ir(h) {
+    var atual = (location.hash || '').replace(/^#/, '');
+    if (atual === h) { aplicarRota(h); return; }
+    try { location.hash = h; } catch (e) { aplicarRota(h); }
+  }
+
+  function atualizarListas() {
+    var uf = $('#c-uf').value;
+    var cid = {}, bai = {};
+    st.posts.forEach(function (p) { if (!uf || p.uf === uf) { cid[p.cidade] = 1; bai[p.bairro] = 1; } });
+    $('#dl-cidades').innerHTML = Object.keys(cid).sort().map(function (c) { return '<option value="' + esc(c) + '">'; }).join('');
+    $('#dl-bairros').innerHTML = Object.keys(bai).sort().map(function (c) { return '<option value="' + esc(c) + '">'; }).join('');
+  }
+
+  function compartilhar() {
+    var url = baseUrl();
+    var dados = { title: 'Te Ajudo a Votar', text: 'Peça e ofereça ajuda para votar no domingo, 25 de outubro.', url: url };
+    if (navigator.share) {
+      navigator.share(dados).then(null, function (e) { if (!e || e.name !== 'AbortError') copiar(url, 'Link do site copiado'); });
+    } else { copiar(url, 'Link do site copiado'); }
+  }
+
+  // ---------- início ----------
+  function iniciar() {
+    $('#demo').hidden = REMOTO;
+    if (CFG.INSTAGRAM) $('#link-insta').href = CFG.INSTAGRAM;
+    montarForm();
+    $('#f-uf').value = st.uf;
+
+    document.addEventListener('click', function (ev) {
+      var a = ev.target.closest('[data-ir]');
+      if (a) { ev.preventDefault(); ir(a.getAttribute('data-ir')); }
+    });
+    window.addEventListener('hashchange', function () { aplicarRota(location.hash); });
+
+    $('#compartilhar').addEventListener('click', compartilhar);
+    document.querySelectorAll('.aba').forEach(function (b) {
+      b.addEventListener('click', function () { st.tab = b.getAttribute('data-tab'); st.limite = 40; salvarFiltros(); renderLista(); });
+    });
+    $('#f-uf').addEventListener('change', function () { st.uf = this.value; st.limite = 40; st.posts = []; salvarFiltros(); carregar(); });
+    var buscaT;
+    $('#f-busca').addEventListener('input', function () {
+      var v = this.value; clearTimeout(buscaT);
+      buscaT = setTimeout(function () { st.busca = v.trim(); st.limite = 40; renderLista(); }, 150);
+    });
+    $('#mais').addEventListener('click', function () { st.limite += 40; renderLista(); });
+
+    $('#lista').addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-acao]'); if (!b) return;
+      var acao = b.getAttribute('data-acao');
+      if (acao === 'recarregar') { carregar(); return; }
+      if (acao === 'ir-pedir') { ir('pedir'); return; }
+      if (acao === 'ir-oferecer') { ir('oferecer'); return; }
+      var card = b.closest('[data-id]'); if (!card) return;
+      var id = card.getAttribute('data-id'), p = acharPost(id); if (!p) return;
+      if (acao === 'contato') abrirContato(p);
+      else if (acao === 'copiar') copiar(foneFmt(b.getAttribute('data-fone')), 'Número copiado');
+      else if (acao === 'denunciar') { st.denuncia[id] = 'confirmar'; renderCard(id); }
+      else if (acao === 'denunciar-nao') { delete st.denuncia[id]; renderCard(id); }
+      else if (acao === 'denunciar-sim') denunciar(p);
+    });
+    $('#meus').addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-meu-acao]'); if (!b) return;
+      acaoMeu(b.closest('[data-meu]').getAttribute('data-meu'), b.getAttribute('data-meu-acao'));
+    });
+
+    var f = $('#form');
+    f.addEventListener('submit', enviar);
+    f.addEventListener('change', function (ev) {
+      if (ev.target.matches('input[type="checkbox"], input[type="radio"]')) marcarOn();
+      if (ev.target.id === 'c-uf') atualizarListas();
+      limparErroDe(ev.target);
+    });
+    f.addEventListener('input', function (ev) { limparErroDe(ev.target); });
+    $('#c-detalhes').addEventListener('input', function () { $('#c-conta').textContent = this.value.length; });
+    $('#c-telefone').addEventListener('blur', function () { var d = digitos(this.value); if (foneOk(d)) this.value = foneFmt(d); });
+    $('#suc-copiar').addEventListener('click', function () { copiar($('#suc-link').value, 'Link secreto copiado'); });
+    $('#suc-ver').addEventListener('click', function () {
+      var d = st.ultimo || {};
+      st.tab = d.tipo === 'pedido' ? 'oferta' : 'pedido';
+      st.busca = d.cidade || ''; $('#f-busca').value = st.busca;
+      st.limite = 40; salvarFiltros(); renderLista();
+      st.rolarPara = 'mural';
+      ir('');
+    });
+
+    renderContagem();
+    setInterval(renderContagem, 60000);
+    aplicarRota(location.hash);
+    carregar();
+    setInterval(function () {
+      if (document.visibilityState === 'visible' && st.view === 'home') carregar();
+    }, 90000);
+  }
+
+  iniciar();
+})();
+</script>
+</body>
+</html>
