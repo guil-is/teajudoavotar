@@ -107,16 +107,16 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* Aviso de demonstração */
 .demo { background: var(--yellow-soft); border-bottom: 1px solid var(--line); font-size: .95rem; font-weight: 700; padding-block: 10px; text-align: center; }
 
-/* Abertura */
+/* Abertura (página inicial) */
 .hero { background: linear-gradient(135deg, var(--sun) 0%, var(--mint) 52%, var(--sky) 100%); padding-block: 12px 0; overflow: hidden; }
+@media (min-width: 900px) { .hero { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; padding-bottom: 40px; } .hero > .wrap { display: flex; flex-direction: column; flex: 1; } }
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 6px; }
 .marca { display: inline-flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1.05rem; letter-spacing: -.01em; color: var(--green-ink); text-decoration: none; }
 .marca svg { width: 30px; height: 30px; flex: none; }
 .btn-share { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--green-ink); font-weight: 700; font-size: .95rem; cursor: pointer; }
 .hero-grid { display: grid; gap: 28px; padding-block: 28px 0; }
-@media (min-width: 900px) { .hero-grid { grid-template-columns: 1.05fr 1fr; align-items: end; gap: 48px; padding-block: 40px 0; } }
+@media (min-width: 900px) { .hero-grid { grid-template-columns: 1.05fr 1fr; align-items: center; gap: 48px; padding-block: 24px 0; flex: 1; } }
 .hero-text { display: grid; gap: 22px; }
-@media (min-width: 900px) { .hero-text { padding-bottom: 56px; } }
 .quando { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; font-weight: 700; font-size: 1rem; color: var(--green-ink); }
 .contagem { background: var(--yellow); color: var(--on-yellow); border-radius: 999px; padding: 4px 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .titulo { font-weight: 900; font-size: clamp(2.7rem, 12vw, 4.8rem); line-height: .98; letter-spacing: -.025em; color: var(--green-ink); }
@@ -136,16 +136,23 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .porta-ajudar .ico { color: var(--green-ink); }
 .porta strong { display: block; font-size: 1.35rem; font-weight: 900; line-height: 1.15; }
 .porta small { display: block; margin-top: 2px; font-size: .95rem; font-weight: 600; opacity: .92; }
+.home-links { display: flex; flex-wrap: wrap; gap: 4px 24px; }
+.home-links a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--green-ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 .fim { background: var(--surface); border-radius: var(--r); padding: 18px 20px; font-weight: 700; box-shadow: var(--shadow); }
-.hero-art { margin: 0; align-self: end; }
+.hero-art { margin: 0; }
 .hero-art img { display: block; width: 100%; height: auto; border-radius: var(--r-lg) var(--r-lg) 0 0; }
 @media (max-width: 899px) { .hero-art img { aspect-ratio: 16 / 8; object-fit: cover; object-position: 50% 30%; } }
+@media (min-width: 900px) { .hero-art img { border-radius: var(--r-lg); box-shadow: var(--shadow); } }
+
+/* Páginas internas */
+.pagina { padding-block: 12px 64px; }
+.voltar { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; color: var(--green-ink); font-weight: 700; text-decoration: none; }
+.pagina-cab { display: grid; gap: 8px; margin-block: 8px 24px; }
+.pagina-cab h1 { font-size: clamp(2rem, 8vw, 2.7rem); font-weight: 900; letter-spacing: -.02em; color: var(--green-ink); }
+.pagina-cab p { font-size: 1.1rem; font-weight: 500; color: var(--muted); }
 
 /* Mural */
-.mural { display: grid; gap: 20px; padding-block: 40px 24px; }
-.mural-cab { display: grid; gap: 6px; }
-.mural-cab h2, .saber h2, .combinados h2 { font-size: 1.85rem; font-weight: 900; color: var(--green-ink); }
-.mural-cab p { color: var(--muted); font-size: 1.05rem; font-weight: 600; }
+.mural { display: grid; gap: 20px; }
 .abas { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 5px; border-radius: 999px; background: var(--surface-2); }
 .aba { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 6px 10px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font-weight: 800; font-size: 1rem; line-height: 1.15; cursor: pointer; }
 .aba[aria-selected="true"][data-tab="pedido"] { background: var(--blue); color: var(--on-blue); }
@@ -154,7 +161,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .filtros { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 12px; }
 @media (max-width: 479px) { .filtros { grid-template-columns: 1fr; } }
 select, input, textarea { width: 100%; min-height: 52px; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: var(--r-sm); background: var(--surface); color: var(--ink); font-weight: 600; }
-textarea { resize: vertical; min-height: 96px; }
+textarea { resize: vertical; min-height: 120px; }
 input::placeholder, textarea::placeholder { color: var(--muted); opacity: .85; }
 select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .sel { position: relative; }
@@ -178,8 +185,6 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .card-nome { font-size: 1.4rem; font-weight: 900; overflow-wrap: anywhere; }
 .card-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: 1rem; font-weight: 600; }
 .card-meta span { display: inline-flex; align-items: center; gap: 7px; min-width: 0; overflow-wrap: anywhere; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.chips li { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--surface-2); font-size: .95rem; font-weight: 700; }
 .card-det { font-size: 1.05rem; overflow-wrap: anywhere; }
 .exemplo { justify-self: start; padding: 2px 8px; border: 1px dashed var(--line); border-radius: 6px; color: var(--muted); font-size: .8rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 .card-acoes { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 12px; margin-top: 6px; }
@@ -191,7 +196,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .canais { display: flex; flex-wrap: wrap; gap: 10px; }
 .canal { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 12px 20px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 1.05rem; text-decoration: none; }
 .canal.off { background: var(--surface-2); color: var(--muted); }
-.contato-fone { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 1.25rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.contato-dado { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 1.15rem; font-weight: 800; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .mini { display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 6px 14px; border: 1.5px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font-size: .92rem; font-weight: 700; cursor: pointer; }
 .mini.primario { border-color: transparent; background: var(--green); color: var(--on-green); }
 .mini.perigo { color: var(--danger); }
@@ -208,7 +213,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .chamada .porta strong { font-size: 1.15rem; }
 .chamada .porta small { font-size: .9rem; }
 .meus { display: grid; gap: 12px; padding: 20px 22px; border-radius: var(--r-lg); background: var(--yellow-soft); }
-.meus h3 { font-size: 1.2rem; font-weight: 900; }
+.meus h2 { font-size: 1.2rem; font-weight: 900; }
 .meus ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .meus li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-radius: var(--r); background: var(--surface); }
 .meu-info { display: grid; min-width: 0; }
@@ -216,7 +221,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .meu-acoes { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Bom saber e combinados */
-.saber { display: grid; gap: 24px; padding-block: 56px 16px; }
+.saber { display: grid; gap: 24px; }
 .saber-grid { display: grid; gap: 24px; margin: 0; padding: 0; list-style: none; }
 @media (min-width: 640px) { .saber-grid { grid-template-columns: 1fr 1fr; gap: 28px 36px; } }
 @media (min-width: 960px) { .saber-grid { grid-template-columns: repeat(3, 1fr); } }
@@ -225,60 +230,53 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .saber-ico .i { width: 24px; height: 24px; }
 .saber-grid h3 { margin-bottom: 4px; font-size: 1.12rem; font-weight: 800; }
 .saber-grid p { color: var(--muted); font-size: 1rem; font-weight: 500; }
-.combinados { padding-block: 40px 56px; }
+.combinados { padding-block: 40px 0; }
+.combinados h2 { font-size: 1.6rem; font-weight: 900; color: var(--green-ink); }
 .combinados-box { display: grid; gap: 16px; padding: 26px 24px; border-radius: var(--r-lg); background: var(--green-soft); }
 @media (min-width: 760px) { .combinados-box { padding: 32px 36px; } }
 .combinados ul { display: grid; gap: 12px; margin: 0; padding-left: 1.2em; }
 .combinados li::marker { color: var(--green-ink); }
-.rodape { padding-block: 28px 52px; border-top: 1px solid var(--line); color: var(--muted); font-size: .95rem; font-weight: 500; }
-.rodape .wrap { display: grid; gap: 12px; }
+.rodape { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: .95rem; font-weight: 500; display: grid; gap: 12px; }
 .rodape a { font-weight: 700; }
 
-/* Formulário */
-.form-view { padding-block: 12px 64px; }
+/* Formulário em passos */
 .form-pedido { --accent: var(--blue); --on-accent: var(--on-blue); --accent-soft: var(--blue-soft); --accent-ink: var(--blue-ink); }
 .form-oferta { --accent: var(--green); --on-accent: var(--on-green); --accent-soft: var(--green-soft); --accent-ink: var(--green-ink); }
-.form-wrap { max-width: 680px; }
-.voltar { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; color: var(--green-ink); font-weight: 700; text-decoration: none; }
-.form-cab { display: grid; gap: 10px; margin-block: 8px 32px; }
-.form-cab h1 { font-size: clamp(2.1rem, 9vw, 2.9rem); font-weight: 900; letter-spacing: -.02em; color: var(--accent-ink); }
-.form-cab p { font-size: 1.1rem; font-weight: 500; color: var(--muted); }
-form { display: grid; }
-form > .campo { padding-block: 32px; border-top: 1px solid var(--line); }
-form > .campo:first-child { padding-top: 0; border-top: 0; }
-fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
-legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; padding: 0; font-size: 1.2rem; font-weight: 800; }
-.campo { display: grid; gap: 10px; }
-.campo > label:not(.consent) { font-size: 1.2rem; font-weight: 800; }
-.opc { color: var(--muted); font-weight: 600; font-size: 1rem; }
+.form-wrap { max-width: 640px; }
+.form-cab { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; margin-block: 8px 20px; }
+.form-cab h1 { font-size: 1.3rem; font-weight: 900; color: var(--accent-ink); }
+.form-cab span { color: var(--muted); font-size: .95rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.barra { height: 6px; margin-bottom: 32px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+.barra i { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--accent); transition: width .2s ease; }
+.pergunta { display: block; margin-bottom: 14px; font-size: clamp(1.55rem, 6.5vw, 2rem); font-weight: 900; line-height: 1.15; letter-spacing: -.015em; }
+.pergunta .opc { font-size: 1rem; letter-spacing: 0; }
+.passo { display: grid; gap: 12px; }
+.opc { color: var(--muted); font-weight: 600; }
 .dica { color: var(--muted); font-size: .95rem; font-weight: 500; }
-.tiles { display: grid; gap: 12px; }
-@media (min-width: 540px) { .tiles { grid-template-columns: 1fr 1fr; } }
-.tile { position: relative; display: flex; align-items: flex-start; gap: 14px; min-height: 80px; padding: 16px; border: 1.5px solid var(--line); border-radius: var(--r); background: var(--surface); cursor: pointer; }
-.tile input, .pill input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; min-height: 0; }
-.tile-ico { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--surface-2); color: var(--accent-ink); flex: none; }
-.tile-txt { min-width: 0; flex: 1; }
-.tile b { display: block; font-size: 1.05rem; font-weight: 800; line-height: 1.2; }
-.tile small { display: block; margin-top: 3px; color: var(--muted); font-size: .92rem; font-weight: 500; line-height: 1.3; }
-.tick { display: grid; place-items: center; width: 26px; height: 26px; border: 2px solid var(--line); border-radius: 50%; color: transparent; flex: none; }
-.tick .i { width: 16px; height: 16px; stroke-width: 3; }
-.tile.on { border-color: var(--accent); background: var(--accent-soft); }
-.tile.on .tile-ico { background: var(--surface); }
-.tile.on .tick { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
-.pills { display: flex; flex-wrap: wrap; gap: 10px; }
-.pill { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 10px 18px; border: 1.5px solid var(--line); border-radius: 999px; background: var(--surface); font-weight: 700; cursor: pointer; }
-.pill.on { border-color: var(--accent); background: var(--accent-soft); }
-.tile:focus-within, .pill:focus-within { outline: 3px solid var(--focus); outline-offset: 2px; }
-.onde { display: grid; gap: 16px; }
-@media (min-width: 540px) { .onde { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); } .onde .full { grid-column: 1 / -1; } }
-.onde > div > label, .onde .rotulo { display: block; float: none; width: auto; margin: 0 0 8px; font-size: 1.05rem; font-weight: 700; }
-.onde .dica, .onde .erro { margin-top: 8px; }
 .erro { color: var(--danger); font-size: .98rem; font-weight: 700; }
 [aria-invalid="true"] { border-color: var(--danger); }
-.consent { display: flex; align-items: flex-start; gap: 14px; padding: 16px 18px; border-radius: var(--r); background: var(--surface-2); font-size: 1rem; font-weight: 500; cursor: pointer; }
-.consent input { width: 26px; height: 26px; min-height: 0; margin: 1px 0 0; padding: 0; flex: none; accent-color: var(--accent); }
+.campo-sub label { display: block; margin-bottom: 8px; font-size: 1.05rem; font-weight: 700; }
+.prefixo { position: relative; }
+.prefixo span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 700; pointer-events: none; }
+.prefixo input { padding-left: 36px; }
+.busca-onde input { padding-right: 48px; }
+.limpar { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 50%; background: none; color: var(--muted); cursor: pointer; }
+.onde-ou { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; color: var(--muted); font-weight: 600; }
+.btn-local { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 10px 20px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 1.05rem; cursor: pointer; }
+.btn-local[disabled] { opacity: .6; cursor: progress; }
+.sugestoes { display: grid; margin: 0; padding: 0; list-style: none; border: 1.5px solid var(--line); border-radius: var(--r); background: var(--surface); overflow: hidden; }
+.sugestoes li + li { border-top: 1px solid var(--line); }
+.sugestoes button { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 12px 16px; border: 0; background: none; color: var(--ink); font-weight: 600; font-size: 1.05rem; text-align: left; cursor: pointer; }
+.sugestoes button:hover { background: var(--surface-2); }
+.sugestoes .i { color: var(--muted); }
+.escolhido { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border: 2px solid var(--accent); border-radius: var(--r); background: var(--accent-soft); font-weight: 800; font-size: 1.1rem; }
+.escolhido > span { display: inline-flex; align-items: center; gap: 10px; min-width: 0; overflow-wrap: anywhere; }
+.escolhido .i { color: var(--accent-ink); }
+.onde { display: grid; gap: 14px; }
+@media (min-width: 540px) { .onde { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); } .onde .full { grid-column: 1 / -1; } }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.envio { gap: 14px; }
+.passo-acoes { display: grid; gap: 8px; margin-top: 28px; }
+.passo-acoes .link { justify-self: center; }
 .btn-big { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 64px; padding: 12px 24px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 1.2rem; text-decoration: none; cursor: pointer; }
 .btn-big[disabled] { opacity: .6; cursor: progress; }
 .erro-geral { padding: 12px 14px; border-radius: var(--r-sm); background: var(--surface-2); color: var(--danger); font-weight: 700; }
@@ -298,83 +296,87 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-<symbol id="i-companhia" viewBox="0 0 24 24"><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"/><path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"/><path d="M16 17h4"/><path d="M4 13h4"/></symbol>
 <symbol id="i-local" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
-<symbol id="i-duvidas" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
-<symbol id="i-cuidar" viewBox="0 0 24 24"><path d="M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5"/><path d="M15 12h.01"/><path d="M19.38 6.813A9 9 0 0 1 20.8 10.2a2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1"/><path d="M9 12h.01"/></symbol>
 <symbol id="i-acessibilidade" viewBox="0 0 24 24"><circle cx="16" cy="4" r="1"/><path d="m18 19 1-7-6 1"/><path d="m5 8 3-3 5.5 3-2.36 3.5"/><path d="M4.24 14.5a5 5 0 0 0 6.88 6"/><path d="M13.76 17.5a5 5 0 0 0-6.88-6"/></symbol>
-<symbol id="i-outro" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
 <symbol id="i-phone" viewBox="0 0 24 24"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></symbol>
 <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/></symbol>
-<symbol id="i-telegram" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
-<symbol id="i-signal" viewBox="0 0 24 24"><path d="M22 8.5V5a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v16.286a.71.71 0 0 0 1.212.502l2.202-2.202A2 2 0 0 1 6.828 19H10"/><path d="M20 15v-2a2 2 0 0 0-4 0v2"/><rect x="14" y="15" width="8" height="5" rx="1"/></symbol>
+<symbol id="i-instagram" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></symbol>
 <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/></symbol>
 <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
 <symbol id="i-trash" viewBox="0 0 24 24"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
 <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></symbol>
-<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
 <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
 <symbol id="i-brand" viewBox="0 0 24 24"><path d="M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762"/></symbol>
 <symbol id="i-bus" viewBox="0 0 24 24"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></symbol>
 <symbol id="i-idcard" viewBox="0 0 24 24"><path d="M13 19a4 4 0 00-8 0"/><path d="M16 10h2"/><path d="M16 14h2"/><circle cx="9" cy="12" r="3"/><rect x="2" y="5" width="20" height="14" rx="2"/></symbol>
 <symbol id="i-back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+<symbol id="i-next" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
 <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></symbol>
 <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></symbol>
 <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+<symbol id="i-locate" viewBox="0 0 24 24"><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M3 5h.01"/><path d="M3 12h.01"/><path d="M3 19h.01"/><path d="M8 5h13"/><path d="M8 12h13"/><path d="M8 19h13"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
 </svg>
 
 <div class="demo" id="demo" hidden>Modo demonstração: os anúncios são exemplos e o que você publicar fica só neste aparelho.</div>
 
-<div id="home">
-  <header class="hero">
-    <div class="wrap">
-      <div class="topbar">
-        <a class="marca" href="#" data-ir="">
-          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 53S9 40 9 24.5A11.5 11.5 0 0 1 32 19a11.5 11.5 0 0 1 23 5.5C55 40 32 53 32 53z" style="fill:var(--red)"/><path d="M22.5 30.5l6.5 6.5 12.5-12.5" style="fill:none;stroke:var(--on-red)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Te Ajudo a Votar
-        </a>
-        <button class="btn-share" type="button" id="compartilhar"><svg class="i" aria-hidden="true"><use href="#i-share"/></svg>Compartilhar</button>
-      </div>
-      <div class="hero-grid">
-        <div class="hero-text">
-          <p class="quando"><span class="contagem" id="contagem">Eleições 2026</span><span>2º turno · domingo, 25 de outubro · 8h às 17h</span></p>
-          <h1 class="titulo">
-            <span>Ajuda para</span>
-            <span class="votar">
-              <svg class="raios" viewBox="0 0 26 40" aria-hidden="true"><path d="M5 7l15 6M3 20h17M5 33l15-6" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/></svg>votar<svg class="raios" viewBox="0 0 26 40" aria-hidden="true"><path d="M21 7L6 13M23 20H6M21 33L6 27" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/></svg>
-            </span>
-          </h1>
-          <p class="lede">Peça ou ofereça ajuda a quem mora perto de você. Sem cadastro, leva 2 minutos.</p>
-          <div class="portas" id="portas">
-            <a class="porta porta-pedir" href="#pedir" data-ir="pedir">
-              <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-acessibilidade"/></svg></span>
-              <span><strong>Preciso de ajuda</strong><small>Para mim ou para alguém da família</small></span>
-            </a>
-            <a class="porta porta-ajudar" href="#oferecer" data-ir="oferecer">
-              <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-brand"/></svg></span>
-              <span><strong>Quero ajudar</strong><small>Ir junto, explicar, dar uma força</small></span>
-            </a>
-          </div>
-          <p class="fim" id="fim" hidden>A votação terminou. Obrigado a todo mundo que pediu e ofereceu ajuda.</p>
-        </div>
-        <figure class="hero-art">
-          <img src="assets/ilustracao.webp" width="1100" height="709" alt="Vizinhos acompanham uma senhora de bengala e uma jovem em cadeira de rodas até a urna.">
-        </figure>
-      </div>
+<!-- Página inicial -->
+<header class="hero" id="home">
+  <div class="wrap">
+    <div class="topbar">
+      <a class="marca" href="#" data-ir="">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 53S9 40 9 24.5A11.5 11.5 0 0 1 32 19a11.5 11.5 0 0 1 23 5.5C55 40 32 53 32 53z" style="fill:var(--red)"/><path d="M22.5 30.5l6.5 6.5 12.5-12.5" style="fill:none;stroke:var(--on-red)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Te Ajudo a Votar
+      </a>
+      <button class="btn-share" type="button" id="compartilhar"><svg class="i" aria-hidden="true"><use href="#i-share"/></svg>Compartilhar</button>
     </div>
-  </header>
-
-  <main>
-    <section class="mural wrap" id="mural" aria-labelledby="mural-t">
-      <div class="mural-cab">
-        <h2 id="mural-t">Mural da vizinhança</h2>
-        <p>Quem pede e quem oferece ajuda, perto de você.</p>
-        <p class="sr-only" id="stats" aria-live="polite"></p>
+    <div class="hero-grid">
+      <div class="hero-text">
+        <p class="quando"><span class="contagem" id="contagem">Eleições 2026</span><span>2º turno · domingo, 25 de outubro · 8h às 17h</span></p>
+        <h1 class="titulo">
+          <span>Ajuda para</span>
+          <span class="votar">
+            <svg class="raios" viewBox="0 0 26 40" aria-hidden="true"><path d="M5 7l15 6M3 20h17M5 33l15-6" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/></svg>votar<svg class="raios" viewBox="0 0 26 40" aria-hidden="true"><path d="M21 7L6 13M23 20H6M21 33L6 27" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/></svg>
+          </span>
+        </h1>
+        <p class="lede">Peça ou ofereça ajuda a quem mora perto de você. Sem cadastro, leva 1 minuto.</p>
+        <div class="portas" id="portas">
+          <a class="porta porta-pedir" href="#pedir" data-ir="pedir">
+            <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-acessibilidade"/></svg></span>
+            <span><strong>Preciso de ajuda</strong><small>Para mim ou para alguém da família</small></span>
+          </a>
+          <a class="porta porta-ajudar" href="#oferecer" data-ir="oferecer">
+            <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-brand"/></svg></span>
+            <span><strong>Quero ajudar</strong><small>Ir junto, explicar, dar uma força</small></span>
+          </a>
+        </div>
+        <p class="fim" id="fim" hidden>A votação terminou. Obrigado a todo mundo que pediu e ofereceu ajuda.</p>
+        <p class="home-links">
+          <a href="#mural" data-ir="mural"><svg class="i" aria-hidden="true"><use href="#i-list"/></svg><span id="link-mural">Ver o mural</span></a>
+          <a href="#info" data-ir="info"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg>Bom saber para domingo</a>
+        </p>
       </div>
+      <figure class="hero-art">
+        <img src="assets/ilustracao.webp" width="1100" height="709" alt="Vizinhos acompanham uma senhora de bengala e uma jovem em cadeira de rodas até a urna.">
+      </figure>
+    </div>
+  </div>
+</header>
 
+<!-- Mural -->
+<main class="pagina" id="mural-view" hidden>
+  <div class="wrap">
+    <a class="voltar" href="#" data-ir=""><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Início</a>
+    <div class="pagina-cab">
+      <h1 id="mural-t" tabindex="-1">Mural da vizinhança</h1>
+      <p>Quem pede e quem oferece ajuda, perto de você.</p>
+      <p class="sr-only" id="stats" aria-live="polite"></p>
+    </div>
+    <section class="mural" aria-labelledby="mural-t">
       <div class="meus" id="meus" hidden></div>
-
       <div class="abas" role="tablist" aria-label="O que mostrar">
         <button class="aba" type="button" role="tab" data-tab="pedido" aria-selected="true" aria-controls="lista">Pedem ajuda <span class="n" id="n-pedido">0</span></button>
         <button class="aba" type="button" role="tab" data-tab="oferta" aria-selected="false" aria-controls="lista">Podem ajudar <span class="n" id="n-oferta">0</span></button>
@@ -398,18 +400,26 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
         <div class="portas">
           <a class="porta porta-pedir" href="#pedir" data-ir="pedir">
             <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-acessibilidade"/></svg></span>
-            <span><strong>Preciso de ajuda</strong><small>Leva 2 minutos</small></span>
+            <span><strong>Preciso de ajuda</strong><small>Leva 1 minuto</small></span>
           </a>
           <a class="porta porta-ajudar" href="#oferecer" data-ir="oferecer">
             <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-brand"/></svg></span>
-            <span><strong>Quero ajudar</strong><small>Leva 2 minutos</small></span>
+            <span><strong>Quero ajudar</strong><small>Leva 1 minuto</small></span>
           </a>
         </div>
       </div>
     </section>
+  </div>
+</main>
 
-    <section class="saber wrap" aria-labelledby="saber-t">
-      <h2 id="saber-t">Bom saber para domingo</h2>
+<!-- Bom saber e combinados -->
+<main class="pagina" id="info-view" hidden>
+  <div class="wrap">
+    <a class="voltar" href="#" data-ir=""><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Início</a>
+    <div class="pagina-cab">
+      <h1 id="saber-t" tabindex="-1">Bom saber para domingo</h1>
+    </div>
+    <section class="saber" aria-labelledby="saber-t">
       <ul class="saber-grid">
         <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-calendar"/></svg></span><div><h3>Quando</h3><p>Domingo, 25 de outubro, das 8h às 17h, horário de Brasília. Quem estiver na fila às 17h ainda vota.</p></div></li>
         <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-idcard"/></svg></span><div><h3>O que levar</h3><p>Documento oficial com foto: RG, CNH, carteira de trabalho ou passaporte. O e-Título vale se tiver sua foto.</p></div></li>
@@ -419,8 +429,7 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
         <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-acessibilidade"/></svg></span><div><h3>Ajuda na cabine</h3><p>Quem tem deficiência ou mobilidade reduzida pode levar uma pessoa de confiança para ajudar na cabine, com autorização da mesa. Essa pessoa não pode trabalhar para partido ou candidatura.</p></div></li>
       </ul>
     </section>
-
-    <section class="combinados wrap" aria-labelledby="comb-t">
+    <section class="combinados" aria-labelledby="comb-t">
       <div class="combinados-box">
         <h2 id="comb-t">Nossos combinados</h2>
         <ul>
@@ -432,98 +441,100 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
         </ul>
       </div>
     </section>
-  </main>
-
-  <footer class="rodape">
-    <div class="wrap">
+    <footer class="rodape">
       <p>Te Ajudo a Votar é uma iniciativa voluntária e apartidária. Sem cadastro, sem anúncios e sem rastreadores.</p>
-      <p>Guardamos só o que você publica. Seu telefone aparece apenas para quem tocar em “Entrar em contato”. Tudo será apagado em 26 de outubro.</p>
+      <p>Guardamos só o que você publica. Seu contato aparece apenas para quem tocar em “Entrar em contato”. A busca de bairro usa o mapa aberto OpenStreetMap. Tudo será apagado em 26 de outubro.</p>
       <p><a id="link-insta" href="https://www.instagram.com/teajudoavotar/" target="_blank" rel="noopener">Também estamos no Instagram</a></p>
-    </div>
-  </footer>
-</div>
+    </footer>
+  </div>
+</main>
 
-<section class="form-view" id="form-view" hidden>
+<!-- Formulário em passos -->
+<main class="pagina" id="form-view" hidden>
   <div class="wrap form-wrap">
-    <a class="voltar" href="#" data-ir=""><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Voltar ao mural</a>
+    <a class="voltar" href="#" data-ir=""><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Início</a>
 
     <div id="form-area">
       <div class="form-cab">
         <h1 id="form-t" tabindex="-1">Preciso de ajuda</h1>
-        <p id="form-lede"></p>
+        <span id="passo-n">1 de 4</span>
       </div>
+      <div class="barra" aria-hidden="true"><i id="barra"></i></div>
       <p class="fim" id="form-fim" hidden>A votação terminou. Não é mais possível publicar.</p>
+
       <form id="form" novalidate>
-        <fieldset class="campo">
-          <legend id="l-ajudas">Que ajuda você precisa?</legend>
-          <div class="tiles" id="c-ajudas"></div>
-          <p class="erro" id="e-ajudas" hidden></p>
-        </fieldset>
+        <section class="passo" data-passo="nome">
+          <label class="pergunta" for="c-nome" id="p-nome">Qual é o seu primeiro nome?</label>
+          <input id="c-nome" maxlength="40" autocomplete="given-name" enterkeyhint="next" aria-describedby="d-nome e-nome">
+          <p class="dica" id="d-nome"></p>
+          <p class="erro" id="e-nome" hidden></p>
+        </section>
 
-        <fieldset class="campo">
-          <legend>Quem e onde</legend>
-          <div class="onde">
-            <div class="full">
-              <label for="c-nome">Primeiro nome ou apelido</label>
-              <input id="c-nome" maxlength="40" autocomplete="given-name" aria-describedby="d-nome e-nome">
-              <p class="dica" id="d-nome"></p>
-              <p class="erro" id="e-nome" hidden></p>
+        <section class="passo" data-passo="onde" hidden>
+          <p class="pergunta" id="p-onde">Onde você mora?</p>
+          <div class="passo" id="onde-busca">
+            <div class="busca busca-onde">
+              <label class="sr-only" for="c-busca">Bairro ou cidade</label>
+              <svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
+              <input id="c-busca" type="text" placeholder="Bairro ou cidade" autocomplete="off" autocapitalize="words" enterkeyhint="search" aria-describedby="e-onde">
+              <button class="limpar" type="button" id="c-busca-limpar" aria-label="Limpar" hidden><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
             </div>
-            <div>
+            <ul class="sugestoes" id="sugestoes" hidden></ul>
+            <p class="nota" id="onde-status" hidden></p>
+            <div class="onde-ou">
+              <button class="btn-local" type="button" id="c-local"><svg class="i" aria-hidden="true"><use href="#i-locate"/></svg>Usar onde eu estou</button>
+              <button class="link" type="button" id="c-manual">ou escrever o endereço</button>
+            </div>
+          </div>
+          <div class="escolhido" id="onde-escolhido" hidden>
+            <span><svg class="i" aria-hidden="true"><use href="#i-local"/></svg><span id="onde-txt"></span></span>
+            <button class="mini" type="button" id="c-trocar">Trocar</button>
+          </div>
+          <div class="onde" id="onde-manual" hidden>
+            <div class="campo-sub">
               <label for="c-uf">Estado</label>
-              <div class="sel"><select id="c-uf" aria-describedby="e-uf"><option value="">Escolha</option></select><svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg></div>
-              <p class="erro" id="e-uf" hidden></p>
+              <div class="sel"><select id="c-uf"><option value="">Escolha</option></select><svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg></div>
             </div>
-            <div>
+            <div class="campo-sub">
               <label for="c-cidade">Cidade</label>
-              <input id="c-cidade" maxlength="60" autocomplete="address-level2" list="dl-cidades" aria-describedby="e-cidade">
-              <p class="erro" id="e-cidade" hidden></p>
+              <input id="c-cidade" maxlength="60" autocomplete="address-level2" enterkeyhint="next">
             </div>
-            <div class="full">
-              <label for="c-bairro">Bairro</label>
-              <input id="c-bairro" maxlength="60" autocomplete="address-level3" list="dl-bairros" aria-describedby="e-bairro">
-              <p class="erro" id="e-bairro" hidden></p>
+            <div class="full campo-sub">
+              <label for="c-bairro">Bairro <span class="opc">(opcional)</span></label>
+              <input id="c-bairro" maxlength="60" autocomplete="address-level3" enterkeyhint="next">
             </div>
           </div>
-          <datalist id="dl-cidades"></datalist>
-          <datalist id="dl-bairros"></datalist>
-        </fieldset>
+          <p class="erro" id="e-onde" hidden></p>
+          <p class="dica" id="d-onde">Sua localização serve só para achar o bairro. Ela não fica guardada.</p>
+        </section>
 
-        <fieldset class="campo">
-          <legend>Em que horário?</legend>
-          <div class="pills" id="c-periodo"></div>
-          <p class="erro" id="e-periodo" hidden></p>
-        </fieldset>
+        <section class="passo" data-passo="contato" hidden>
+          <p class="pergunta" id="p-contato">Como podem falar com você?</p>
+          <div class="campo-sub">
+            <label for="c-telefone">WhatsApp, com DDD</label>
+            <input id="c-telefone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(11) 91234-5678" enterkeyhint="next">
+          </div>
+          <div class="campo-sub">
+            <label for="c-instagram">Instagram</label>
+            <div class="prefixo"><span aria-hidden="true">@</span><input id="c-instagram" maxlength="60" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="seu.usuario" enterkeyhint="next"></div>
+          </div>
+          <p class="dica">Preencha pelo menos um dos dois. Só aparece para quem tocar em “Entrar em contato”.</p>
+          <p class="erro" id="e-contato" hidden></p>
+        </section>
 
-        <div class="campo">
-          <label for="c-detalhes">Quer contar mais? <span class="opc">(opcional)</span></label>
-          <textarea id="c-detalhes" maxlength="300" rows="3" aria-describedby="d-detalhes"></textarea>
+        <section class="passo" data-passo="texto" hidden>
+          <label class="pergunta" for="c-detalhes" id="p-texto">Quer contar mais? <span class="opc">(opcional)</span></label>
+          <textarea id="c-detalhes" maxlength="300" rows="4" aria-describedby="d-detalhes"></textarea>
           <p class="dica" id="d-detalhes"><span id="c-conta">0</span> de 300 letras</p>
-        </div>
+        </section>
 
-        <fieldset class="campo">
-          <legend>Como falar com você</legend>
-          <div class="onde">
-            <div class="full">
-              <label for="c-telefone">Telefone com DDD</label>
-              <input id="c-telefone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(11) 91234-5678" aria-describedby="e-telefone">
-              <p class="erro" id="e-telefone" hidden></p>
-            </div>
-            <div class="full">
-              <p class="rotulo" id="l-canais">Por onde prefere conversar?</p>
-              <div class="pills" id="c-canais" role="group" aria-labelledby="l-canais"></div>
-              <p class="erro" id="e-canais" hidden></p>
-            </div>
-          </div>
-        </fieldset>
+        <div class="hp" aria-hidden="true"><label>Não preencha este campo <input id="c-site" tabindex="-1" autocomplete="off"></label></div>
+        <p class="erro-geral" id="e-geral" role="alert" hidden></p>
 
-        <div class="campo envio">
-          <label class="consent"><input type="checkbox" id="c-ok" aria-describedby="e-ok"><span>Concordo em mostrar meu primeiro nome e bairro no mural, e meu telefone para quem tocar em “Entrar em contato”.</span></label>
-          <p class="erro" id="e-ok" hidden></p>
-          <div class="hp" aria-hidden="true"><label>Não preencha este campo <input id="c-site" tabindex="-1" autocomplete="off"></label></div>
-          <p class="erro-geral" id="e-geral" role="alert" hidden></p>
-          <button class="btn-big" type="submit" id="c-enviar">Publicar pedido</button>
-          <p class="dica">Tudo é apagado em 26 de outubro. Ao publicar, você aceita os combinados: ajuda de graça, sem campanha e sem carona de carro.</p>
+        <div class="passo-acoes">
+          <button class="btn-big" type="submit" id="c-avancar">Continuar<svg class="i" aria-hidden="true"><use href="#i-next"/></svg></button>
+          <button class="link" type="button" id="c-voltar" hidden><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Voltar</button>
+          <p class="dica" id="aviso-publicar" hidden>Ao publicar, seu primeiro nome e bairro ficam no mural. Seu contato só aparece para quem tocar em “Entrar em contato”. Tudo é apagado em 26 de outubro.</p>
         </div>
       </form>
     </div>
@@ -547,7 +558,7 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
       <button class="btn-big" type="button" id="suc-ver">Ver o mural</button>
     </div>
   </div>
-</section>
+</main>
 
 <div class="toast" id="toast" role="status" hidden></div>
 <noscript><p class="wrap" style="padding-block:16px">Este site precisa de JavaScript ligado para funcionar.</p></noscript>
@@ -559,22 +570,13 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
 
   var CFG = window.TAV_CONFIG || {};
   var REMOTO = !!(CFG.SUPABASE_URL && CFG.SUPABASE_KEY);
+  var GEO = (CFG.GEOCODER || 'https://photon.komoot.io').replace(/\/+$/, '');
   var INICIO = Date.UTC(2026, 9, 25, 11, 0, 0);   // 8h em Brasília
   var FIM = Date.UTC(2026, 9, 25, 20, 0, 0);      // 17h em Brasília
   var DIA = Date.UTC(2026, 9, 25);
 
-  var AJUDAS = {
-    companhia: { curto: 'Ir junto', longo: 'Ir junto até o local de votação', dica: 'A pé, de ônibus ou de metrô' },
-    local: { curto: 'Achar o local', longo: 'Descobrir onde votar', dica: 'Com o e-Título ou o site do TSE' },
-    duvidas: { curto: 'Tirar dúvidas', longo: 'Entender como votar', dica: 'Documentos, urna, ordem dos votos' },
-    cuidar: { curto: 'Ficar com alguém', longo: 'Ficar com alguém na hora do voto', dica: 'Criança ou pessoa que precisa de cuidado' },
-    acessibilidade: { curto: 'Acessibilidade', longo: 'Apoio para pessoa idosa ou com deficiência', dica: 'Cadeira de rodas, escadas, fila' },
-    outro: { curto: 'Outra ajuda', longo: 'Outra ajuda', dica: 'Conte nos detalhes' }
-  };
-  var PERIODOS = { manha: 'Manhã (8h–12h)', tarde: 'Tarde (12h–17h)', qualquer: 'Qualquer horário' };
-  var CANAIS = { ligacao: 'Ligação', whatsapp: 'WhatsApp', telegram: 'Telegram', signal: 'Signal' };
-  var CANAL_ICO = { ligacao: 'phone', whatsapp: 'whatsapp', telegram: 'telegram', signal: 'signal' };
   var UFS = [['AC','Acre'],['AL','Alagoas'],['AP','Amapá'],['AM','Amazonas'],['BA','Bahia'],['CE','Ceará'],['DF','Distrito Federal'],['ES','Espírito Santo'],['GO','Goiás'],['MA','Maranhão'],['MT','Mato Grosso'],['MS','Mato Grosso do Sul'],['MG','Minas Gerais'],['PA','Pará'],['PB','Paraíba'],['PR','Paraná'],['PE','Pernambuco'],['PI','Piauí'],['RJ','Rio de Janeiro'],['RN','Rio Grande do Norte'],['RS','Rio Grande do Sul'],['RO','Rondônia'],['RR','Roraima'],['SC','Santa Catarina'],['SP','São Paulo'],['SE','Sergipe'],['TO','Tocantins']];
+  var PASSOS = ['nome', 'onde', 'contato', 'texto'];
 
   // ---------- utilidades ----------
   function $(s) { return document.querySelector(s); }
@@ -605,6 +607,10 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
       ? '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7)
       : '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
   }
+  function igLimpar(s) {
+    return String(s || '').trim().replace(/^https?:\/\/(www\.)?instagram\.com\//i, '').replace(/[/?#].*$/, '').replace(/^@+/, '').trim();
+  }
+  function igOk(u) { return /^[A-Za-z0-9._]{1,30}$/.test(u); }
   function haQuanto(iso) {
     var s = (Date.now() - new Date(iso).getTime()) / 1000;
     if (s < 90) return 'agora';
@@ -652,6 +658,13 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
       : 'Não encontramos este anúncio. Talvez já tenha sido apagado.';
     return 'Não foi possível falar com o mural agora. Confira sua internet e tente de novo.';
   }
+  function nomeUf(uf) { for (var i = 0; i < UFS.length; i++) if (UFS[i][0] === uf) return UFS[i][1]; return uf; }
+  function ufDeEstado(s) {
+    var n = norm(s).replace(/^estado d[aeo]s? /, '');
+    if (!n) return '';
+    for (var i = 0; i < UFS.length; i++) if (norm(UFS[i][1]) === n || norm(UFS[i][0]) === n) return UFS[i][0];
+    return '';
+  }
 
   // ---------- dados: Supabase ----------
   function rpc(fn, args) {
@@ -670,8 +683,8 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
   var remoto = {
     listar: function (uf) { return rpc('listar', { p_uf: uf || null }); },
     criar: function (p) {
-      return rpc('criar', { p_tipo: p.tipo, p_ajudas: p.ajudas, p_nome: p.nome, p_uf: p.uf, p_cidade: p.cidade,
-        p_bairro: p.bairro, p_periodo: p.periodo, p_detalhes: p.detalhes || null, p_telefone: p.telefone, p_canais: p.canais });
+      return rpc('criar', { p_tipo: p.tipo, p_nome: p.nome, p_uf: p.uf, p_cidade: p.cidade, p_bairro: p.bairro || null,
+        p_detalhes: p.detalhes || null, p_telefone: p.telefone || null, p_instagram: p.instagram || null });
     },
     verContato: function (id) { return rpc('ver_contato', { p_id: id }); },
     atualizar: function (id, token, r) { return rpc('atualizar', { p_id: id, p_token: token, p_resolvido: r }); },
@@ -681,23 +694,23 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
 
   // ---------- dados: demonstração (fica no aparelho) ----------
   function demo() {
-    var KEY = 'tav-demo-v1';
+    var KEY = 'tav-demo-v2';
     function ha(h) { return new Date(Date.now() - h * 3600e3).toISOString(); }
-    function ex(i, tipo, nome, uf, cidade, bairro, periodo, ajudas, detalhes, canais, h, resolvido) {
+    function ex(i, tipo, nome, uf, cidade, bairro, detalhes, telefone, instagram, h, resolvido) {
       return { id: 'exemplo-' + i, token: 'exemplo', exemplo: true, tipo: tipo, nome: nome, uf: uf, cidade: cidade, bairro: bairro,
-        periodo: periodo, ajudas: ajudas, detalhes: detalhes, canais: canais, criado_em: ha(h), resolvido: !!resolvido, telefone: '11900000000' };
+        detalhes: detalhes, telefone: telefone, instagram: instagram, criado_em: ha(h), resolvido: !!resolvido };
     }
     var dados = lsGet(KEY, null);
     if (!dados) {
       dados = [
-        ex(1, 'pedido', 'Dona Lúcia', 'SP', 'São Paulo', 'Vila Mariana', 'manha', ['companhia', 'acessibilidade'], 'Uso andador e minha seção fica no 2º andar da escola.', ['ligacao'], 2),
-        ex(2, 'oferta', 'Rafa', 'SP', 'São Paulo', 'Vila Mariana', 'qualquer', ['companhia', 'local', 'duvidas'], 'Moro perto da escola do bairro. Posso ir junto e ajudar com o e-Título.', ['whatsapp', 'telegram'], 5),
-        ex(3, 'pedido', 'Seu Antônio', 'PE', 'Recife', 'Casa Amarela', 'tarde', ['local', 'duvidas'], 'Perdi o título e não sei onde voto.', ['ligacao'], 7),
-        ex(4, 'oferta', 'Bia', 'RJ', 'Rio de Janeiro', 'Tijuca', 'manha', ['cuidar'], 'Sou professora. Fico com as crianças na praça enquanto você vota.', ['whatsapp', 'signal'], 9),
-        ex(5, 'pedido', 'Marcos', 'MG', 'Belo Horizonte', 'Santa Tereza', 'qualquer', ['cuidar'], 'Cuido da minha mãe acamada e não posso deixar ela sozinha por uma hora.', ['whatsapp'], 20),
-        ex(6, 'oferta', 'Dani', 'BA', 'Salvador', 'Rio Vermelho', 'tarde', ['companhia', 'acessibilidade'], 'Trabalho como cuidadora. Posso empurrar cadeira de rodas.', ['ligacao', 'whatsapp'], 26),
-        ex(7, 'oferta', 'Léo', 'CE', 'Fortaleza', 'Benfica', 'qualquer', ['duvidas', 'local'], 'Explico como funciona a urna e ajudo a achar o local de votação pelo celular.', ['telegram', 'whatsapp'], 30),
-        ex(8, 'pedido', 'Cida', 'RS', 'Porto Alegre', 'Partenon', 'manha', ['companhia'], 'Tenho 82 anos e não gosto de ir sozinha.', ['ligacao'], 40, true)
+        ex(1, 'pedido', 'Dona Lúcia', 'SP', 'São Paulo', 'Vila Mariana', 'Uso andador e minha seção fica no 2º andar da escola. Preciso de alguém para ir junto de manhã.', '11900000000', null, 2),
+        ex(2, 'oferta', 'Rafa', 'SP', 'São Paulo', 'Vila Mariana', 'Moro perto da escola do bairro. Posso ir junto e ajudar com o e-Título.', '11900000000', 'rafa.ajuda', 5),
+        ex(3, 'pedido', 'Seu Antônio', 'PE', 'Recife', 'Casa Amarela', 'Perdi o título e não sei onde voto.', '81900000000', null, 7),
+        ex(4, 'oferta', 'Bia', 'RJ', 'Rio de Janeiro', 'Tijuca', 'Sou professora. Fico com as crianças na praça enquanto você vota.', null, 'bia.tijuca', 9),
+        ex(5, 'pedido', 'Marcos', 'MG', 'Belo Horizonte', 'Santa Tereza', 'Cuido da minha mãe acamada e não posso deixar ela sozinha por uma hora.', '31900000000', null, 20),
+        ex(6, 'oferta', 'Dani', 'BA', 'Salvador', 'Rio Vermelho', 'Trabalho como cuidadora. Posso empurrar cadeira de rodas.', '71900000000', null, 26),
+        ex(7, 'oferta', 'Léo', 'CE', 'Fortaleza', 'Benfica', 'Explico como funciona a urna e ajudo a achar o local de votação pelo celular.', '85900000000', 'leo.fortal', 30),
+        ex(8, 'pedido', 'Cida', 'RS', 'Porto Alegre', 'Partenon', 'Tenho 82 anos e não gosto de ir sozinha.', '51900000000', null, 40, true)
       ];
       lsSet(KEY, dados);
     }
@@ -705,6 +718,7 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
     function depois(v) { return new Promise(function (res) { setTimeout(function () { res(v); }, 200); }); }
     function falha(c) { return new Promise(function (res, rej) { setTimeout(function () { rej(erro(c)); }, 200); }); }
     function achar(id) { for (var i = 0; i < dados.length; i++) if (dados[i].id === id) return dados[i]; return null; }
+    function canaisDe(p) { var c = []; if (p.telefone) c.push('whatsapp'); if (p.instagram) c.push('instagram'); return c; }
     function novoId() {
       try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
       return 'd' + Date.now().toString(16) + Math.random().toString(16).slice(2, 10);
@@ -714,23 +728,24 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
         var l = dados.filter(function (p) { return !p.oculto && (!uf || p.uf === uf); })
           .sort(function (a, b) { return a.resolvido === b.resolvido ? (a.criado_em < b.criado_em ? 1 : -1) : (a.resolvido ? 1 : -1); })
           .map(function (p) {
-            return { id: p.id, criado_em: p.criado_em, tipo: p.tipo, ajudas: p.ajudas, nome: p.nome, uf: p.uf, cidade: p.cidade,
-              bairro: p.bairro, periodo: p.periodo, detalhes: p.detalhes, canais: p.canais, resolvido: p.resolvido, exemplo: !!p.exemplo };
+            return { id: p.id, criado_em: p.criado_em, tipo: p.tipo, nome: p.nome, uf: p.uf, cidade: p.cidade, bairro: p.bairro,
+              detalhes: p.detalhes, canais: canaisDe(p), resolvido: p.resolvido, exemplo: !!p.exemplo };
           });
         return depois(l);
       },
       criar: function (p) {
         if (encerrado()) return falha('encerrado');
-        var n = { id: novoId(), token: novoId(), tipo: p.tipo, ajudas: p.ajudas, nome: p.nome.trim(), uf: p.uf, cidade: p.cidade.trim(),
-          bairro: p.bairro.trim(), periodo: p.periodo, detalhes: (p.detalhes || '').trim() || null, telefone: p.telefone, canais: p.canais,
-          resolvido: false, criado_em: new Date().toISOString() };
+        if (!p.telefone && !p.instagram) return falha('dados');
+        var n = { id: novoId(), token: novoId(), tipo: p.tipo, nome: p.nome.trim(), uf: p.uf, cidade: p.cidade.trim(),
+          bairro: (p.bairro || '').trim() || null, detalhes: (p.detalhes || '').trim() || null, telefone: p.telefone || null,
+          instagram: p.instagram || null, resolvido: false, criado_em: new Date().toISOString() };
         dados.unshift(n); salvar();
         return depois({ id: n.id, token: n.token, criado_em: n.criado_em });
       },
       verContato: function (id) {
         var p = achar(id);
         if (!p || p.resolvido || p.oculto) return falha('nao_encontrado');
-        return depois({ telefone: p.telefone, canais: p.canais });
+        return depois({ telefone: p.telefone, instagram: p.instagram });
       },
       atualizar: function (id, token, r) {
         var p = achar(id); if (!p || p.token !== token) return falha('nao_encontrado');
@@ -755,7 +770,7 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
     posts: [], carregando: true, erroLista: null,
     uf: filtrosSalvos.uf || '', tab: filtrosSalvos.tab === 'oferta' ? 'oferta' : 'pedido', busca: '',
     limite: 40, contatos: {}, denuncia: {}, apagando: {},
-    view: 'home', tipoForm: null, formEnviado: false, scrollHome: 0, rolarPara: null
+    view: 'home', tipoForm: null, passo: 0, onde: null, sugestoes: [], formEnviado: false, ultimo: null
   };
   function salvarFiltros() { lsSet('tav-filtros', { uf: st.uf, tab: st.tab }); }
   function meus() { return lsGet('tav-meus', []); }
@@ -777,15 +792,19 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
       st.erroLista = msg(e, 'listar');
     }).then(function () {
       st.carregando = false;
-      renderLista(); renderMeus(); atualizarListas();
-      if (st.rolarPara) { var alvo = document.getElementById(st.rolarPara); st.rolarPara = null; if (alvo && !alvo.hidden) alvo.scrollIntoView({ block: 'start' }); }
+      renderLista(); renderMeus(); renderLinkMural();
     });
+  }
+
+  function renderLinkMural() {
+    var n = st.posts.filter(function (p) { return !p.resolvido; }).length;
+    $('#link-mural').textContent = n ? 'Ver o mural · ' + n + (n === 1 ? ' anúncio' : ' anúncios') : 'Ver o mural';
   }
 
   function filtrados() {
     var q = norm(st.busca);
     if (!q) return st.posts;
-    return st.posts.filter(function (p) { return norm(p.cidade + ' ' + p.bairro).indexOf(q) >= 0; });
+    return st.posts.filter(function (p) { return norm(p.cidade + ' ' + (p.bairro || '')).indexOf(q) >= 0; });
   }
 
   function renderLista() {
@@ -829,7 +848,7 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
       '<button class="btn-contato" type="button" data-acao="ir-oferecer">' + icon('brand') + 'Quero ajudar</button></div>';
   }
 
-  function nomeUf(uf) { for (var i = 0; i < UFS.length; i++) if (UFS[i][0] === uf) return UFS[i][1]; return uf; }
+  var CANAL_NOME = { whatsapp: 'WhatsApp', instagram: 'Instagram' };
 
   function cardHtml(p) {
     var meu = eMeu(p.id);
@@ -838,11 +857,9 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
     h += '<div class="card-top"><span><span class="selo selo-' + p.tipo + '">' + selo + '</span>' + (meu ? '<span class="seu">Seu</span>' : '') + '</span>' +
       '<time datetime="' + esc(p.criado_em) + '">' + haQuanto(p.criado_em) + '</time></div>';
     h += '<h3 class="card-nome">' + esc(p.nome) + '</h3>';
-    h += '<p class="card-meta"><span>' + icon('local') + esc(p.bairro) + ' · ' + esc(p.cidade) + '/' + esc(p.uf) + '</span>' +
-      '<span>' + icon('clock') + esc(PERIODOS[p.periodo] || '') + '</span></p>';
-    h += '<ul class="chips">' + (p.ajudas || []).map(function (a) {
-      return '<li>' + icon(AJUDAS[a] ? a : 'outro') + esc(AJUDAS[a] ? AJUDAS[a].curto : a) + '</li>';
-    }).join('') + '</ul>';
+    var canais = (p.canais || []).filter(function (c) { return CANAL_NOME[c]; }).map(function (c) { return icon(c) + CANAL_NOME[c]; }).join('</span><span>');
+    h += '<p class="card-meta"><span>' + icon('local') + esc(p.bairro ? p.bairro + ' · ' : '') + esc(p.cidade) + '/' + esc(p.uf) + '</span>' +
+      (canais ? '<span>' + canais + '</span>' : '') + '</p>';
     if (p.detalhes) h += '<p class="card-det">' + esc(p.detalhes) + '</p>';
     if (p.exemplo) h += '<span class="exemplo">Exemplo</span>';
     if (!p.resolvido && !encerrado()) {
@@ -859,26 +876,28 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
     if (!c) return '<button class="btn-contato" type="button" data-acao="contato">' + icon('phone') + 'Entrar em contato</button>';
     if (c === 'carregando') return '<p class="nota">Buscando o contato…</p>';
     if (c.erro) return '<div class="contato"><p class="erro">' + esc(c.erro) + '</p><button class="mini" type="button" data-acao="contato">Tentar de novo</button></div>';
-    var d = c.telefone, intl = '55' + d;
     var texto = p.tipo === 'pedido'
       ? 'Oi, ' + p.nome + '! Vi seu pedido no Te Ajudo a Votar e posso ajudar no domingo, 25/10. Vamos combinar?'
       : 'Oi, ' + p.nome + '! Vi sua oferta no Te Ajudo a Votar. Preciso de ajuda para votar no domingo, 25/10. Podemos combinar?';
-    var hrefs = {
-      ligacao: 'tel:+' + intl,
-      whatsapp: 'https://wa.me/' + intl + '?text=' + encodeURIComponent(texto),
-      telegram: 'https://t.me/+' + intl,
-      signal: 'https://signal.me/#p/+' + intl
-    };
-    var rotulos = { ligacao: 'Ligar', whatsapp: 'WhatsApp', telegram: 'Telegram', signal: 'Signal' };
-    var links = ['ligacao', 'whatsapp', 'telegram', 'signal'].filter(function (k) { return (c.canais || []).indexOf(k) >= 0; }).map(function (k) {
-      if (p.exemplo) return '<span class="canal off">' + icon(CANAL_ICO[k]) + rotulos[k] + '</span>';
-      var ext = k === 'ligacao' ? '' : ' target="_blank" rel="noopener"';
-      return '<a class="canal" href="' + esc(hrefs[k]) + '"' + ext + '>' + icon(CANAL_ICO[k]) + rotulos[k] + '</a>';
-    });
+    function botao(ico, rotulo, href) {
+      if (p.exemplo) return '<span class="canal off">' + icon(ico) + rotulo + '</span>';
+      var ext = href.indexOf('tel:') === 0 ? '' : ' target="_blank" rel="noopener"';
+      return '<a class="canal" href="' + esc(href) + '"' + ext + '>' + icon(ico) + rotulo + '</a>';
+    }
+    var links = [], dados = [];
+    if (c.telefone) {
+      var d = c.telefone, intl = '55' + d;
+      links.push(botao('whatsapp', 'WhatsApp', 'https://wa.me/' + intl + '?text=' + encodeURIComponent(texto)));
+      links.push(botao('phone', 'Ligar', 'tel:+' + intl));
+      dados.push('<p class="contato-dado"><span>' + foneFmt(d) + '</span><button class="mini" type="button" data-acao="copiar" data-texto="' + esc(foneFmt(d)) + '">' + icon('copy') + 'Copiar número</button></p>');
+    }
+    if (c.instagram) {
+      links.push(botao('instagram', 'Instagram', 'https://ig.me/m/' + encodeURIComponent(c.instagram)));
+      dados.push('<p class="contato-dado"><span>@' + esc(c.instagram) + '</span><button class="mini" type="button" data-acao="copiar" data-texto="' + esc('@' + c.instagram) + '">' + icon('copy') + 'Copiar</button></p>');
+    }
     return '<div class="contato">' +
-      '<div class="canais">' + links.join('') + '</div>' +
-      '<p class="contato-fone"><span>' + foneFmt(d) + '</span><button class="mini" type="button" data-acao="copiar" data-fone="' + esc(d) + '">' + icon('copy') + 'Copiar número</button></p>' +
-      (p.exemplo ? '<p class="nota">Número fictício: este anúncio é um exemplo.</p>' : '') +
+      '<div class="canais">' + links.join('') + '</div>' + dados.join('') +
+      (p.exemplo ? '<p class="nota">Contato fictício: este anúncio é um exemplo.</p>' : '') +
       '<p class="nota">Combine o ponto de encontro e o horário antes de sair.</p>' +
       '</div>';
   }
@@ -929,9 +948,9 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
     });
     if (mudou) salvarMeus(lista);
     box.hidden = false;
-    box.innerHTML = '<h3>Você publicou</h3><ul>' + lista.map(function (m) {
+    box.innerHTML = '<h2>Você publicou</h2><ul>' + lista.map(function (m) {
       var tipo = m.tipo === 'oferta' ? 'Oferta' : (m.tipo === 'pedido' ? 'Pedido' : 'Anúncio');
-      var info = (m.resolvido ? 'Resolvido' : 'No mural') + (m.bairro ? ' · ' + esc(m.bairro) : '') + (m.criado_em ? ' · ' + haQuanto(m.criado_em) : '');
+      var info = (m.resolvido ? 'Resolvido' : 'No mural') + (m.bairro ? ' · ' + esc(m.bairro) : (m.cidade ? ' · ' + esc(m.cidade) : '')) + (m.criado_em ? ' · ' + haQuanto(m.criado_em) : '');
       return '<li data-meu="' + esc(m.id) + '"><div class="meu-info"><strong>' + tipo + (m.nome ? ' · ' + esc(m.nome) : '') + '</strong><span>' + info + '</span></div>' +
         '<div class="meu-acoes">' +
         '<button class="mini' + (m.resolvido ? '' : ' primario') + '" type="button" data-meu-acao="resolver">' + icon('check') + (m.resolvido ? 'Reabrir' : 'Já resolvi') + '</button>' +
@@ -977,8 +996,7 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
     var lista = meus();
     if (!lista.some(function (x) { return x.id === m[1]; })) { lista.unshift({ id: m[1], token: m[2] }); salvarMeus(lista); }
     if (st.uf) { st.uf = ''; $('#f-uf').value = ''; salvarFiltros(); st.posts = []; }
-    st.rolarPara = 'meus';
-    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+    try { history.replaceState(null, '', location.pathname + location.search + '#mural'); } catch (e) {}
   }
 
   // ---------- contagem regressiva ----------
@@ -999,41 +1017,136 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
     $('#form').hidden = fim; $('#form-fim').hidden = !fim;
   }
 
-  // ---------- formulário ----------
-  function montarForm() {
-    $('#c-ajudas').innerHTML = Object.keys(AJUDAS).map(function (k) {
-      var a = AJUDAS[k];
-      return '<label class="tile"><input type="checkbox" name="ajuda" value="' + k + '">' +
-        '<span class="tile-ico">' + icon(k) + '</span><span class="tile-txt"><b>' + a.longo + '</b><small>' + a.dica + '</small></span>' +
-        '<span class="tick">' + icon('check') + '</span></label>';
-    }).join('');
-    $('#c-periodo').innerHTML = Object.keys(PERIODOS).map(function (k) {
-      return '<label class="pill"><input type="radio" name="periodo" value="' + k + '">' + icon('clock') + PERIODOS[k] + '</label>';
-    }).join('');
-    $('#c-canais').innerHTML = Object.keys(CANAIS).map(function (k) {
-      return '<label class="pill"><input type="checkbox" name="canal" value="' + k + '">' + icon(CANAL_ICO[k]) + CANAIS[k] + '</label>';
-    }).join('');
-    var opts = UFS.map(function (u) { return '<option value="' + u[0] + '">' + u[1] + '</option>'; }).join('');
-    $('#c-uf').insertAdjacentHTML('beforeend', opts);
-    $('#f-uf').insertAdjacentHTML('beforeend', opts);
+  // ---------- onde: busca de bairro (OpenStreetMap via Photon) ----------
+  var geoCache = {}, buscaCtrl = null, buscaT = null;
+
+  function fetchJson(url, opts) {
+    opts = opts || {};
+    opts.referrerPolicy = 'strict-origin-when-cross-origin';
+    return fetch(url, opts).then(function (r) { if (!r.ok) throw erro('geo'); return r.json(); });
   }
 
-  function marcarOn() {
-    document.querySelectorAll('#form .tile, #form .pill').forEach(function (l) {
-      var i = l.querySelector('input'); l.classList.toggle('on', i.checked);
+  function lugarDeFeature(p, reverso) {
+    p = p || {};
+    if (p.countrycode && String(p.countrycode).toUpperCase() !== 'BR') return null;
+    var uf = ufDeEstado(p.state);
+    if (!uf) return null;
+    var tipo = p.type;
+    var cidade = p.city || p.town || p.village || '';
+    var bairro = '';
+    if (reverso) {
+      bairro = p.district || p.locality || (tipo === 'district' || tipo === 'locality' ? p.name : '') || '';
+      if (!cidade) cidade = tipo === 'city' ? p.name : (p.county || '');
+    } else if (tipo === 'district' || tipo === 'locality') {
+      bairro = p.name || p.district || p.locality || '';
+      if (!cidade) cidade = p.county || '';
+    } else if (tipo === 'city') {
+      cidade = p.name || cidade;
+    } else {
+      return null;
+    }
+    if (!cidade) return null;
+    if (norm(bairro) === norm(cidade)) bairro = '';
+    return { uf: uf, cidade: String(cidade).slice(0, 60), bairro: String(bairro).slice(0, 60), rotulo: (bairro ? bairro + ', ' : '') + cidade + ' – ' + uf };
+  }
+
+  function buscarLugares(q) {
+    var k = norm(q);
+    if (geoCache[k]) return Promise.resolve(geoCache[k]);
+    if (buscaCtrl) buscaCtrl.abort();
+    buscaCtrl = window.AbortController ? new AbortController() : null;
+    var url = GEO + '/api/?q=' + encodeURIComponent(q) + '&limit=12&lang=default&bbox=-74,-34,-28,6';
+    return fetchJson(url, buscaCtrl ? { signal: buscaCtrl.signal } : {}).then(function (d) {
+      var vistos = {}, lista = [];
+      ((d && d.features) || []).forEach(function (f) {
+        var l = lugarDeFeature(f.properties, false);
+        if (l && !vistos[norm(l.rotulo)]) { vistos[norm(l.rotulo)] = 1; lista.push(l); }
+      });
+      lista = lista.slice(0, 6);
+      geoCache[k] = lista;
+      return lista;
     });
   }
 
-  function resetForm(tipo) {
-    var f = $('#form');
-    f.reset();
-    f.querySelector('input[name="periodo"][value="qualquer"]').checked = true;
-    f.querySelector('input[name="canal"][value="ligacao"]').checked = true;
-    f.querySelector('input[name="canal"][value="whatsapp"]').checked = true;
-    $('#c-uf').value = st.uf || '';
-    $('#c-conta').textContent = '0';
-    limparErros(); marcarOn();
-    st.tipoForm = tipo; st.formEnviado = false;
+  function ondeEstou() {
+    return new Promise(function (res, rej) {
+      if (!navigator.geolocation) return rej(erro('geo'));
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        var c = pos.coords;
+        fetchJson(GEO + '/reverse?lon=' + c.longitude + '&lat=' + c.latitude + '&lang=default&limit=1').then(function (d) {
+          var f = d && d.features && d.features[0];
+          var l = f && lugarDeFeature(f.properties, true);
+          if (l) res(l); else rej(erro('geo'));
+        }, function () { rej(erro('geo')); });
+      }, function () { rej(erro('geo')); }, { timeout: 12000, maximumAge: 120000 });
+    });
+  }
+
+  function renderSugestoes(lista) {
+    var ul = $('#sugestoes');
+    st.sugestoes = lista || [];
+    if (!st.sugestoes.length) { ul.hidden = true; ul.innerHTML = ''; return; }
+    ul.innerHTML = st.sugestoes.map(function (l, i) {
+      return '<li><button type="button" data-lugar="' + i + '">' + icon('local') + '<span>' + esc(l.rotulo) + '</span></button></li>';
+    }).join('');
+    ul.hidden = false;
+  }
+
+  function ondeStatus(t) { var p = $('#onde-status'); p.textContent = t || ''; p.hidden = !t; }
+
+  function pesquisar(q) {
+    q = (q || '').trim();
+    if (q.length < 3) { renderSugestoes([]); ondeStatus(''); return; }
+    ondeStatus('Procurando…');
+    buscarLugares(q).then(function (lista) {
+      if (norm($('#c-busca').value) !== norm(q)) return;
+      renderSugestoes(lista);
+      ondeStatus(lista.length ? '' : 'Não achamos “' + q + '”. Tente só o nome do bairro ou da cidade, ou escreva o endereço.');
+    }, function (e) {
+      if (e && e.name === 'AbortError') return;
+      renderSugestoes([]);
+      ondeStatus('A busca não respondeu. Tente de novo ou escreva o endereço.');
+    });
+  }
+
+  function escolherLugar(l) {
+    st.onde = l;
+    $('#onde-txt').textContent = l.rotulo;
+    $('#onde-busca').hidden = true; $('#onde-manual').hidden = true; $('#onde-escolhido').hidden = false;
+    $('#d-onde').hidden = true;
+    limparErro('onde');
+    renderSugestoes([]); ondeStatus('');
+    $('#c-avancar').focus();
+  }
+
+  function trocarLugar() {
+    st.onde = null;
+    $('#onde-escolhido').hidden = true; $('#onde-manual').hidden = true; $('#onde-busca').hidden = false; $('#d-onde').hidden = false;
+    $('#c-busca').value = ''; $('#c-busca-limpar').hidden = true; renderSugestoes([]); ondeStatus('');
+    $('#c-busca').focus();
+  }
+
+  function escreverEndereco() {
+    st.onde = null;
+    $('#onde-busca').hidden = true; $('#onde-escolhido').hidden = true; $('#onde-manual').hidden = false; $('#d-onde').hidden = true;
+    renderSugestoes([]); ondeStatus('');
+    $('#c-uf').focus();
+  }
+
+  function usarOndeEstou() {
+    var b = $('#c-local');
+    b.disabled = true; ondeStatus('Pegando sua localização…');
+    ondeEstou().then(function (l) { escolherLugar(l); }, function () {
+      ondeStatus('Não deu para achar sua localização. Digite o nome do seu bairro.');
+      $('#c-busca').focus();
+    }).then(function () { b.disabled = false; });
+  }
+
+  // ---------- formulário em passos ----------
+  function montarForm() {
+    var opts = UFS.map(function (u) { return '<option value="' + u[0] + '">' + u[1] + '</option>'; }).join('');
+    $('#c-uf').insertAdjacentHTML('beforeend', opts);
+    $('#f-uf').insertAdjacentHTML('beforeend', opts);
   }
 
   function textosForm(tipo) {
@@ -1041,84 +1154,107 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
     var v = $('#form-view');
     v.classList.toggle('form-pedido', pedido); v.classList.toggle('form-oferta', !pedido);
     $('#form-t').textContent = pedido ? 'Preciso de ajuda' : 'Quero ajudar';
-    $('#form-lede').textContent = pedido
-      ? 'Conte o que você precisa. Alguém perto de você entra em contato. Leva 2 minutos e não tem cadastro.'
-      : 'Diga como pode ajudar. Quem precisar entra em contato com você. Leva 2 minutos e não tem cadastro.';
-    $('#l-ajudas').textContent = pedido ? 'Que ajuda você precisa?' : 'Como você pode ajudar?';
     $('#d-nome').textContent = pedido
       ? 'Pode publicar por outra pessoa, com a permissão dela. Ex.: Dona Lúcia.'
       : 'Só o primeiro nome já basta.';
+    $('#p-texto').innerHTML = (pedido ? 'Quer contar o que você precisa?' : 'Quer contar como pode ajudar?') + ' <span class="opc">(opcional)</span>';
     $('#c-detalhes').placeholder = pedido
-      ? 'Ex.: Uso andador e minha seção fica no 2º andar da escola.'
+      ? 'Ex.: Uso andador e minha seção fica no 2º andar da escola. Preciso de alguém para ir junto de manhã.'
       : 'Ex.: Moro perto da praça e posso ir junto de manhã.';
-    $('#c-enviar').textContent = pedido ? 'Publicar pedido' : 'Publicar oferta';
+  }
+
+  function resetForm(tipo) {
+    $('#form').reset();
+    $('#c-uf').value = st.uf || '';
+    $('#c-conta').textContent = '0';
+    st.tipoForm = tipo; st.formEnviado = false; st.onde = null;
+    $('#onde-busca').hidden = false; $('#onde-escolhido').hidden = true; $('#onde-manual').hidden = true; $('#d-onde').hidden = false;
+    $('#c-busca-limpar').hidden = true; renderSugestoes([]); ondeStatus('');
+    limparErros();
+    irPasso(0, true);
+  }
+
+  function irPasso(n, semFoco) {
+    st.passo = n;
+    var k = PASSOS[n], ultimo = n === PASSOS.length - 1;
+    document.querySelectorAll('#form .passo[data-passo]').forEach(function (s) { s.hidden = s.getAttribute('data-passo') !== k; });
+    $('#passo-n').textContent = (n + 1) + ' de ' + PASSOS.length;
+    $('#barra').style.width = Math.round(((n + 1) / PASSOS.length) * 100) + '%';
+    $('#c-avancar').innerHTML = ultimo
+      ? (st.tipoForm === 'pedido' ? 'Publicar pedido' : 'Publicar oferta')
+      : 'Continuar' + icon('next');
+    $('#c-voltar').hidden = n === 0;
+    $('#aviso-publicar').hidden = !ultimo;
+    $('#e-geral').hidden = true;
+    window.scrollTo(0, 0);
+    if (semFoco) return;
+    var foco = { nome: '#c-nome', onde: st.onde ? '#c-avancar' : ($('#onde-manual').hidden ? '#c-busca' : '#c-uf'), contato: '#c-telefone', texto: '#c-detalhes' }[k];
+    var el = $(foco); if (el) el.focus();
+  }
+
+  function limparErro(k) {
+    var p = document.getElementById('e-' + k); if (p) { p.hidden = true; p.textContent = ''; }
+    document.querySelectorAll('#form [aria-invalid]').forEach(function (c) { c.removeAttribute('aria-invalid'); });
+  }
+  function limparErros() { PASSOS.forEach(limparErro); $('#e-geral').hidden = true; }
+
+  function mostrarErro(k, texto, campo) {
+    var p = document.getElementById('e-' + k); p.textContent = texto; p.hidden = false;
+    var c = campo && $(campo);
+    if (c) { if (c.tagName !== 'BUTTON') c.setAttribute('aria-invalid', 'true'); try { c.focus({ preventScroll: true }); } catch (x) { c.focus(); } }
+  }
+
+  function validarPasso(k) {
+    if (k === 'nome') {
+      if (!$('#c-nome').value.trim()) return { t: 'Escreva um nome ou apelido.', c: '#c-nome' };
+    }
+    if (k === 'onde') {
+      if (st.onde) return null;
+      if (!$('#onde-manual').hidden) {
+        var uf = $('#c-uf').value, cid = $('#c-cidade').value.trim(), bai = $('#c-bairro').value.trim();
+        if (!uf) return { t: 'Escolha o estado.', c: '#c-uf' };
+        if (cid.length < 2) return { t: 'Escreva a cidade.', c: '#c-cidade' };
+        if (bai.length === 1) return { t: 'Escreva o nome do bairro ou deixe em branco.', c: '#c-bairro' };
+        st.onde = { uf: uf, cidade: cid, bairro: bai, rotulo: (bai ? bai + ', ' : '') + cid + ' – ' + uf };
+        return null;
+      }
+      return { t: 'Escolha seu bairro ou cidade na lista, use sua localização ou escreva o endereço.', c: '#c-busca' };
+    }
+    if (k === 'contato') {
+      var tel = digitos($('#c-telefone').value), ig = igLimpar($('#c-instagram').value);
+      if (!tel && !ig) return { t: 'Escreva seu WhatsApp ou seu Instagram.', c: '#c-telefone' };
+      if (tel && !foneOk(tel)) return { t: 'Confira o número: precisa ter DDD. Ex.: (11) 91234-5678.', c: '#c-telefone' };
+      if (ig && !igOk(ig)) return { t: 'Confira o Instagram: só letras, números, ponto e sublinhado.', c: '#c-instagram' };
+    }
+    return null;
   }
 
   function lerForm() {
-    function marcados(n) { return Array.prototype.map.call(document.querySelectorAll('#form input[name="' + n + '"]:checked'), function (i) { return i.value; }); }
+    var o = st.onde || {};
     return {
-      tipo: st.tipoForm, ajudas: marcados('ajuda'), nome: $('#c-nome').value.trim(), uf: $('#c-uf').value,
-      cidade: $('#c-cidade').value.trim(), bairro: $('#c-bairro').value.trim(), periodo: marcados('periodo')[0] || '',
-      detalhes: $('#c-detalhes').value.trim(), telefone: digitos($('#c-telefone').value), canais: marcados('canal'),
-      ok: $('#c-ok').checked, hp: $('#c-site').value
+      tipo: st.tipoForm, nome: $('#c-nome').value.trim(), uf: o.uf, cidade: o.cidade, bairro: o.bairro || '',
+      detalhes: $('#c-detalhes').value.trim(), telefone: digitos($('#c-telefone').value) || '', instagram: igLimpar($('#c-instagram').value) || '',
+      hp: $('#c-site').value
     };
   }
 
-  function validar(d) {
-    var e = {};
-    if (!d.ajudas.length) e.ajudas = 'Escolha pelo menos um tipo de ajuda.';
-    if (!d.nome) e.nome = 'Escreva um nome ou apelido.';
-    if (!d.uf) e.uf = 'Escolha o estado.';
-    if (d.cidade.length < 2) e.cidade = 'Escreva a cidade.';
-    if (d.bairro.length < 2) e.bairro = 'Escreva o bairro.';
-    if (!d.periodo) e.periodo = 'Escolha um horário.';
-    if (!foneOk(d.telefone)) e.telefone = 'Escreva o telefone com DDD. Ex.: (11) 91234-5678.';
-    if (!d.canais.length) e.canais = 'Escolha pelo menos uma forma de contato.';
-    if (!d.ok) e.ok = 'Marque esta caixa para publicar.';
-    return e;
-  }
-
-  var CAMPO_FOCO = { ajudas: '#form input[name="ajuda"]', nome: '#c-nome', uf: '#c-uf', cidade: '#c-cidade', bairro: '#c-bairro',
-    periodo: '#form input[name="periodo"]', telefone: '#c-telefone', canais: '#form input[name="canal"]', ok: '#c-ok' };
-
-  function limparErros() {
-    Object.keys(CAMPO_FOCO).forEach(function (k) {
-      var p = document.getElementById('e-' + k); if (p) { p.hidden = true; p.textContent = ''; }
-      var c = $(CAMPO_FOCO[k]); if (c) c.removeAttribute('aria-invalid');
-    });
-    $('#e-geral').hidden = true;
-  }
-
-  function limparErroDe(el) {
-    var porNome = { ajuda: 'ajudas', periodo: 'periodo', canal: 'canais' };
-    var k = porNome[el.name] || (el.id || '').replace(/^c-/, '');
-    var p = document.getElementById('e-' + k);
-    if (p && !p.hidden) { p.hidden = true; el.removeAttribute('aria-invalid'); }
-  }
-
-  function mostrarErros(e) {
-    var primeiro = null;
-    Object.keys(CAMPO_FOCO).forEach(function (k) {
-      if (!e[k]) return;
-      var p = document.getElementById('e-' + k); p.textContent = e[k]; p.hidden = false;
-      var c = $(CAMPO_FOCO[k]); if (c && c.type !== 'checkbox' && c.type !== 'radio') c.setAttribute('aria-invalid', 'true');
-      if (!primeiro) primeiro = k;
-    });
-    if (primeiro) {
-      var alvo = $(CAMPO_FOCO[primeiro]);
-      var bloco = (alvo.closest('.campo') || alvo);
-      bloco.scrollIntoView({ block: 'center' });
-      try { alvo.focus({ preventScroll: true }); } catch (x) { alvo.focus(); }
-    }
-  }
-
-  function enviar(ev) {
+  function avancar(ev) {
     ev.preventDefault();
-    limparErros();
+    var k = PASSOS[st.passo];
+    limparErro(k);
+    var e = validarPasso(k);
+    if (e) { mostrarErro(k, e.t, e.c); return; }
+    if (st.passo < PASSOS.length - 1) { irPasso(st.passo + 1); return; }
+    for (var i = 0; i < PASSOS.length; i++) {
+      var f = validarPasso(PASSOS[i]);
+      if (f) { irPasso(i); mostrarErro(PASSOS[i], f.t, f.c); return; }
+    }
+    publicar();
+  }
+
+  function publicar() {
     var d = lerForm();
-    var e = validar(d);
-    if (Object.keys(e).length) { mostrarErros(e); return; }
-    var btn = $('#c-enviar'), rot = btn.textContent;
+    var btn = $('#c-avancar'), rot = btn.innerHTML;
     if (d.hp) { sucesso({ id: 'x', token: 'x' }, d); return; }
     btn.disabled = true; btn.textContent = 'Publicando…';
     api.criar(d).then(function (r) {
@@ -1130,7 +1266,7 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
       carregar();
     }, function (err) {
       var g = $('#e-geral'); g.textContent = msg(err, 'criar'); g.hidden = false; g.scrollIntoView({ block: 'center' });
-    }).then(function () { btn.disabled = false; btn.textContent = rot; });
+    }).then(function () { btn.disabled = false; btn.innerHTML = rot; });
   }
 
   function sucesso(r, d) {
@@ -1140,8 +1276,8 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
     var pedido = d.tipo === 'pedido';
     $('#suc-t').textContent = pedido ? 'Seu pedido está no mural' : 'Sua oferta está no mural';
     $('#suc-txt').textContent = pedido
-      ? 'Quem puder ajudar vai ligar ou mandar mensagem. Fique de olho no telefone. Enquanto isso, veja quem já se ofereceu perto de você.'
-      : 'Quem precisar vai entrar em contato. Você também pode procurar pedidos perto de você e ligar primeiro.';
+      ? 'Quem puder ajudar vai chamar você. Fique de olho no telefone. Enquanto isso, veja quem já se ofereceu perto de você.'
+      : 'Quem precisar vai chamar você. Você também pode procurar pedidos perto de você e chamar primeiro.';
     $('#suc-link').value = baseUrl() + '#gerenciar.' + r.id + '.' + r.token;
     $('#suc-linkbox').hidden = true;
     $('#suc-enviar').hidden = !navigator.share;
@@ -1151,40 +1287,35 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
   }
 
   // ---------- navegação ----------
+  var VIEWS = { home: '#home', mural: '#mural-view', info: '#info-view', form: '#form-view' };
+  function mostrar(view) {
+    Object.keys(VIEWS).forEach(function (k) { $(VIEWS[k]).hidden = k !== view; });
+    st.view = view;
+    window.scrollTo(0, 0);
+  }
+
   function aplicarRota(h) {
     h = (h || '').replace(/^#/, '');
     if (h === 'pedir' || h === 'oferecer') {
       var tipo = h === 'pedir' ? 'pedido' : 'oferta';
-      if (st.view === 'home') st.scrollHome = window.pageYOffset;
-      st.view = 'form';
-      if (st.tipoForm !== tipo || st.formEnviado) resetForm(tipo);
+      var novo = st.tipoForm !== tipo || st.formEnviado;
       textosForm(tipo);
-      $('#home').hidden = true; $('#form-view').hidden = false;
+      if (novo) resetForm(tipo);
       $('#form-area').hidden = false; $('#sucesso').hidden = true;
-      window.scrollTo(0, 0);
-      $('#form-t').focus();
+      mostrar('form');
+      if (novo) $('#form-t').focus(); else irPasso(st.passo);
       return;
     }
-    if (h.indexOf('gerenciar.') === 0) { tratarGerenciar(h); carregar(); }
-    var vinhaDoForm = st.view === 'form';
-    st.view = 'home';
-    $('#form-view').hidden = true; $('#home').hidden = false;
-    if (st.rolarPara === 'mural') { st.rolarPara = null; $('#mural').scrollIntoView({ block: 'start' }); }
-    else if (vinhaDoForm) window.scrollTo(0, st.scrollHome);
+    if (h.indexOf('gerenciar.') === 0) { tratarGerenciar(h); h = 'mural'; }
+    if (h === 'mural') { mostrar('mural'); carregar(); $('#mural-t').focus(); return; }
+    if (h === 'info') { mostrar('info'); $('#saber-t').focus(); return; }
+    mostrar('home');
   }
 
   function ir(h) {
     var atual = (location.hash || '').replace(/^#/, '');
     if (atual === h) { aplicarRota(h); return; }
     try { location.hash = h; } catch (e) { aplicarRota(h); }
-  }
-
-  function atualizarListas() {
-    var uf = $('#c-uf').value;
-    var cid = {}, bai = {};
-    st.posts.forEach(function (p) { if (!uf || p.uf === uf) { cid[p.cidade] = 1; bai[p.bairro] = 1; } });
-    $('#dl-cidades').innerHTML = Object.keys(cid).sort().map(function (c) { return '<option value="' + esc(c) + '">'; }).join('');
-    $('#dl-bairros').innerHTML = Object.keys(bai).sort().map(function (c) { return '<option value="' + esc(c) + '">'; }).join('');
   }
 
   function compartilhar() {
@@ -1213,10 +1344,10 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
       b.addEventListener('click', function () { st.tab = b.getAttribute('data-tab'); st.limite = 40; salvarFiltros(); renderLista(); });
     });
     $('#f-uf').addEventListener('change', function () { st.uf = this.value; st.limite = 40; st.posts = []; salvarFiltros(); carregar(); });
-    var buscaT;
+    var filtroT;
     $('#f-busca').addEventListener('input', function () {
-      var v = this.value; clearTimeout(buscaT);
-      buscaT = setTimeout(function () { st.busca = v.trim(); st.limite = 40; renderLista(); }, 150);
+      var v = this.value; clearTimeout(filtroT);
+      filtroT = setTimeout(function () { st.busca = v.trim(); st.limite = 40; renderLista(); }, 150);
     });
     $('#mais').addEventListener('click', function () { st.limite += 40; renderLista(); });
 
@@ -1229,7 +1360,7 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
       var card = b.closest('[data-id]'); if (!card) return;
       var id = card.getAttribute('data-id'), p = acharPost(id); if (!p) return;
       if (acao === 'contato') abrirContato(p);
-      else if (acao === 'copiar') copiar(foneFmt(b.getAttribute('data-fone')), 'Número copiado');
+      else if (acao === 'copiar') copiar(b.getAttribute('data-texto'), 'Copiado');
       else if (acao === 'denunciar') { st.denuncia[id] = 'confirmar'; renderCard(id); }
       else if (acao === 'denunciar-nao') { delete st.denuncia[id]; renderCard(id); }
       else if (acao === 'denunciar-sim') denunciar(p);
@@ -1239,16 +1370,40 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
       acaoMeu(b.closest('[data-meu]').getAttribute('data-meu'), b.getAttribute('data-meu-acao'));
     });
 
+    // formulário
     var f = $('#form');
-    f.addEventListener('submit', enviar);
-    f.addEventListener('change', function (ev) {
-      if (ev.target.matches('input[type="checkbox"], input[type="radio"]')) marcarOn();
-      if (ev.target.id === 'c-uf') atualizarListas();
-      limparErroDe(ev.target);
+    f.addEventListener('submit', avancar);
+    f.addEventListener('input', function (ev) {
+      var k = { 'c-nome': 'nome', 'c-busca': 'onde', 'c-uf': 'onde', 'c-cidade': 'onde', 'c-bairro': 'onde', 'c-telefone': 'contato', 'c-instagram': 'contato' }[ev.target.id];
+      if (k) limparErro(k);
     });
-    f.addEventListener('input', function (ev) { limparErroDe(ev.target); });
+    $('#c-voltar').addEventListener('click', function () { if (st.passo > 0) irPasso(st.passo - 1); });
     $('#c-detalhes').addEventListener('input', function () { $('#c-conta').textContent = this.value.length; });
     $('#c-telefone').addEventListener('blur', function () { var d = digitos(this.value); if (foneOk(d)) this.value = foneFmt(d); });
+    $('#c-instagram').addEventListener('blur', function () { var u = igLimpar(this.value); if (u) this.value = u; });
+
+    // onde
+    var busca = $('#c-busca');
+    busca.addEventListener('input', function () {
+      var v = this.value; $('#c-busca-limpar').hidden = !v;
+      clearTimeout(buscaT); buscaT = setTimeout(function () { pesquisar(v); }, 350);
+    });
+    busca.addEventListener('keydown', function (ev) {
+      if (ev.key !== 'Enter') return;
+      ev.preventDefault();
+      if (st.sugestoes && st.sugestoes.length) { escolherLugar(st.sugestoes[0]); return; }
+      clearTimeout(buscaT); pesquisar(this.value);
+    });
+    $('#c-busca-limpar').addEventListener('click', function () { busca.value = ''; this.hidden = true; renderSugestoes([]); ondeStatus(''); busca.focus(); });
+    $('#sugestoes').addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-lugar]'); if (!b) return;
+      var l = st.sugestoes[Number(b.getAttribute('data-lugar'))]; if (l) escolherLugar(l);
+    });
+    $('#c-local').addEventListener('click', usarOndeEstou);
+    $('#c-manual').addEventListener('click', escreverEndereco);
+    $('#c-trocar').addEventListener('click', trocarLugar);
+
+    // sucesso
     $('#suc-copiar').addEventListener('click', function () {
       copiar($('#suc-link').value, 'Link secreto copiado', function () { $('#suc-linkbox').hidden = false; $('#suc-link').select(); });
     });
@@ -1262,8 +1417,7 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
       st.tab = d.tipo === 'pedido' ? 'oferta' : 'pedido';
       st.busca = d.cidade || ''; $('#f-busca').value = st.busca;
       st.limite = 40; salvarFiltros(); renderLista();
-      st.rolarPara = 'mural';
-      ir('');
+      ir('mural');
     });
 
     renderContagem();
@@ -1271,7 +1425,7 @@ legend, .rotulo { display: block; float: left; width: 100%; margin: 0 0 4px; pad
     aplicarRota(location.hash);
     carregar();
     setInterval(function () {
-      if (document.visibilityState === 'visible' && st.view === 'home') carregar();
+      if (document.visibilityState === 'visible' && st.view === 'mural') carregar();
     }, 90000);
   }
 

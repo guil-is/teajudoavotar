@@ -30,7 +30,9 @@ Sem o banco configurado, o site abre em **modo demonstração**: mostra exemplos
 2. Clique em **New project**. Nome: `teajudoavotar`. Região: **South America (São Paulo)**. Crie uma senha forte e guarde.
 3. Espere o projeto ficar pronto (1 a 2 minutos).
 4. No menu da esquerda, abra **SQL Editor** e clique em **New query**.
-5. Abra o arquivo `supabase.sql`, copie tudo, cole lá e clique em **Run**. Deve aparecer "Success".
+5. Abra o arquivo `supabase.sql`, copie tudo, cole lá e clique em **Run**. Deve aparecer "Success". Avisos em amarelo ("already exists", "does not exist, skipping") são normais.
+
+   **Se o banco já existia:** sempre que o `supabase.sql` mudar aqui no GitHub, rode ele de novo do mesmo jeito. Ele atualiza a tabela e as funções sem apagar o que já foi publicado.
 6. Pegue os dois dados de acesso:
    - **Project Settings > Data API**: copie a **Project URL** (algo como `https://abcdefgh.supabase.co`).
    - **Project Settings > API Keys**: copie a **Publishable key** (começa com `sb_publishable_`). Se só aparecer a antiga chave `anon`, pode usar ela.
@@ -67,11 +69,14 @@ Para o link aparecer com imagem no WhatsApp e no Telegram, abra `index.html` e t
 
 ## Como funciona
 
-- Quem precisa toca em **Preciso de ajuda**. Quem pode ajudar toca em **Quero ajudar**. Os dois preenchem o mesmo formulário curto.
-- O mural mostra primeiro nome, bairro, cidade, tipo de ajuda e horário. O telefone só aparece quando alguém toca em **Entrar em contato**.
-- A pessoa escolhe por onde quer conversar: ligação, WhatsApp, Telegram ou Signal.
+- A página inicial tem só duas ações: **Preciso de ajuda** e **Quero ajudar**. O mural e o "Bom saber para domingo" ficam em páginas próprias, com links discretos.
+- O formulário faz uma pergunta por tela, em 4 passos: primeiro nome, onde mora, contato (WhatsApp ou Instagram, pelo menos um) e um texto opcional.
+- No passo "Onde você mora?", a pessoa digita o bairro ou a cidade e escolhe na lista, toca em **Usar onde eu estou** (GPS do celular) ou escreve o endereço à mão. A busca usa o mapa aberto OpenStreetMap, pelo serviço gratuito Photon (`photon.komoot.io`). A localização não é guardada.
+- O mural mostra primeiro nome, bairro, cidade, o texto e quais canais de contato existem. O número e o @ só aparecem quando alguém toca em **Entrar em contato**. Daí dá para abrir o WhatsApp, ligar ou mandar mensagem no Instagram.
 - Quem publicou vê seus anúncios no topo do mural (no mesmo aparelho) e pode marcar como resolvido ou apagar. Também recebe um link secreto para gerenciar de outro aparelho.
 - Depois das 17h de 25/10, o site para de aceitar publicações.
+
+Se um dia o Photon sair do ar, a pessoa ainda consegue publicar escrevendo o endereço à mão. Para trocar o serviço de busca, coloque outro endereço compatível com o Photon em `config.js`, na chave `GEOCODER`.
 
 ### Proteções
 

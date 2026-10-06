@@ -1,7 +1,7 @@
 -- =====================================================================
 -- Te Ajudo a Votar · banco de dados
 -- Como usar: Supabase > SQL Editor > New query > cole este arquivo > Run.
--- Pode rodar de novo sem problema: ele atualiza as funções.
+-- Pode rodar de novo sem problema: ele atualiza a tabela e as funções.
 -- =====================================================================
 
 -- 1. Tabela com os pedidos e ofertas -----------------------------------
@@ -9,26 +9,39 @@ create table if not exists public.posts (
   id         uuid primary key default gen_random_uuid(),
   criado_em  timestamptz not null default now(),
   tipo       text not null check (tipo in ('pedido', 'oferta')),
-  ajudas     text[] not null check (
-               cardinality(ajudas) between 1 and 6
-               and ajudas <@ array['companhia','local','duvidas','cuidar','acessibilidade','outro']),
   nome       text not null check (char_length(nome) between 1 and 40),
   uf         text not null check (uf in ('AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA',
                                          'PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO')),
   cidade     text not null check (char_length(cidade) between 2 and 60),
-  bairro     text not null check (char_length(bairro) between 2 and 60),
-  periodo    text not null check (periodo in ('manha', 'tarde', 'qualquer')),
-  detalhes   text check (char_length(detalhes) <= 300),
-  telefone   text not null check (telefone ~ '^[1-9][0-9]{9,10}$'),
-  canais     text[] not null check (
-               cardinality(canais) between 1 and 4
-               and canais <@ array['ligacao','whatsapp','telegram','signal']),
+  bairro     text check (bairro is null or char_length(bairro) between 2 and 60),
+  detalhes   text check (detalhes is null or char_length(detalhes) <= 300),
+  telefone   text check (telefone is null or telefone ~ '^[1-9][0-9]{9,10}$'),
+  instagram  text check (instagram is null or instagram ~ '^[A-Za-z0-9._]{1,30}$'),
   resolvido  boolean not null default false,
   oculto     boolean not null default false,   -- moderação: marque true para esconder
   denuncias  int not null default 0,
   contatos   int not null default 0,           -- quantas vezes alguém abriu o contato
-  token      uuid not null default gen_random_uuid()  -- chave secreta de quem publicou
+  token      uuid not null default gen_random_uuid(),  -- chave secreta de quem publicou
+  constraint posts_contato_check check (telefone is not null or instagram is not null)
 );
+
+-- Atualiza um banco criado com a versão anterior do site (sem efeito num banco novo).
+alter table public.posts add column if not exists instagram text;
+alter table public.posts alter column telefone drop not null;
+alter table public.posts alter column bairro drop not null;
+alter table public.posts drop column if exists ajudas;
+alter table public.posts drop column if exists periodo;
+alter table public.posts drop column if exists canais;
+alter table public.posts drop constraint if exists posts_bairro_check;
+alter table public.posts add constraint posts_bairro_check check (bairro is null or char_length(bairro) between 2 and 60);
+alter table public.posts drop constraint if exists posts_detalhes_check;
+alter table public.posts add constraint posts_detalhes_check check (detalhes is null or char_length(detalhes) <= 300);
+alter table public.posts drop constraint if exists posts_telefone_check;
+alter table public.posts add constraint posts_telefone_check check (telefone is null or telefone ~ '^[1-9][0-9]{9,10}$');
+alter table public.posts drop constraint if exists posts_instagram_check;
+alter table public.posts add constraint posts_instagram_check check (instagram is null or instagram ~ '^[A-Za-z0-9._]{1,30}$');
+alter table public.posts drop constraint if exists posts_contato_check;
+alter table public.posts add constraint posts_contato_check check (telefone is not null or instagram is not null);
 
 create index if not exists posts_uf_idx on public.posts (uf, criado_em desc);
 
@@ -84,17 +97,26 @@ $$;
 
 -- 3. Funções públicas que o site usa -------------------------------------
 
--- Lista o mural (sem telefone).
-create or replace function public.listar(p_uf text default null)
+-- Versões antigas (assinatura ou retorno diferentes) saem antes de criar as novas.
+drop function if exists public.listar(text);
+drop function if exists public.criar(text, text[], text, text, text, text, text, text, text, text[]);
+drop function if exists public.criar(text, text, text, text, text, text, text, text);
+
+-- Lista o mural (sem telefone nem instagram; só diz quais canais existem).
+create function public.listar(p_uf text default null)
 returns table (
-  id uuid, criado_em timestamptz, tipo text, ajudas text[], nome text, uf text,
-  cidade text, bairro text, periodo text, detalhes text, canais text[], resolvido boolean
+  id uuid, criado_em timestamptz, tipo text, nome text, uf text,
+  cidade text, bairro text, detalhes text, canais text[], resolvido boolean
 )
 language sql stable security definer
 set search_path = ''
 as $$
-  select p.id, p.criado_em, p.tipo, p.ajudas, p.nome, p.uf, p.cidade, p.bairro,
-         p.periodo, p.detalhes, p.canais, p.resolvido
+  select p.id, p.criado_em, p.tipo, p.nome, p.uf, p.cidade, p.bairro, p.detalhes,
+         array_remove(array[
+           case when p.telefone is not null then 'whatsapp' end,
+           case when p.instagram is not null then 'instagram' end
+         ], null) as canais,
+         p.resolvido
     from public.posts p
    where not p.oculto
      and (p_uf is null or p.uf = upper(p_uf))
@@ -103,9 +125,9 @@ as $$
 $$;
 
 -- Publica um pedido ou oferta. Devolve o id e a chave secreta.
-create or replace function public.criar(
-  p_tipo text, p_ajudas text[], p_nome text, p_uf text, p_cidade text, p_bairro text,
-  p_periodo text, p_detalhes text, p_telefone text, p_canais text[]
+create function public.criar(
+  p_tipo text, p_nome text, p_uf text, p_cidade text, p_bairro text,
+  p_detalhes text, p_telefone text, p_instagram text
 )
 returns json
 language plpgsql security definer
@@ -114,6 +136,7 @@ as $$
 declare
   r public.posts;
   fone text := regexp_replace(coalesce(p_telefone, ''), '\D', '', 'g');
+  insta text := regexp_replace(btrim(coalesce(p_instagram, '')), '^@+', '');
 begin
   if now() > timestamptz '2026-10-25 17:00:00-03' then
     raise exception 'encerrado';
@@ -127,9 +150,11 @@ begin
   delete from public.limites where em < now() - interval '1 day';
 
   begin
-    insert into public.posts (tipo, ajudas, nome, uf, cidade, bairro, periodo, detalhes, telefone, canais)
-    values (p_tipo, p_ajudas, btrim(p_nome), upper(btrim(p_uf)), btrim(p_cidade), btrim(p_bairro),
-            p_periodo, nullif(btrim(coalesce(p_detalhes, '')), ''), fone, p_canais)
+    insert into public.posts (tipo, nome, uf, cidade, bairro, detalhes, telefone, instagram)
+    values (p_tipo, btrim(p_nome), upper(btrim(p_uf)), btrim(p_cidade),
+            nullif(btrim(coalesce(p_bairro, '')), ''),
+            nullif(btrim(coalesce(p_detalhes, '')), ''),
+            nullif(fone, ''), nullif(insta, ''))
     returning * into r;
   exception when check_violation or not_null_violation then
     raise exception 'dados';
@@ -139,7 +164,7 @@ begin
 end;
 $$;
 
--- Mostra o telefone de um pedido/oferta (com limite por pessoa, contra robôs).
+-- Mostra o contato de um pedido/oferta (com limite por pessoa, contra robôs).
 create or replace function public.ver_contato(p_id uuid)
 returns json
 language plpgsql security definer
@@ -147,16 +172,16 @@ set search_path = ''
 as $$
 declare
   t text;
-  c text[];
+  i text;
 begin
   perform public._limitar('contato', 60, interval '1 hour');
   update public.posts set contatos = contatos + 1
    where id = p_id and not oculto and not resolvido
-  returning telefone, canais into t, c;
+  returning telefone, instagram into t, i;
   if not found then
     raise exception 'nao_encontrado';
   end if;
-  return json_build_object('telefone', t, 'canais', c);
+  return json_build_object('telefone', t, 'instagram', i);
 end;
 $$;
 
@@ -212,18 +237,21 @@ revoke execute on function public._origem() from public, anon, authenticated;
 revoke execute on function public._limitar(text, int, interval) from public, anon, authenticated;
 
 revoke execute on function public.listar(text) from public;
-revoke execute on function public.criar(text, text[], text, text, text, text, text, text, text, text[]) from public;
+revoke execute on function public.criar(text, text, text, text, text, text, text, text) from public;
 revoke execute on function public.ver_contato(uuid) from public;
 revoke execute on function public.atualizar(uuid, uuid, boolean) from public;
 revoke execute on function public.apagar(uuid, uuid) from public;
 revoke execute on function public.denunciar(uuid) from public;
 
 grant execute on function public.listar(text) to anon, authenticated;
-grant execute on function public.criar(text, text[], text, text, text, text, text, text, text, text[]) to anon, authenticated;
+grant execute on function public.criar(text, text, text, text, text, text, text, text) to anon, authenticated;
 grant execute on function public.ver_contato(uuid) to anon, authenticated;
 grant execute on function public.atualizar(uuid, uuid, boolean) to anon, authenticated;
 grant execute on function public.apagar(uuid, uuid) to anon, authenticated;
 grant execute on function public.denunciar(uuid) to anon, authenticated;
+
+-- Avisa o PostgREST que o esquema mudou (o Supabase costuma fazer isso sozinho).
+notify pgrst, 'reload schema';
 
 -- 5. Depois da eleição ----------------------------------------------------
 -- Em 26/10, apague tudo rodando estas duas linhas:
