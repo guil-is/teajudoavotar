@@ -656,7 +656,16 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     if (c === 'nao_encontrado') return ctx === 'contato'
       ? 'Este anúncio não está mais disponível.'
       : 'Não encontramos este anúncio. Talvez já tenha sido apagado.';
+    if (e && (e.pg === 'PGRST202' || /could not find the function/i.test(c))) {
+      return 'O banco de dados do site ainda está na versão antiga. Quem cuida do site precisa rodar o arquivo supabase.sql no Supabase (SQL Editor) e tentar de novo.';
+    }
+    if (e && e.pg) return 'O mural respondeu com um erro inesperado. Tente de novo em instantes.';
     return 'Não foi possível falar com o mural agora. Confira sua internet e tente de novo.';
+  }
+  function detalhe(e) {
+    var c = (e && e.codigo) || '';
+    var conhecido = ['limite', 'encerrado', 'dados', 'nao_encontrado', 'rede'].indexOf(c) >= 0;
+    return e && e.pg && !conhecido ? e.pg + ': ' + (e.detalhe || c) : '';
   }
   function nomeUf(uf) { for (var i = 0; i < UFS.length; i++) if (UFS[i][0] === uf) return UFS[i][1]; return uf; }
   function ufDeEstado(s) {
@@ -675,7 +684,12 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
       .then(function (r) {
         return r.text().then(function (t) {
           var d = null; try { d = t ? JSON.parse(t) : null; } catch (e) {}
-          if (!r.ok) throw erro((d && d.message) || 'rede');
+          if (!r.ok) {
+            var e = erro((d && d.message) || 'rede');
+            e.pg = (d && d.code) || ('http_' + r.status);
+            e.detalhe = d ? [d.message, d.details, d.hint].filter(Boolean).join(' ') : t.slice(0, 200);
+            throw e;
+          }
           return d;
         });
       }, function () { throw erro('rede'); });
@@ -1265,7 +1279,9 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
       sucesso(r, d);
       carregar();
     }, function (err) {
-      var g = $('#e-geral'); g.textContent = msg(err, 'criar'); g.hidden = false; g.scrollIntoView({ block: 'center' });
+      var g = $('#e-geral'), det = detalhe(err);
+      g.innerHTML = esc(msg(err, 'criar')) + (det ? '<br><small style="font-weight:600;opacity:.8">' + esc(det) + '</small>' : '');
+      g.hidden = false; g.scrollIntoView({ block: 'center' });
     }).then(function () { btn.disabled = false; btn.innerHTML = rot; });
   }
 
