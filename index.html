@@ -158,8 +158,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .aba .n { min-width: 1.9em; padding: 0 7px; border-radius: 999px; background: var(--surface); color: var(--ink); font-size: .85rem; font-variant-numeric: tabular-nums; }
 .filtros { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 12px; }
 @media (max-width: 479px) { .filtros { grid-template-columns: 1fr; } }
-select, input, textarea { width: 100%; min-height: 52px; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: var(--r-sm); background: var(--surface); color: var(--ink); font-weight: 600; }
-textarea { resize: vertical; min-height: 120px; }
+select, input, textarea { width: 100%; min-height: 48px; padding: 9px 14px; border: 1.5px solid var(--line); border-radius: var(--r-sm); background: var(--surface); color: var(--ink); font-weight: 600; }
+textarea { resize: vertical; min-height: 96px; }
 input::placeholder, textarea::placeholder { color: var(--muted); opacity: .85; }
 select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .sel { position: relative; }
@@ -241,30 +241,31 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .form-pedido { --accent: var(--blue); --on-accent: var(--on-blue); --accent-soft: var(--blue-soft); --accent-ink: var(--blue-ink); }
 .form-oferta { --accent: var(--green); --on-accent: var(--on-green); --accent-soft: var(--green-soft); --accent-ink: var(--green-ink); }
 .form-wrap { max-width: 640px; }
-.form-cab { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; margin-block: 4px 14px; }
-.form-cab h1 { font-size: 1.3rem; font-weight: 900; color: var(--accent-ink); }
+.form-cab { display: flex; align-items: center; gap: 10px; margin-block: 0 8px; }
+.form-cab .voltar { min-height: 40px; }
+.form-cab h1 { flex: 1; font-size: 1.05rem; font-weight: 800; color: var(--accent-ink); text-align: center; }
 .form-cab span { color: var(--muted); font-size: .95rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-.barra { height: 6px; margin-bottom: 22px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+.barra { height: 5px; margin-bottom: 16px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
 .barra i { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--accent); transition: width .2s ease; }
-.pergunta { display: block; margin-bottom: 10px; font-size: clamp(1.45rem, 6vw, 1.9rem); font-weight: 900; line-height: 1.15; letter-spacing: -.015em; }
+.pergunta { display: block; margin-bottom: 8px; font-size: clamp(1.35rem, 5.6vw, 1.8rem); font-weight: 900; line-height: 1.15; letter-spacing: -.015em; }
 .pergunta .opc { font-size: 1rem; letter-spacing: 0; }
-.passo { display: grid; gap: 12px; }
+.passo { display: grid; gap: 10px; }
 .opc { color: var(--muted); font-weight: 600; }
 .dica { color: var(--muted); font-size: .95rem; font-weight: 500; }
 .erro { color: var(--danger); font-size: .98rem; font-weight: 700; }
 [aria-invalid="true"] { border-color: var(--danger); }
-.campo-sub label { display: block; margin-bottom: 8px; font-size: 1.05rem; font-weight: 700; }
+.campo-sub label { display: block; margin-bottom: 6px; font-size: 1rem; font-weight: 700; }
 .prefixo { position: relative; }
 .prefixo span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 700; pointer-events: none; }
 .prefixo input { padding-left: 36px; }
 .busca-onde input { padding-right: 48px; }
 .limpar { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 50%; background: none; color: var(--muted); cursor: pointer; }
 .onde-ou { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; color: var(--muted); font-weight: 600; }
-.btn-local { justify-self: start; display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 10px 20px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 1.05rem; cursor: pointer; }
+.btn-local { justify-self: start; display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 8px 18px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 1rem; cursor: pointer; }
 .btn-local[disabled] { opacity: .6; cursor: progress; }
 .sugestoes { display: grid; margin: 0; padding: 0; list-style: none; border: 1.5px solid var(--line); border-radius: var(--r); background: var(--surface); overflow: hidden; }
 .sugestoes li + li { border-top: 1px solid var(--line); }
-.sugestoes button { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 12px 16px; border: 0; background: none; color: var(--ink); font-weight: 600; font-size: 1.05rem; text-align: left; cursor: pointer; }
+.sugestoes button { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 10px 14px; border: 0; background: none; color: var(--ink); font-weight: 600; font-size: 1.05rem; text-align: left; cursor: pointer; }
 .sugestoes button:hover { background: var(--surface-2); }
 .sugestoes .i { color: var(--muted); }
 .escolhido { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border: 2px solid var(--accent); border-radius: var(--r); background: var(--accent-soft); font-weight: 800; font-size: 1.1rem; }
@@ -278,9 +279,12 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .acoes-linha .btn-big { flex: 1; width: auto; }
 .acoes-linha .link { flex: none; }
 @media (max-width: 700px) {
-  .passo-acoes { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; margin: 0; padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--bg); box-shadow: 0 -8px 24px -16px rgba(19, 53, 44, .35); }
-  #form { padding-bottom: 200px; }
-  .btn-big { min-height: 58px; }
+  .passo-acoes { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; margin: 0; padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px)); background: var(--bg); box-shadow: 0 -8px 24px -16px rgba(19, 53, 44, .35); }
+  .acoes-linha { justify-content: space-between; gap: 10px; }
+  .acoes-linha .btn-big { flex: 0 1 auto; width: auto; margin-left: auto; min-height: 46px; padding: 8px 22px; font-size: 1.05rem; }
+  .acoes-linha .link { min-height: 40px; padding: 4px 8px; }
+  #form { padding-bottom: 96px; }
+  body.teclado #form { padding-bottom: 70vh; }
 }
 .btn-big { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 64px; padding: 12px 24px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 1.2rem; text-decoration: none; cursor: pointer; }
 .btn-big[disabled] { opacity: .6; cursor: progress; }
@@ -446,10 +450,9 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 <!-- Formulário em passos -->
 <main class="pagina" id="form-view" hidden>
   <div class="wrap form-wrap">
-    <a class="voltar" href="#" data-ir=""><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Início</a>
-
     <div id="form-area">
       <div class="form-cab">
+        <a class="voltar" href="#" data-ir=""><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Início</a>
         <h1 id="form-t" tabindex="-1">Preciso de ajuda</h1>
         <span id="passo-n">1 de 4</span>
       </div>
@@ -510,21 +513,21 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
             <label for="c-instagram">Instagram</label>
             <div class="prefixo"><span aria-hidden="true">@</span><input id="c-instagram" maxlength="60" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="seu.usuario" enterkeyhint="next"></div>
           </div>
-          <p class="dica">Preencha pelo menos um dos dois. Só aparece para quem tocar em “Entrar em contato”.</p>
+          <p class="dica">Pelo menos um dos dois.</p>
           <p class="erro" id="e-contato" hidden></p>
         </section>
 
         <section class="passo" data-passo="texto" hidden>
           <label class="pergunta" for="c-detalhes" id="p-texto">Quer contar mais? <span class="opc">(opcional)</span></label>
-          <textarea id="c-detalhes" maxlength="300" rows="4" aria-describedby="d-detalhes"></textarea>
+          <textarea id="c-detalhes" maxlength="300" rows="3" aria-describedby="d-detalhes"></textarea>
           <p class="dica" id="d-detalhes"><span id="c-conta">0</span> de 300 letras</p>
+          <p class="dica" id="aviso-publicar">Nome e bairro ficam no mural. O contato só aparece para quem tocar em “Entrar em contato”. Tudo é apagado em 26/10.</p>
         </section>
 
         <div class="hp" aria-hidden="true"><label>Não preencha este campo <input id="c-site" tabindex="-1" autocomplete="off"></label></div>
         <p class="erro-geral" id="e-geral" role="alert" hidden></p>
 
         <div class="passo-acoes" id="acoes">
-          <p class="dica" id="aviso-publicar" hidden>Ao publicar, seu primeiro nome e bairro ficam no mural. Seu contato só aparece para quem tocar em “Entrar em contato”. Tudo é apagado em 26 de outubro.</p>
           <div class="acoes-linha">
             <button class="link" type="button" id="c-voltar" hidden><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Voltar</button>
             <button class="btn-big" type="submit" id="c-avancar">Continuar<svg class="i" aria-hidden="true"><use href="#i-next"/></svg></button>
@@ -534,6 +537,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     </div>
 
     <div class="sucesso" id="sucesso" hidden>
+      <a class="voltar" href="#" data-ir=""><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Início</a>
       <span class="sucesso-ico"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>
       <h2 id="suc-t" tabindex="-1">Seu pedido está no mural</h2>
       <p id="suc-txt"></p>
@@ -1070,7 +1074,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
         var l = lugarDeFeature(f.properties, false);
         if (l && !vistos[norm(l.rotulo)]) { vistos[norm(l.rotulo)] = 1; lista.push(l); }
       });
-      lista = lista.slice(0, 6);
+      lista = lista.slice(0, 4);
       geoCache[k] = lista;
       return lista;
     });
@@ -1109,11 +1113,12 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     buscarLugares(q).then(function (lista) {
       if (norm($('#c-busca').value) !== norm(q)) return;
       renderSugestoes(lista);
-      ondeStatus(lista.length ? '' : 'Não achamos “' + q + '”. Tente só o nome do bairro ou da cidade, ou escreva o endereço.');
+      $('#c-manual').hidden = lista.length > 0;
+      ondeStatus(lista.length ? '' : 'Não achamos “' + q + '”. Tente só o nome do bairro ou da cidade.');
     }, function (e) {
       if (e && e.name === 'AbortError') return;
-      renderSugestoes([]);
-      ondeStatus('A busca não respondeu. Tente de novo ou escreva o endereço.');
+      renderSugestoes([]); $('#c-manual').hidden = false;
+      ondeStatus('A busca não respondeu. Tente de novo ou escreva o endereço à mão.');
     });
   }
 
@@ -1130,7 +1135,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
   function trocarLugar() {
     st.onde = null;
     $('#onde-escolhido').hidden = true; $('#onde-manual').hidden = true; $('#onde-busca').hidden = false; $('#d-onde').hidden = false;
-    $('#c-busca').value = ''; $('#c-busca-limpar').hidden = true; renderSugestoes([]); ondeStatus('');
+    $('#c-busca').value = ''; $('#c-busca-limpar').hidden = true; $('#c-local').hidden = false; $('#c-manual').hidden = false; renderSugestoes([]); ondeStatus('');
     $('#c-busca').focus();
   }
 
@@ -1165,7 +1170,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     $('#d-nome').textContent = pedido
       ? 'Pode publicar por outra pessoa, com a permissão dela. Ex.: Dona Lúcia.'
       : 'Só o primeiro nome já basta.';
-    $('#p-texto').innerHTML = (pedido ? 'Quer contar o que você precisa?' : 'Quer contar como pode ajudar?') + ' <span class="opc">(opcional)</span>';
+    $('#p-texto').innerHTML = (pedido ? 'O que você precisa?' : 'Como pode ajudar?') + ' <span class="opc">(opcional)</span>';
     $('#c-detalhes').placeholder = pedido
       ? 'Ex.: Uso andador e minha seção fica no 2º andar da escola. Preciso de alguém para ir junto de manhã.'
       : 'Ex.: Moro perto da praça e posso ir junto de manhã.';
@@ -1177,7 +1182,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     $('#c-conta').textContent = '0';
     st.tipoForm = tipo; st.formEnviado = false; st.onde = null;
     $('#onde-busca').hidden = false; $('#onde-escolhido').hidden = true; $('#onde-manual').hidden = true; $('#d-onde').hidden = false;
-    $('#c-busca-limpar').hidden = true; renderSugestoes([]); ondeStatus('');
+    $('#c-busca-limpar').hidden = true; $('#c-local').hidden = false; $('#c-manual').hidden = false; renderSugestoes([]); ondeStatus('');
     limparErros();
     irPasso(0);
   }
@@ -1192,7 +1197,6 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
       ? (st.tipoForm === 'pedido' ? 'Publicar pedido' : 'Publicar oferta')
       : 'Continuar' + icon('next');
     $('#c-voltar').hidden = n === 0;
-    $('#aviso-publicar').hidden = !ultimo;
     $('#e-geral').hidden = true;
     window.scrollTo(0, 0);
     if (semFoco) return;
@@ -1297,12 +1301,23 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
   }
 
   // Barra de ações do formulário: no celular fica fixa logo acima do teclado.
+  var tecladoAberto = false;
   function ajustarAcoes() {
     var bar = $('#acoes'), vv = window.visualViewport;
     if (!bar) return;
-    if (!vv || window.innerWidth > 700) { bar.style.bottom = ''; return; }
+    if (!vv || window.innerWidth > 700) { bar.style.bottom = ''; document.body.classList.remove('teclado'); return; }
     var dif = Math.round(window.innerHeight - vv.height - vv.offsetTop);
     bar.style.bottom = (dif > 0 ? dif : 0) + 'px';
+    var aberto = (window.innerHeight - vv.height) > 150;
+    if (aberto !== tecladoAberto) {
+      tecladoAberto = aberto;
+      document.body.classList.toggle('teclado', aberto);
+      if (aberto && st.view === 'form') {
+        // Com o teclado aberto, a pergunta vai para o topo da tela para sobrar espaço.
+        var q = document.querySelector('#form .passo[data-passo]:not([hidden]) .pergunta');
+        if (q) setTimeout(function () { window.scrollTo({ top: q.getBoundingClientRect().top + window.pageYOffset - 8, behavior: 'smooth' }); }, 60);
+      }
+    }
   }
 
   // ---------- navegação ----------
@@ -1412,7 +1427,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     // onde
     var busca = $('#c-busca');
     busca.addEventListener('input', function () {
-      var v = this.value; $('#c-busca-limpar').hidden = !v;
+      var v = this.value; $('#c-busca-limpar').hidden = !v; $('#c-local').hidden = !!v; $('#d-onde').hidden = !!v;
       clearTimeout(buscaT); buscaT = setTimeout(function () { pesquisar(v); }, 350);
     });
     busca.addEventListener('keydown', function (ev) {
@@ -1421,7 +1436,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
       if (st.sugestoes && st.sugestoes.length) { escolherLugar(st.sugestoes[0]); return; }
       clearTimeout(buscaT); pesquisar(this.value);
     });
-    $('#c-busca-limpar').addEventListener('click', function () { busca.value = ''; this.hidden = true; renderSugestoes([]); ondeStatus(''); busca.focus(); });
+    $('#c-busca-limpar').addEventListener('click', function () { busca.value = ''; this.hidden = true; $('#c-local').hidden = false; $('#c-manual').hidden = false; $('#d-onde').hidden = false; renderSugestoes([]); ondeStatus(''); busca.focus(); });
     $('#sugestoes').addEventListener('click', function (ev) {
       var b = ev.target.closest('[data-lugar]'); if (!b) return;
       var l = st.sugestoes[Number(b.getAttribute('data-lugar'))]; if (l) escolherLugar(l);
