@@ -223,6 +223,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .canal.off { background: var(--surface-2); color: var(--muted); }
 .contato-dado { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 1.15rem; font-weight: 800; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .mini { display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 6px 14px; border: 1.5px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font-size: .92rem; font-weight: 700; cursor: pointer; }
+a.mini { text-decoration: none; }
 .mini.primario { border-color: transparent; background: var(--green); color: var(--on-green); }
 .mini.perigo { color: var(--danger); }
 .vazio { display: grid; justify-items: center; gap: 14px; padding: 36px 20px; border: 2px dashed var(--line); border-radius: var(--r-lg); color: var(--muted); font-weight: 600; text-align: center; }
@@ -270,6 +271,27 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 @media (min-width: 760px) { .combinados-box { padding: 28px 32px; } }
 .combinados-box ul { display: grid; gap: 10px; margin: 0; padding-left: 1.2em; }
 .combinados-box li::marker { color: var(--green-ink); }
+/* Pedido de divulgação */
+.divulgue { display: grid; gap: 12px; padding: 20px 22px; border-radius: var(--r-lg); background: var(--surface); border: 1.5px solid var(--line); }
+.divulgue-cab { display: flex; align-items: center; gap: 12px; }
+.divulgue-ico { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--yellow-soft); color: var(--ink); }
+.divulgue-ico .i { width: 24px; height: 24px; }
+.divulgue h3 { font-size: 1.2rem; font-weight: 900; line-height: 1.2; color: var(--green-ink); }
+.divulgue p { font-weight: 500; }
+.divulgue-acoes { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn-zap { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 10px 20px; border: 0; border-radius: 999px; background: var(--green); color: var(--on-green); font-weight: 800; font-size: 1rem; text-decoration: none; cursor: pointer; }
+.btn-zap:hover { filter: brightness(1.06); }
+.divulgue.compacta { gap: 10px; padding: 14px 16px; background: rgba(255, 255, 255, .6); border-color: rgba(255, 255, 255, .8); }
+.divulgue.compacta .divulgue-ico { width: 38px; height: 38px; }
+.divulgue.compacta .divulgue-ico .i { width: 20px; height: 20px; }
+.divulgue.compacta h3 { font-size: 1.05rem; }
+.divulgue.compacta p { font-size: .95rem; }
+.divulgue.compacta .btn-zap, .divulgue.compacta .mini { min-height: 42px; font-size: .92rem; }
+@media (min-width: 700px) { .divulgue.compacta { grid-template-columns: 1fr auto; align-items: center; } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .divulgue.compacta { background: rgba(19, 42, 35, .65); border-color: rgba(255, 255, 255, .12); } }
+.mural > .divulgue { margin-top: 4px; }
+.vazio .divulgue-acoes { justify-content: center; }
+.vazio .btn-zap { font-size: .95rem; min-height: 44px; }
 .rodape-mini { padding: 22px 0 32px; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; font-weight: 500; line-height: 1.5; }
 .rodape-mini .wrap { display: grid; gap: 6px; }
 .rodape-mini a { color: var(--muted); font-weight: 700; }
@@ -344,6 +366,7 @@ body.teclado #form { padding-bottom: 60vh; }
 .hero-main > .portas { animation-delay: .12s; }
 .hero-main > .confianca { animation-delay: .24s; }
 .hero-main > .home-links { animation-delay: .32s; }
+.hero-main > .divulgue { animation-delay: .4s; }
 .passo.frente { animation: entrar-frente .28s cubic-bezier(.2, .7, .2, 1) both; }
 .passo.volta { animation: entrar-volta .28s cubic-bezier(.2, .7, .2, 1) both; }
 .card { animation: entrar .35s cubic-bezier(.2, .7, .2, 1) both; }
@@ -351,8 +374,8 @@ body.teclado #form { padding-bottom: 60vh; }
 .card:nth-child(5) { animation-delay: .2s; } .card:nth-child(6) { animation-delay: .25s; }
 .contato, .sugestoes, .vazio, .meus { animation: entrar .25s cubic-bezier(.2, .7, .2, 1) both; }
 .escolhido, .sucesso-ico { animation: pop .4s cubic-bezier(.2, .7, .2, 1) both; }
-.sucesso > h2, .sucesso > p, .gestao, .sucesso > .btn-big { animation: entrar .45s cubic-bezier(.2, .7, .2, 1) both; }
-.sucesso > h2 { animation-delay: .1s; } .sucesso > p { animation-delay: .18s; } .gestao { animation-delay: .26s; } .sucesso > .btn-big { animation-delay: .34s; }
+.sucesso > h2, .sucesso > p, .sucesso > .divulgue, .gestao, .sucesso > .btn-big { animation: entrar .45s cubic-bezier(.2, .7, .2, 1) both; }
+.sucesso > h2 { animation-delay: .1s; } .sucesso > p { animation-delay: .18s; } .sucesso > .divulgue { animation-delay: .26s; } .gestao { animation-delay: .34s; } .sucesso > .btn-big { animation-delay: .42s; }
 .erro, .erro-geral { animation: entrar .2s ease-out both; }
 .toast { animation: subir .25s cubic-bezier(.2, .7, .2, 1) both; }
 .porta, .btn-big, .btn-contato, .canal, .mini, .btn-local, .aba, .link, .btn-share, .sugestoes button { transition: transform .12s ease, background-color .18s ease, color .18s ease, box-shadow .18s ease, border-color .18s ease, opacity .18s ease; }
@@ -396,6 +419,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
 <symbol id="i-locate" viewBox="0 0 24 24"><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></symbol>
 <symbol id="i-list" viewBox="0 0 24 24"><path d="M3 5h.01"/><path d="M3 12h.01"/><path d="M3 19h.01"/><path d="M8 5h13"/><path d="M8 12h13"/><path d="M8 19h13"/></symbol>
+<symbol id="i-megafone" viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M14 9.5a3 3 0 0 1 0 5"/><path d="M17 7a7 7 0 0 1 0 10"/><path d="M7 14l1 5a1 1 0 0 0 1 1h1"/></symbol>
 <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
 </svg>
 
@@ -431,6 +455,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
         <a href="#mural" data-ir="mural"><svg class="i" aria-hidden="true"><use href="#i-list"/></svg><span id="link-mural">Ver o mural</span></a>
         <a href="#info" data-ir="info"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg>Mais informações</a>
       </p>
+      <div class="divulgue compacta" data-divulgue="inicio"></div>
     </div>
   </div>
 </header>
@@ -467,6 +492,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       </div>
       <div class="lista" id="lista" role="tabpanel"></div>
       <button class="mini mais" type="button" id="mais" hidden>Mostrar mais</button>
+      <div class="divulgue" data-divulgue="mural"></div>
       <div class="chamada">
         <p>Não achou o que procura? Publique no mural.</p>
         <div class="portas">
@@ -536,6 +562,11 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
         <li>A busca de bairro usa o mapa aberto OpenStreetMap. Sua localização não fica guardada.</li>
         <li>Tudo é apagado em 26 de outubro.</li>
       </ul>
+    </section>
+
+    <section class="bloco" aria-labelledby="divulgue-t">
+      <h2 id="divulgue-t">Divulgue</h2>
+      <div class="divulgue" data-divulgue="info"></div>
     </section>
 
     <div class="chamada">
@@ -646,6 +677,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       <span class="sucesso-ico"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>
       <h2 id="suc-t" tabindex="-1">Seu pedido está no mural</h2>
       <p id="suc-txt"></p>
+      <div class="divulgue" data-divulgue="sucesso"></div>
       <div class="gestao">
         <h3>Guarde seu link secreto</h3>
         <p>Com ele você marca como resolvido ou apaga o anúncio de qualquer aparelho. Neste aparelho, os botões ficam no topo do mural.</p>
@@ -667,7 +699,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
   <div class="wrap">
     <p><strong>Te Ajudo a Votar</strong> é uma iniciativa voluntária e apartidária. Sem cadastro, sem anúncios e sem rastreadores.</p>
     <p>Guardamos só o que você publica. Seu contato aparece apenas para quem tocar em “Entrar em contato”. Tudo é apagado em 26 de outubro.</p>
-    <p><a href="#info" data-ir="info">Mais informações</a> · <a id="link-insta" href="https://www.instagram.com/teajudoavotar/" target="_blank" rel="noopener">Instagram</a> · <a href="#mural" data-ir="mural">Mural</a></p>
+    <p><a href="#info" data-ir="info">Mais informações</a> · <a id="link-insta" href="https://www.instagram.com/teajudoavotar/" target="_blank" rel="noopener">Instagram</a> · <a href="#mural" data-ir="mural">Mural</a> · <a href="#" id="rodape-divulgar">Compartilhar o site</a></p>
   </div>
 </footer>
 
@@ -984,10 +1016,14 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     var aqui = st.busca ? 'em “' + esc(st.busca) + '”' : (st.uf ? 'em ' + esc(nomeUf(st.uf)) : 'ainda');
     if (st.tab === 'pedido') {
       return '<div class="vazio" style="--accent:var(--blue);--on-accent:var(--on-blue)"><p>Nenhum pedido de ajuda ' + aqui + '.<br>Conhece alguém que precisa? Você pode publicar por essa pessoa, com a permissão dela.</p>' +
-        '<button class="btn-contato" type="button" data-acao="ir-pedir">' + icon('hand') + 'Publicar um pedido</button></div>';
+        '<button class="btn-contato" type="button" data-acao="ir-pedir">' + icon('hand') + 'Publicar um pedido</button>' + vazioDivulgue() + '</div>';
     }
     return '<div class="vazio"><p>Ninguém se ofereceu para ajudar ' + aqui + '.<br>Que tal ser a primeira pessoa?</p>' +
-      '<button class="btn-contato" type="button" data-acao="ir-oferecer">' + icon('brand') + 'Posso ajudar</button></div>';
+      '<button class="btn-contato" type="button" data-acao="ir-oferecer">' + icon('brand') + 'Posso ajudar</button>' + vazioDivulgue() + '</div>';
+  }
+  function vazioDivulgue() {
+    return '<p>O site é novo. Mande para seus grupos para chegar na sua vizinhança.</p>' +
+      '<div class="divulgue-acoes"><a class="btn-zap" href="' + linkZap(TEXTO_DIVULGA.geral) + '" target="_blank" rel="noopener">' + icon('whatsapp') + 'Mandar no WhatsApp</a></div>';
   }
 
   var CANAL_NOME = { whatsapp: 'WhatsApp', instagram: 'Instagram' };
@@ -1155,7 +1191,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     else t = 'Faltam ' + dias + ' dias.';
     $('#contagem').textContent = t; $('#frase-txt').textContent = txt;
     var fim = agora >= FIM;
-    $('#portas').hidden = fim; document.querySelectorAll('.chamada').forEach(function (c) { c.hidden = fim; });
+    $('#portas').hidden = fim; document.querySelectorAll('.chamada, [data-divulgue]').forEach(function (c) { c.hidden = fim; });
     $('#form').hidden = fim; $('#form-fim').hidden = !fim;
   }
 
@@ -1427,6 +1463,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     $('#suc-txt').textContent = pedido
       ? 'Quem puder ajudar vai chamar você. Fique de olho no telefone. Enquanto isso, veja quem já se ofereceu perto de você.'
       : 'Quem precisar vai chamar você. Você também pode procurar pedidos perto de você e chamar primeiro.';
+    $('[data-divulgue="sucesso"]').innerHTML = divulgueHtml('sucesso', pedido ? TEXTO_DIVULGA.pedido : TEXTO_DIVULGA.oferta);
     $('#suc-link').value = baseUrl() + '#gerenciar.' + r.id + '.' + r.token;
     $('#suc-linkbox').hidden = true;
     $('#suc-enviar').hidden = !navigator.share;
@@ -1494,12 +1531,46 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     catch (e) { try { location.hash = h; } catch (x) {} }
   }
 
-  function compartilhar() {
+  function compartilhar(texto) {
     var url = baseUrl();
-    var dados = { title: 'Te Ajudo a Votar', text: 'Peça e ofereça ajuda para votar no domingo, 25 de outubro.', url: url };
+    var dados = { title: 'Te Ajudo a Votar', text: texto || TEXTO_DIVULGA.geral, url: url };
     if (navigator.share) {
       navigator.share(dados).then(null, function (e) { if (!e || e.name !== 'AbortError') copiar(url, 'Link do site copiado'); });
     } else { copiar(url, 'Link do site copiado'); }
+  }
+
+  // Pedido de divulgação: o site só funciona se chegar na vizinhança.
+  var TEXTO_DIVULGA = {
+    geral: 'Vizinhos ajudando vizinhos a votar no dia 25 de outubro. Quem precisa de companhia para chegar na seção, ou pode acompanhar alguém, publica no mural. De graça, sem cadastro e apartidário.',
+    pedido: 'Publiquei um pedido de ajuda para ir votar no dia 25 de outubro no Te Ajudo a Votar, um mural de vizinhos. Se você pode acompanhar alguém, ou conhece quem possa, dá uma olhada.',
+    oferta: 'Me ofereci para acompanhar quem precisa de ajuda para ir votar no dia 25 de outubro, pelo Te Ajudo a Votar. Se você conhece alguém que precisa, manda este link.'
+  };
+  var DIVULGA = {
+    inicio: { t: 'Ajude a espalhar.', p: 'O site é novo. Mande para o grupo da família e dos vizinhos.' },
+    mural: { t: 'O mural só enche se a vizinhança souber.', p: 'O site é novo e ninguém vai achar sozinho. Mande para o grupo do prédio, da rua e da família. Poste nos stories.' },
+    info: { t: 'Isso só funciona se chegar nas pessoas.', p: 'Cada pessoa que souber é uma a mais pedindo ou oferecendo ajuda. Mande para seus grupos de WhatsApp e poste nos stories.' },
+    sucesso: { t: 'Agora espalhe.', p: 'Quanto mais gente souber, mais rápido alguém encontra você. Mande para seus grupos.' }
+  };
+  function linkZap(texto) {
+    return 'https://wa.me/?text=' + encodeURIComponent(texto + ' ' + baseUrl());
+  }
+  function divulgueHtml(qual, texto) {
+    var d = DIVULGA[qual], curto = qual === 'inicio';
+    texto = texto || TEXTO_DIVULGA.geral;
+    var h = '<div class="divulgue-cab"><span class="divulgue-ico">' + icon('megafone') + '</span><div>' +
+      '<h3>' + d.t + '</h3>' + (curto ? '<p>' + d.p + '</p>' : '') + '</div></div>';
+    if (!curto) h += '<p>' + d.p + '</p>';
+    h += '<div class="divulgue-acoes">' +
+      '<a class="btn-zap" href="' + linkZap(texto) + '" target="_blank" rel="noopener">' + icon('whatsapp') + 'Mandar no WhatsApp</a>' +
+      '<button class="mini" type="button" data-acao="compartilhar" data-texto="' + esc(texto) + '">' + icon(navigator.share ? 'share' : 'copy') + (navigator.share ? 'Compartilhar' : 'Copiar link') + '</button>';
+    if (!curto) h += '<a class="mini" href="' + esc(CFG.INSTAGRAM || 'https://www.instagram.com/teajudoavotar/') + '" target="_blank" rel="noopener">' + icon('instagram') + 'Instagram</a>';
+    return h + '</div>';
+  }
+  function montarDivulgue() {
+    document.querySelectorAll('[data-divulgue]').forEach(function (el) {
+      var qual = el.getAttribute('data-divulgue');
+      if (qual !== 'sucesso') el.innerHTML = divulgueHtml(qual);
+    });
   }
 
   // ---------- início ----------
@@ -1507,12 +1578,16 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     $('#demo').hidden = REMOTO;
     if (CFG.INSTAGRAM) { $('#link-insta').href = CFG.INSTAGRAM; $('#insta-topo').href = CFG.INSTAGRAM; }
     montarForm();
+    montarDivulgue();
     $('#f-uf').value = st.uf;
 
     document.addEventListener('click', function (ev) {
       var a = ev.target.closest('[data-ir]');
-      if (a) { ev.preventDefault(); ir(a.getAttribute('data-ir')); }
+      if (a) { ev.preventDefault(); ir(a.getAttribute('data-ir')); return; }
+      var c = ev.target.closest('[data-acao="compartilhar"]');
+      if (c) compartilhar(c.getAttribute('data-texto'));
     });
+    $('#rodape-divulgar').addEventListener('click', function (ev) { ev.preventDefault(); compartilhar(); });
     window.addEventListener('hashchange', function () { aplicarRota(location.hash); });
 
     $('#compartilhar').addEventListener('click', compartilhar);
