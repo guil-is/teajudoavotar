@@ -185,12 +185,10 @@ h1:focus-visible, h2:focus-visible { outline: none; }
 .perto-status button { padding: 0; border: 0; background: none; color: var(--green-ink); font: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .bairros { display: flex; gap: 8px; margin: -6px -4px 0; padding: 2px 4px 6px; overflow-x: auto; scrollbar-width: none; }
 .bairros::-webkit-scrollbar { display: none; }
-@media (min-width: 600px) { .bairros { flex-wrap: wrap; overflow: visible; } }
 .chip { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 12px; border: 1.5px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font-size: .92rem; font-weight: 700; cursor: pointer; }
-.chip small { font-size: .85em; font-weight: 600; color: var(--muted); }
 .chip b { min-width: 1.6em; padding: 0 6px; border-radius: 999px; background: var(--surface-2); font-size: .8rem; text-align: center; }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-.chip[aria-pressed="true"] small, .chip[aria-pressed="true"] b { color: inherit; background: rgba(128, 128, 128, .3); }
+.chip[aria-pressed="true"] b { color: inherit; background: rgba(128, 128, 128, .3); }
 .card-meta .dist { color: var(--green-ink); }
 select, input, textarea { width: 100%; min-height: 48px; padding: 9px 14px; border: 1.5px solid var(--line); border-radius: var(--r-sm); background: var(--surface); color: var(--ink); font-weight: 600; }
 textarea { resize: vertical; min-height: 96px; }
@@ -748,6 +746,16 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
+  // "RIO DE JANEIRO" e "rio de janeiro" viram "Rio de Janeiro". Quem já escreveu com maiúsculas e minúsculas é respeitado.
+  var MINUSCULAS = { de: 1, da: 1, do: 1, das: 1, dos: 1, e: 1 };
+  function titulo(s) {
+    s = String(s || '').trim().replace(/\s+/g, ' ');
+    if (!s || (s !== s.toLowerCase() && s !== s.toUpperCase())) return s;
+    return s.toLowerCase().split(' ').map(function (w, i) {
+      if (i && MINUSCULAS[w]) return w;
+      return w.replace(/(^|[-'’])(\S)/g, function (m, a, b) { return a + b.toUpperCase(); });
+    }).join(' ');
+  }
   function norm(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim(); }
   function icon(n) { return '<svg class="i" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
   var memoria = {};
@@ -1047,7 +1055,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     el.hidden = false;
   }
 
-  // Bairros com anúncios na lista atual: um toque filtra, outro toque limpa.
+  // Bairros com anúncios: só quando a lista está em uma cidade só (busca ou Perto de mim), em uma linha rolável.
   function chaveBairro(p) { return norm(p.cidade) + '|' + norm(p.bairro || ''); }
   function renderBairros(lista) {
     var el = $('#bairros'), grupos = {}, cidades = {};
@@ -1059,12 +1067,12 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     });
     if (st.bairro && !grupos[st.bairro]) st.bairro = '';
     var arr = Object.keys(grupos).map(function (k) { return grupos[k]; });
-    if (arr.length < 2) { el.hidden = true; el.innerHTML = ''; return; }
-    var multi = Object.keys(cidades).length > 1, porDist = !!(st.perto && st.perto.pos);
+    if (arr.length < 2 || Object.keys(cidades).length !== 1) { el.hidden = true; el.innerHTML = ''; st.bairro = ''; return; }
+    var porDist = !!(st.perto && st.perto.pos);
     arr.sort(function (a, b) { return porDist ? (a.d - b.d || b.n - a.n) : (b.n - a.n || a.bairro.localeCompare(b.bairro)); });
-    el.innerHTML = arr.slice(0, 12).map(function (g) {
+    el.innerHTML = arr.slice(0, 10).map(function (g) {
       return '<button class="chip" type="button" data-bairro="' + esc(g.k) + '" aria-pressed="' + (st.bairro === g.k) + '">' +
-        esc(g.bairro) + (multi ? ' <small>' + esc(g.cidade) + '</small>' : '') + ' <b>' + g.n + '</b></button>';
+        esc(titulo(g.bairro)) + ' <b>' + g.n + '</b></button>';
     }).join('');
     el.hidden = false;
   }
@@ -1134,7 +1142,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     h += '<h3 class="card-nome">' + esc(p.nome) + '</h3>';
     var canais = (p.canais || []).filter(function (c) { return CANAL_NOME[c]; }).map(function (c) { return icon(c) + CANAL_NOME[c]; }).join('</span><span>');
     var dist = rotuloDist(p);
-    h += '<p class="card-meta"><span>' + icon('local') + esc(p.bairro ? p.bairro + ' · ' : '') + esc(p.cidade) + '/' + esc(p.uf) + '</span>' +
+    h += '<p class="card-meta"><span>' + icon('local') + esc(p.bairro ? titulo(p.bairro) + ' · ' : '') + esc(titulo(p.cidade)) + '/' + esc(p.uf) + '</span>' +
       (dist ? '<span class="dist">' + icon('locate') + dist + '</span>' : '') +
       (canais ? '<span>' + canais + '</span>' : '') + '</p>';
     if (p.detalhes) h += '<p class="card-det">' + esc(p.detalhes) + '</p>';
@@ -1240,7 +1248,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     box.hidden = false;
     box.innerHTML = '<h2>Você publicou</h2><ul>' + lista.map(function (m) {
       var tipo = m.tipo === 'oferta' ? 'Oferta' : (m.tipo === 'pedido' ? 'Pedido' : 'Anúncio');
-      var info = (m.resolvido ? 'Resolvido' : 'No mural') + (m.bairro ? ' · ' + esc(m.bairro) : (m.cidade ? ' · ' + esc(m.cidade) : '')) + (m.criado_em ? ' · ' + haQuanto(m.criado_em) : '');
+      var info = (m.resolvido ? 'Resolvido' : 'No mural') + (m.bairro ? ' · ' + esc(titulo(m.bairro)) : (m.cidade ? ' · ' + esc(titulo(m.cidade)) : '')) + (m.criado_em ? ' · ' + haQuanto(m.criado_em) : '');
       return '<li data-meu="' + esc(m.id) + '"><div class="meu-info"><strong>' + tipo + (m.nome ? ' · ' + esc(m.nome) : '') + '</strong><span>' + info + '</span></div>' +
         '<div class="meu-acoes">' +
         '<button class="mini' + (m.resolvido ? '' : ' primario') + '" type="button" data-meu-acao="resolver">' + icon('check') + (m.resolvido ? 'Reabrir' : 'Já resolvi') + '</button>' +
@@ -1579,6 +1587,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     var btn = $('#c-avancar'), rot = btn.innerHTML;
     if (d.hp) { sucesso({ id: 'x', token: 'x' }, d); return; }
     btn.disabled = true; btn.textContent = 'Publicando…';
+    d.cidade = titulo(d.cidade); d.bairro = titulo(d.bairro);
     coordenadasDe(d).then(function (d2) { return api.criar(d2); }).then(function (r) {
       var l = meus().filter(function (x) { return x.id !== r.id; });
       l.unshift({ id: r.id, token: r.token, tipo: d.tipo, nome: d.nome, bairro: d.bairro, cidade: d.cidade, uf: d.uf, criado_em: r.criado_em, resolvido: false });

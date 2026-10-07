@@ -135,6 +135,15 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
 
   function $(s) { return document.querySelector(s); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  var MINUSCULAS = { de: 1, da: 1, do: 1, das: 1, dos: 1, e: 1 };
+  function titulo(s) {
+    s = String(s || '').trim().replace(/\s+/g, ' ');
+    if (!s || (s !== s.toLowerCase() && s !== s.toUpperCase())) return s;
+    return s.toLowerCase().split(' ').map(function (w, i) {
+      if (i && MINUSCULAS[w]) return w;
+      return w.replace(/(^|[-'’])(\S)/g, function (m, a, b) { return a + b.toUpperCase(); });
+    }).join(' ');
+  }
   function norm(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim(); }
   function icon(n) { return '<svg class="i" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
   function quando(iso) { var d = new Date(iso); return d.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }); }
@@ -210,7 +219,7 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
     h += '<span>' + p.contatos + (p.contatos === 1 ? ' contato aberto' : ' contatos abertos') + '</span>';
     h += '<span>' + quando(p.criado_em) + '</span></div>';
     h += '<h3>' + esc(p.nome) + '</h3>';
-    h += '<p class="meta">' + esc(p.bairro ? p.bairro + ' · ' : '') + esc(p.cidade) + '/' + esc(p.uf) + '</p>';
+    h += '<p class="meta">' + esc(p.bairro ? titulo(p.bairro) + ' · ' : '') + esc(titulo(p.cidade)) + '/' + esc(p.uf) + '</p>';
     if (p.detalhes) h += '<p class="texto">' + esc(p.detalhes) + '</p>';
     var c = [];
     if (p.telefone) c.push('WhatsApp ' + foneFmt(p.telefone));
