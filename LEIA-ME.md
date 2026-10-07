@@ -91,6 +91,10 @@ Se um dia o Photon sair do ar, a pessoa ainda consegue publicar escrevendo o end
 - Denúncias só contam. Nenhum anúncio sai do mural sozinho: um limite automático seria alvo fácil de ataque coordenado contra anúncios legítimos. Quem esconde é a moderação (veja abaixo).
 - O banco guarda só um código embaralhado do IP para esses limites, nunca o IP.
 
+## Stories para o Instagram
+
+`story.html` é um editor de story (1080×1920) no estilo da marca: escolha um modelo, edite os textos e baixe o PNG. Funciona no celular e no computador, sem depender de nada externo. Fica em https://teajudoavotar.com.br/story.html, sem link na navegação do site.
+
 ## Moderação
 
 Abra **https://teajudoavotar.com.br/admin.html** e entre com a senha de moderação (quem cuida do site tem a senha; ela não fica em lugar nenhum do código). O painel mostra tudo, inclusive anúncios escondidos, com o contato de cada um.
