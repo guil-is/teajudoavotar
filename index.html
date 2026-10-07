@@ -524,7 +524,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       <ol class="passos-lista">
         <li><span class="num">1</span><div><h3>Publique</h3><p>Quem precisa de ajuda ou pode ajudar deixa um recado no mural: primeiro nome, bairro e um jeito de contato. Leva 1 minuto, sem cadastro.</p></div></li>
         <li><span class="num">2</span><div><h3>Combine</h3><p>Quem vê o recado chama por WhatsApp ou Instagram. Vocês combinam o horário e o ponto de encontro.</p></div></li>
-        <li><span class="num">3</span><div><h3>Vão juntos</h3><p>No domingo, a pé ou de transporte público, até a seção de votação. Depois, marque o recado como resolvido.</p></div></li>
+        <li><span class="num">3</span><div><h3>No domingo</h3><p>Ir junto a pé ou de transporte público, ficar com as crianças, explicar a urna, achar a seção pelo celular: cada ajuda do seu jeito. Depois, marque o recado como resolvido.</p></div></li>
       </ol>
     </section>
 
@@ -1022,7 +1022,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       '<button class="btn-contato" type="button" data-acao="ir-oferecer">' + icon('brand') + 'Posso ajudar</button>' + vazioDivulgue() + '</div>';
   }
   function vazioDivulgue() {
-    return '<p>O site é novo. Mande para seus grupos para chegar na sua vizinhança.</p>' +
+    return '<p>Mande para seus grupos para chegar na sua vizinhança.</p>' +
       '<div class="divulgue-acoes"><a class="btn-zap" href="' + linkZap(TEXTO_DIVULGA.geral) + '" target="_blank" rel="noopener">' + icon('whatsapp') + 'Mandar no WhatsApp</a></div>';
   }
 
@@ -1338,7 +1338,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     $('#p-texto').innerHTML = (pedido ? 'O que você precisa?' : 'Como pode ajudar?') + ' <span class="opc">(opcional)</span>';
     $('#c-detalhes').placeholder = pedido
       ? 'Ex.: Uso andador e minha seção fica no 2º andar da escola. Preciso de alguém para ir junto de manhã.'
-      : 'Ex.: Moro perto da praça e posso ir junto de manhã.';
+      : 'Ex.: Posso ir junto, ficar com as crianças ou ajudar a achar a seção pelo celular.';
   }
 
   function resetForm(tipo) {
@@ -1541,13 +1541,13 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
 
   // Pedido de divulgação: o site só funciona se chegar na vizinhança.
   var TEXTO_DIVULGA = {
-    geral: 'Vizinhos ajudando vizinhos a votar no dia 25 de outubro. Quem precisa de companhia para chegar na seção, ou pode acompanhar alguém, publica no mural. De graça, sem cadastro e apartidário.',
-    pedido: 'Publiquei um pedido de ajuda para ir votar no dia 25 de outubro no Te Ajudo a Votar, um mural de vizinhos. Se você pode acompanhar alguém, ou conhece quem possa, dá uma olhada.',
-    oferta: 'Me ofereci para acompanhar quem precisa de ajuda para ir votar no dia 25 de outubro, pelo Te Ajudo a Votar. Se você conhece alguém que precisa, manda este link.'
+    geral: 'Vizinhos ajudando vizinhos a votar no dia 25 de outubro. Ir junto, ficar com as crianças, explicar a urna, achar a seção. Quem precisa de ajuda ou pode ajudar publica no mural. De graça, sem cadastro e apartidário.',
+    pedido: 'Publiquei um pedido de ajuda para votar no dia 25 de outubro no Te Ajudo a Votar, um mural de vizinhos. Se você pode ajudar, ou conhece quem possa, dá uma olhada.',
+    oferta: 'Me ofereci no Te Ajudo a Votar para ajudar vizinhos a votar no dia 25 de outubro. Se você conhece alguém que precisa de ajuda, manda este link.'
   };
   var DIVULGA = {
-    inicio: { t: 'Ajude a espalhar.', p: 'O site é novo. Mande para o grupo da família e dos vizinhos.' },
-    mural: { t: 'O mural só enche se a vizinhança souber.', p: 'O site é novo e ninguém vai achar sozinho. Mande para o grupo do prédio, da rua e da família. Poste nos stories.' },
+    inicio: { t: 'Ajude a espalhar.', p: 'Mande para o grupo da família e dos vizinhos.' },
+    mural: { t: 'O mural só enche se a vizinhança souber.', p: 'Mande para o grupo do prédio, da rua e da família. Poste nos stories.' },
     info: { t: 'Isso só funciona se chegar nas pessoas.', p: 'Cada pessoa que souber é uma a mais pedindo ou oferecendo ajuda. Mande para seus grupos de WhatsApp e poste nos stories.' },
     sucesso: { t: 'Agora espalhe.', p: 'Quanto mais gente souber, mais rápido alguém encontra você. Mande para seus grupos.' }
   };

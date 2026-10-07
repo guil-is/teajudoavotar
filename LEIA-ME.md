@@ -138,4 +138,4 @@ Ou apague o projeto inteiro em **Project Settings > General > Delete project**.
 
 ## Sobre carona
 
-O site não oferece carona de carro de propósito. A Lei 6.091/1974 limita o transporte de eleitores no dia da eleição, e um mural público organizando caronas pode ser lido como transporte irregular. A ajuda fica em ir junto a pé ou de transporte público, que deve ser gratuito no dia da votação.
+O site não oferece carona de carro de propósito. A Lei 6.091/1974 limita o transporte de eleitores no dia da eleição, e um mural público organizando caronas pode ser lido como transporte irregular. Para o deslocamento, a ajuda fica em ir junto a pé ou de transporte público, que deve ser gratuito no dia da votação.
