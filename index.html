@@ -155,8 +155,8 @@ h1:focus-visible, h2:focus-visible { outline: none; }
 /* Páginas internas */
 .pagina { padding-block: 8px 64px; }
 .voltar { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--green-ink); font-weight: 700; text-decoration: none; }
-.pagina-cab { display: grid; gap: 8px; margin-block: 8px 24px; }
-.pagina-cab h1 { font-size: clamp(2rem, 8vw, 2.7rem); font-weight: 900; letter-spacing: -.02em; color: var(--green-ink); }
+.pagina-cab { display: grid; gap: 6px; margin-block: 6px 18px; }
+.pagina-cab h1 { font-size: clamp(1.75rem, 7vw, 2.5rem); font-weight: 900; letter-spacing: -.02em; color: var(--green-ink); }
 .pagina-cab p { font-size: 1.1rem; font-weight: 500; color: var(--muted); }
 
 /* Mural */
@@ -166,8 +166,20 @@ h1:focus-visible, h2:focus-visible { outline: none; }
 .aba[aria-selected="true"][data-tab="pedido"] { background: var(--blue); color: var(--on-blue); }
 .aba[aria-selected="true"][data-tab="oferta"] { background: var(--green); color: var(--on-green); }
 .aba .n { min-width: 1.9em; padding: 0 7px; border-radius: 999px; background: var(--surface); color: var(--ink); font-size: .85rem; font-variant-numeric: tabular-nums; }
-.filtros { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 12px; }
-@media (max-width: 479px) { .filtros { grid-template-columns: 1fr; } }
+.controles { position: sticky; top: 0; z-index: 3; display: grid; gap: 8px; margin-inline: -4px; padding: 8px 4px 10px; background: var(--bg); }
+.filtros { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) auto; gap: 8px; }
+@media (max-width: 599px) {
+  .filtros { grid-template-columns: 112px minmax(0, 1fr) 48px; }
+  .filtros select, .filtros input { font-size: .95rem; padding-inline: 12px; }
+  .filtros .sel select { padding-right: 32px; }
+  .filtros .sel .i { right: 10px; }
+  .filtros .busca input { padding-left: 38px; }
+  .filtros .busca .i { left: 12px; }
+}
+.btn-perto { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; width: 48px; padding: 0; border: 1.5px solid var(--line); border-radius: var(--r-sm); background: var(--surface); color: var(--green-ink); font-weight: 800; cursor: pointer; }
+.btn-perto span { display: none; }
+@media (min-width: 600px) { .btn-perto { width: auto; padding: 0 16px; } .btn-perto span { display: inline; } }
+.btn-perto[disabled] { opacity: .6; cursor: progress; }
 select, input, textarea { width: 100%; min-height: 48px; padding: 9px 14px; border: 1.5px solid var(--line); border-radius: var(--r-sm); background: var(--surface); color: var(--ink); font-weight: 600; }
 textarea { resize: vertical; min-height: 96px; }
 input::placeholder, textarea::placeholder { color: var(--muted); opacity: .85; }
@@ -196,6 +208,11 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .card-det { font-size: 1.05rem; overflow-wrap: anywhere; }
 .exemplo { justify-self: start; padding: 2px 8px; border: 1px dashed var(--line); border-radius: 6px; color: var(--muted); font-size: .8rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 .card-acoes { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 12px; margin-top: 6px; }
+@media (max-width: 559px) {
+  .card-acoes { flex-direction: column; align-items: stretch; }
+  .card-acoes .btn-contato { justify-content: center; }
+  .card-acoes > .link, .card-acoes > .nota { align-self: flex-end; }
+}
 .btn-contato { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 12px 22px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 1.05rem; cursor: pointer; }
 .link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 6px 10px; border: 0; border-radius: 999px; background: none; color: var(--muted); font-weight: 600; font-size: .9rem; cursor: pointer; }
 .link:hover { background: var(--surface-2); }
@@ -228,9 +245,20 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .meu-info span { color: var(--muted); font-size: .95rem; font-weight: 600; }
 .meu-acoes { display: flex; flex-wrap: wrap; gap: 8px; }
 
-/* Bom saber e combinados */
+/* Mais informações */
+.bloco { padding-block: 6px 30px; }
+.bloco > h2 { margin-bottom: 14px; }
+.saber h2, .combinados h2, .bloco h2 { font-size: 1.45rem; font-weight: 900; color: var(--green-ink); }
+.passos-lista { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+@media (min-width: 760px) { .passos-lista { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+.passos-lista li { display: flex; align-items: flex-start; gap: 14px; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+.passos-lista .num { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--green); color: var(--on-green); font-weight: 900; flex: none; }
+.passos-lista h3 { margin-bottom: 3px; font-size: 1.1rem; font-weight: 800; }
+.passos-lista p { color: var(--muted); font-size: .98rem; font-weight: 500; }
+.dados-lista { display: grid; gap: 10px; margin: 0; padding-left: 1.2em; color: var(--ink); font-weight: 500; }
+.dados-lista li::marker { color: var(--green-ink); }
 .saber { display: grid; gap: 24px; }
-.saber-grid { display: grid; gap: 24px; margin: 0; padding: 0; list-style: none; }
+.saber-grid { display: grid; gap: 20px; margin: 0; padding: 0; list-style: none; }
 @media (min-width: 640px) { .saber-grid { grid-template-columns: 1fr 1fr; gap: 28px 36px; } }
 @media (min-width: 960px) { .saber-grid { grid-template-columns: repeat(3, 1fr); } }
 .saber-grid li { display: flex; align-items: flex-start; gap: 16px; }
@@ -238,14 +266,14 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .saber-ico .i { width: 24px; height: 24px; }
 .saber-grid h3 { margin-bottom: 4px; font-size: 1.12rem; font-weight: 800; }
 .saber-grid p { color: var(--muted); font-size: 1rem; font-weight: 500; }
-.combinados { padding-block: 40px 0; }
-.saber h2, .combinados h2 { font-size: 1.6rem; font-weight: 900; color: var(--green-ink); }
-.combinados-box { display: grid; gap: 16px; padding: 26px 24px; border-radius: var(--r-lg); background: var(--green-soft); }
-@media (min-width: 760px) { .combinados-box { padding: 32px 36px; } }
-.combinados ul { display: grid; gap: 12px; margin: 0; padding-left: 1.2em; }
-.combinados li::marker { color: var(--green-ink); }
-.rodape { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: .95rem; font-weight: 500; display: grid; gap: 12px; }
-.rodape a { font-weight: 700; }
+.combinados-box { display: grid; gap: 14px; padding: 22px 22px; border-radius: var(--r-lg); background: var(--green-soft); }
+@media (min-width: 760px) { .combinados-box { padding: 28px 32px; } }
+.combinados-box ul { display: grid; gap: 10px; margin: 0; padding-left: 1.2em; }
+.combinados-box li::marker { color: var(--green-ink); }
+.rodape-mini { padding: 22px 0 32px; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; font-weight: 500; line-height: 1.5; }
+.rodape-mini .wrap { display: grid; gap: 6px; }
+.rodape-mini a { color: var(--muted); font-weight: 700; }
+.pagina .chamada { margin-top: 8px; }
 
 /* Formulário em passos */
 .form-pedido { --accent: var(--blue); --on-accent: var(--on-blue); --accent-soft: var(--blue-soft); --accent-ink: var(--blue-ink); }
@@ -418,25 +446,28 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     </div>
     <section class="mural" aria-labelledby="mural-t">
       <div class="meus" id="meus" hidden></div>
-      <div class="abas" role="tablist" aria-label="O que mostrar">
-        <button class="aba" type="button" role="tab" data-tab="pedido" aria-selected="true" aria-controls="lista">Pedem ajuda <span class="n" id="n-pedido">0</span></button>
-        <button class="aba" type="button" role="tab" data-tab="oferta" aria-selected="false" aria-controls="lista">Podem ajudar <span class="n" id="n-oferta">0</span></button>
-      </div>
-      <div class="filtros">
-        <div class="sel">
-          <label class="sr-only" for="f-uf">Estado</label>
-          <select id="f-uf"><option value="">Todo o Brasil</option></select>
-          <svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg>
+      <div class="controles">
+        <div class="abas" role="tablist" aria-label="O que mostrar">
+          <button class="aba" type="button" role="tab" data-tab="pedido" aria-selected="true" aria-controls="lista">Pedem ajuda <span class="n" id="n-pedido">0</span></button>
+          <button class="aba" type="button" role="tab" data-tab="oferta" aria-selected="false" aria-controls="lista">Podem ajudar <span class="n" id="n-oferta">0</span></button>
         </div>
-        <div class="busca">
-          <label class="sr-only" for="f-busca">Buscar cidade ou bairro</label>
-          <svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
-          <input id="f-busca" type="search" placeholder="Cidade ou bairro" autocomplete="off" enterkeyhint="search">
+        <div class="filtros">
+          <div class="sel">
+            <label class="sr-only" for="f-uf">Estado</label>
+            <select id="f-uf"><option value="">Brasil</option></select>
+            <svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </div>
+          <div class="busca">
+            <label class="sr-only" for="f-busca">Buscar cidade ou bairro</label>
+            <svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
+            <input id="f-busca" type="search" placeholder="Cidade ou bairro" autocomplete="off" enterkeyhint="search">
+          </div>
+          <button class="btn-perto" type="button" id="perto" aria-label="Perto de mim" title="Mostrar quem está perto de mim"><svg class="i" aria-hidden="true"><use href="#i-locate"/></svg><span>Perto de mim</span></button>
         </div>
       </div>
       <div class="lista" id="lista" role="tabpanel"></div>
       <button class="mini mais" type="button" id="mais" hidden>Mostrar mais</button>
-      <div class="chamada" id="chamada">
+      <div class="chamada">
         <p>Não achou o que procura? Publique no mural.</p>
         <div class="portas">
           <a class="porta porta-pedir" href="#pedir" data-ir="pedir">
@@ -453,14 +484,25 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
   </div>
 </main>
 
-<!-- Bom saber e combinados -->
+<!-- Mais informações -->
 <main class="pagina" id="info-view" hidden>
   <div class="wrap">
     <a class="voltar" href="#" data-ir=""><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Início</a>
     <div class="pagina-cab">
       <h1 id="info-t" tabindex="-1">Mais informações</h1>
+      <p>Como o site funciona, o que levar no domingo e nossos combinados.</p>
     </div>
-    <section class="saber" aria-labelledby="saber-t">
+
+    <section class="bloco" aria-labelledby="como-t">
+      <h2 id="como-t">Como funciona</h2>
+      <ol class="passos-lista">
+        <li><span class="num">1</span><div><h3>Publique</h3><p>Quem precisa de ajuda ou pode ajudar deixa um recado no mural: primeiro nome, bairro e um jeito de contato. Leva 1 minuto, sem cadastro.</p></div></li>
+        <li><span class="num">2</span><div><h3>Combine</h3><p>Quem vê o recado chama por WhatsApp ou Instagram. Vocês combinam o horário e o ponto de encontro.</p></div></li>
+        <li><span class="num">3</span><div><h3>Vão juntos</h3><p>No domingo, a pé ou de transporte público, até a seção de votação. Depois, marque o recado como resolvido.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="bloco" aria-labelledby="saber-t">
       <h2 id="saber-t">Bom saber para domingo</h2>
       <ul class="saber-grid">
         <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-calendar"/></svg></span><div><h3>Quando</h3><p>Domingo, 25 de outubro, das 8h às 17h, horário de Brasília. Quem estiver na fila às 17h ainda vota.</p></div></li>
@@ -471,23 +513,44 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
         <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-acessibilidade"/></svg></span><div><h3>Ajuda na cabine</h3><p>Quem tem deficiência ou mobilidade reduzida pode levar uma pessoa de confiança para ajudar na cabine, com autorização da mesa. Essa pessoa não pode trabalhar para partido ou candidatura.</p></div></li>
       </ul>
     </section>
-    <section class="combinados" aria-labelledby="comb-t">
+
+    <section class="bloco" aria-labelledby="comb-t">
       <div class="combinados-box">
         <h2 id="comb-t">Nossos combinados</h2>
         <ul>
           <li><strong>Ajuda é de graça.</strong> Ninguém cobra nem dá nada em troca.</li>
           <li><strong>Sem campanha.</strong> Aqui ninguém fala de candidato nem pede voto. O voto é secreto.</li>
-          <li><strong>Sem carona de carro.</strong> A lei eleitoral limita o transporte de eleitores. Vá junto a pé ou de transporte público.</li>
-          <li><strong>Segurança primeiro.</strong> Combine antes por telefone, encontre em lugar movimentado e avise alguém da família. Nunca passe documentos, senhas ou dinheiro.</li>
-          <li><strong>Viu algo errado?</strong> Toque em “Denunciar”. A moderação confere e, se for o caso, tira o anúncio do mural.</li>
+          <li><strong>Sem carona de carro.</strong> A lei eleitoral proíbe transportar eleitores no dia da votação, com poucas exceções. Vá junto a pé ou de transporte público.</li>
+          <li><strong>Segurança primeiro.</strong> Combine antes por mensagem, encontre em lugar movimentado e avise alguém da família. Nunca passe documentos, senhas ou dinheiro.</li>
+          <li><strong>Viu algo errado?</strong> Toque em “Denunciar”. A moderação confere e, se for o caso, tira o recado do mural.</li>
         </ul>
       </div>
     </section>
-    <footer class="rodape">
-      <p>Te Ajudo a Votar é uma iniciativa voluntária e apartidária. Sem cadastro, sem anúncios e sem rastreadores.</p>
-      <p>Guardamos só o que você publica. Seu contato aparece apenas para quem tocar em “Entrar em contato”. A busca de bairro usa o mapa aberto OpenStreetMap. Tudo será apagado em 26 de outubro.</p>
-      <p><a id="link-insta" href="https://www.instagram.com/teajudoavotar/" target="_blank" rel="noopener">Também estamos no Instagram</a></p>
-    </footer>
+
+    <section class="bloco" aria-labelledby="dados-t">
+      <h2 id="dados-t">Seus dados</h2>
+      <ul class="dados-lista">
+        <li>O mural mostra só primeiro nome, bairro, cidade e o texto que você escreveu.</li>
+        <li>WhatsApp e Instagram aparecem apenas para quem tocar em “Entrar em contato”, com limite por pessoa contra robôs.</li>
+        <li>Você marca como resolvido ou apaga quando quiser, no topo do mural ou pelo link secreto que recebe ao publicar.</li>
+        <li>A busca de bairro usa o mapa aberto OpenStreetMap. Sua localização não fica guardada.</li>
+        <li>Tudo é apagado em 26 de outubro.</li>
+      </ul>
+    </section>
+
+    <div class="chamada">
+      <p>Pronto para participar?</p>
+      <div class="portas">
+        <a class="porta porta-pedir" href="#pedir" data-ir="pedir">
+          <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-hand"/></svg></span>
+          <span><strong>Preciso de ajuda</strong><small>Para mim ou alguém próximo</small></span>
+        </a>
+        <a class="porta porta-ajudar" href="#oferecer" data-ir="oferecer">
+          <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-brand"/></svg></span>
+          <span><strong>Posso ajudar</strong></span>
+        </a>
+      </div>
+    </div>
   </div>
 </main>
 
@@ -599,6 +662,14 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     </div>
   </div>
 </main>
+
+<footer class="rodape-mini">
+  <div class="wrap">
+    <p><strong>Te Ajudo a Votar</strong> é uma iniciativa voluntária e apartidária. Sem cadastro, sem anúncios e sem rastreadores.</p>
+    <p>Guardamos só o que você publica. Seu contato aparece apenas para quem tocar em “Entrar em contato”. Tudo é apagado em 26 de outubro.</p>
+    <p><a href="#info" data-ir="info">Mais informações</a> · <a id="link-insta" href="https://www.instagram.com/teajudoavotar/" target="_blank" rel="noopener">Instagram</a> · <a href="#mural" data-ir="mural">Mural</a></p>
+  </div>
+</footer>
 
 <div class="toast" id="toast" role="status" hidden></div>
 <noscript><p class="wrap" style="padding-block:16px">Este site precisa de JavaScript ligado para funcionar.</p></noscript>
@@ -824,7 +895,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     posts: [], carregando: true, erroLista: null,
     uf: filtrosSalvos.uf || '', tab: filtrosSalvos.tab === 'oferta' ? 'oferta' : 'pedido', busca: '',
     limite: 40, contatos: {}, denuncia: {}, apagando: {},
-    view: 'home', tipoForm: null, passo: 0, onde: null, sugestoes: [], formEnviado: false, ultimo: null
+    view: 'home', tipoForm: null, passo: 0, onde: null, sugestoes: [], formEnviado: false, ultimo: null, perto: null
   };
   function salvarFiltros() { lsSet('tav-filtros', { uf: st.uf, tab: st.tab }); }
   function meus() { return lsGet('tav-meus', []); }
@@ -857,8 +928,22 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
 
   function filtrados() {
     var q = norm(st.busca);
-    if (!q) return st.posts;
-    return st.posts.filter(function (p) { return norm(p.cidade + ' ' + (p.bairro || '')).indexOf(q) >= 0; });
+    var l = !q ? st.posts.slice() : st.posts.filter(function (p) { return norm(p.cidade + ' ' + (p.bairro || '')).indexOf(q) >= 0; });
+    if (st.perto && st.perto.bairro) {
+      var b = norm(st.perto.bairro);
+      l = l.map(function (p, i) { return { p: p, i: i, k: norm(p.bairro || '') === b ? 0 : 1 }; })
+        .sort(function (x, y) { return x.k - y.k || x.i - y.i; }).map(function (x) { return x.p; });
+    }
+    return l;
+  }
+
+  function pertoDeMim() {
+    var b = $('#perto'); b.disabled = true; toast('Procurando você no mapa…');
+    ondeEstou().then(function (l) {
+      st.perto = l; st.uf = l.uf; $('#f-uf').value = l.uf; st.busca = l.cidade; $('#f-busca').value = l.cidade;
+      st.limite = 40; st.posts = []; salvarFiltros();
+      return carregar().then(function () { toast('Mostrando ' + l.rotulo); });
+    }, function () { toast('Não deu para achar sua localização. Use os filtros.'); }).then(function () { b.disabled = false; });
   }
 
   function renderLista() {
@@ -1070,7 +1155,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     else t = 'Faltam ' + dias + ' dias.';
     $('#contagem').textContent = t; $('#frase-txt').textContent = txt;
     var fim = agora >= FIM;
-    $('#portas').hidden = fim; $('#chamada').hidden = fim;
+    $('#portas').hidden = fim; document.querySelectorAll('.chamada').forEach(function (c) { c.hidden = fim; });
     $('#form').hidden = fim; $('#form-fim').hidden = !fim;
   }
 
@@ -1203,7 +1288,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
   function montarForm() {
     var opts = UFS.map(function (u) { return '<option value="' + u[0] + '">' + u[1] + '</option>'; }).join('');
     $('#c-uf').insertAdjacentHTML('beforeend', opts);
-    $('#f-uf').insertAdjacentHTML('beforeend', opts);
+    $('#f-uf').insertAdjacentHTML('beforeend', UFS.map(function (u) { return '<option value="' + u[0] + '">' + u[0] + ' – ' + u[1] + '</option>'; }).join(''));
   }
 
   function textosForm(tipo) {
@@ -1434,11 +1519,12 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     document.querySelectorAll('.aba').forEach(function (b) {
       b.addEventListener('click', function () { st.tab = b.getAttribute('data-tab'); st.limite = 40; salvarFiltros(); renderLista(); });
     });
-    $('#f-uf').addEventListener('change', function () { st.uf = this.value; st.limite = 40; st.posts = []; salvarFiltros(); carregar(); });
+    $('#f-uf').addEventListener('change', function () { st.uf = this.value; st.perto = null; st.limite = 40; st.posts = []; salvarFiltros(); carregar(); });
+    $('#perto').addEventListener('click', pertoDeMim);
     var filtroT;
     $('#f-busca').addEventListener('input', function () {
       var v = this.value; clearTimeout(filtroT);
-      filtroT = setTimeout(function () { st.busca = v.trim(); st.limite = 40; renderLista(); }, 150);
+      filtroT = setTimeout(function () { st.busca = v.trim(); st.perto = null; st.limite = 40; renderLista(); }, 150);
     });
     $('#mais').addEventListener('click', function () { st.limite += 40; renderLista(); });
 

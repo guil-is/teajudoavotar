@@ -72,9 +72,11 @@ Para o link aparecer com imagem no WhatsApp e no Telegram, abra `index.html` e t
 
 ## Como funciona
 
+- Todas as páginas terminam com um rodapé pequeno com os avisos: iniciativa voluntária e apartidária, sem cadastro, o que é guardado e quando tudo é apagado.
 - A página inicial tem só duas ações: **Preciso de ajuda** e **Posso ajudar**. O mural e "Mais informações" ficam em páginas próprias, com links discretos.
 - O formulário faz uma pergunta por tela, em 4 passos: primeiro nome, onde mora, contato (WhatsApp ou Instagram, pelo menos um) e um texto opcional.
 - No passo "Onde você mora?", a pessoa digita o bairro ou a cidade e escolhe na lista, toca em **Usar onde eu estou** (GPS do celular) ou escreve o endereço à mão. A busca usa o mapa aberto OpenStreetMap, pelo serviço gratuito Photon (`photon.komoot.io`). A localização não é guardada.
+- No mural, dá para filtrar por estado, buscar por cidade ou bairro e tocar em **Perto de mim** para ver primeiro quem é do seu bairro (usa a localização do aparelho, que não é guardada).
 - O mural mostra primeiro nome, bairro, cidade, o texto e quais canais de contato existem. O número e o @ só aparecem quando alguém toca em **Entrar em contato**. Daí dá para abrir o WhatsApp, ligar ou mandar mensagem no Instagram.
 - Quem publicou vê seus anúncios no topo do mural (no mesmo aparelho) e pode marcar como resolvido ou apagar. Também recebe um link secreto para gerenciar de outro aparelho.
 - Depois das 17h de 25/10, o site para de aceitar publicações.
