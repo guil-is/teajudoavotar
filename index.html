@@ -118,7 +118,7 @@ h1:focus-visible, h2:focus-visible { outline: none; }
 .demo { background: var(--yellow-soft); border-bottom: 1px solid var(--line); font-size: .95rem; font-weight: 700; padding-block: 10px; text-align: center; }
 
 /* Abertura (página inicial): uma frase e duas portas grandes */
-.hero { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; background: linear-gradient(135deg, var(--sun) 0%, var(--mint) 52%, var(--sky) 100%); padding-block: 12px 20px; overflow: hidden; }
+.hero { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; background: linear-gradient(135deg, var(--sun) 0%, var(--mint) 52%, var(--sky) 100%); padding-block: 8px 16px; }
 .hero > .wrap { display: flex; flex-direction: column; flex: 1; gap: 24px; }
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 6px; }
 .marca { display: inline-flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1.05rem; letter-spacing: -.01em; color: var(--green-ink); text-decoration: none; white-space: nowrap; }
@@ -126,9 +126,9 @@ h1:focus-visible, h2:focus-visible { outline: none; }
 .topo-acoes { display: flex; gap: 8px; }
 .btn-share { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--green-ink); font-weight: 700; font-size: .95rem; text-decoration: none; cursor: pointer; }
 @media (max-width: 479px) { .btn-share { width: 44px; padding: 8px; justify-content: center; } .btn-share span { display: none; } }
-.hero-main { display: grid; gap: 32px; align-content: center; flex: 1; width: 100%; max-width: 720px; padding-block: 24px; }
-@media (min-width: 900px) { .hero-main { gap: 40px; } }
-.frase { font-size: clamp(1.9rem, 7.5vw, 3rem); font-weight: 700; line-height: 1.2; letter-spacing: -.02em; color: var(--green-ink); text-wrap: pretty; }
+.hero-main { display: grid; gap: 20px; align-content: center; flex: 1; width: 100%; max-width: 720px; padding-block: 12px; }
+@media (min-width: 900px) { .hero-main { gap: 32px; padding-block: 24px; } }
+.frase { font-size: clamp(1.7rem, 6.9vw, 3rem); font-weight: 700; line-height: 1.2; letter-spacing: -.02em; color: var(--green-ink); text-wrap: pretty; }
 .frase-dias { display: block; font-weight: 900; color: var(--blue-ink); }
 .portas { display: grid; gap: 14px; }
 @media (min-width: 560px) { .portas { grid-template-columns: 1fr 1fr; } }
@@ -143,12 +143,12 @@ h1:focus-visible, h2:focus-visible { outline: none; }
 .porta strong { display: block; font-size: 1.35rem; font-weight: 900; line-height: 1.15; }
 .porta small { display: block; margin-top: 2px; font-size: .95rem; font-weight: 600; opacity: .92; }
 .portas-grandes { gap: 16px; }
-.portas-grandes .porta { min-height: 116px; padding: 20px; gap: 16px; border-radius: 28px; box-shadow: 0 2px 4px rgba(19, 53, 44, .08), 0 16px 32px -16px rgba(19, 53, 44, .35); }
+.portas-grandes .porta { min-height: 100px; padding: 18px 20px; gap: 16px; border-radius: 26px; box-shadow: 0 2px 4px rgba(19, 53, 44, .08), 0 16px 32px -16px rgba(19, 53, 44, .35); }
 .portas-grandes .porta .ico { width: 56px; height: 56px; }
 .portas-grandes .porta .ico .i { width: 30px; height: 30px; }
 .portas-grandes .porta strong { font-size: clamp(1.35rem, 6.2vw, 1.65rem); }
 .portas-grandes .porta small { margin-top: 4px; font-size: 1.02rem; }
-.home-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 28px; }
+.home-links { display: flex; flex-wrap: wrap; gap: 0 24px; margin-top: -6px; }
 .home-links a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--green-ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 .fim { background: var(--surface); border-radius: var(--r); padding: 18px 20px; font-weight: 700; box-shadow: var(--shadow); }
 
@@ -322,7 +322,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .hero-main > * { animation: entrar .55s cubic-bezier(.2, .7, .2, 1) both; }
 .hero-main > .portas { animation-delay: .12s; }
 .hero-main > .confianca { animation-delay: .24s; }
-.home-links { animation: entrar .55s .32s cubic-bezier(.2, .7, .2, 1) both; }
+.hero-main > .home-links { animation-delay: .32s; }
 .passo.frente { animation: entrar-frente .28s cubic-bezier(.2, .7, .2, 1) both; }
 .passo.volta { animation: entrar-volta .28s cubic-bezier(.2, .7, .2, 1) both; }
 .card { animation: entrar .35s cubic-bezier(.2, .7, .2, 1) both; }
@@ -406,11 +406,11 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
         </a>
       </div>
       <p class="confianca">Sem cadastro · De graça · Apartidário</p>
+      <p class="home-links">
+        <a href="#mural" data-ir="mural"><svg class="i" aria-hidden="true"><use href="#i-list"/></svg><span id="link-mural">Ver o mural</span></a>
+        <a href="#info" data-ir="info"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg>Mais informações</a>
+      </p>
     </div>
-    <p class="home-links">
-      <a href="#mural" data-ir="mural"><svg class="i" aria-hidden="true"><use href="#i-list"/></svg><span id="link-mural">Ver o mural</span></a>
-      <a href="#info" data-ir="info"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg>Mais informações</a>
-    </p>
   </div>
 </header>
 
