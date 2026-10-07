@@ -81,7 +81,7 @@ Para o link aparecer com imagem no WhatsApp e no Telegram, abra `index.html` e t
 - Quando a lista está em uma cidade só (busca ou Perto de mim), aparece uma linha com os bairros que têm anúncios e a contagem. Um toque filtra, outro toque limpa.
 - Cada anúncio guarda a posição aproximada do bairro, arredondada para 0,01 grau (cerca de 1 km). Quem usa o buscador ou o GPS tem a posição arredondada no próprio aparelho antes de enviar. Quem escreve o endereço à mão recebe o centro do bairro pelo OpenStreetMap, se ele for encontrado. O banco arredonda de novo ao gravar. O ponto exato nunca é enviado.
 - O mural mostra primeiro nome, bairro, cidade, o texto e quais canais de contato existem. O número e o @ só aparecem quando alguém toca em **Entrar em contato**. Daí dá para abrir o WhatsApp, ligar ou mandar mensagem no Instagram.
-- Quem publicou vê seus anúncios no topo do mural (no mesmo aparelho) e pode marcar como resolvido ou apagar. Também recebe um link secreto para gerenciar de outro aparelho.
+- Quem publicou vê seus anúncios no topo do mural (no mesmo aparelho) e recebe um link secreto para gerenciar de outro aparelho. Pedido: "Já consegui ajuda" tira o botão de contato e o cartão vai para o fim da lista com o selo "Ajuda encontrada". Oferta: não tem esse botão, porque uma oferta pode ajudar várias pessoas; quem não puder mais ajudar apaga. Os dois tipos podem ser apagados a qualquer momento.
 - Depois das 17h de 25/10, o site para de aceitar publicações.
 
 Se um dia o Photon sair do ar, a pessoa ainda consegue publicar escrevendo o endereço à mão. Para trocar o serviço de busca, coloque outro endereço compatível com o Photon em `config.js`, na chave `GEOCODER`.

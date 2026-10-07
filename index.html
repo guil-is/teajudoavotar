@@ -542,7 +542,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       <ol class="passos-lista">
         <li><span class="num">1</span><div><h3>Publique</h3><p>Quem precisa de ajuda ou pode ajudar deixa um recado no mural: primeiro nome, bairro e um jeito de contato. Leva 1 minuto, sem cadastro.</p></div></li>
         <li><span class="num">2</span><div><h3>Combine</h3><p>Quem vê o recado chama por WhatsApp ou Instagram. Vocês combinam o horário e o ponto de encontro.</p></div></li>
-        <li><span class="num">3</span><div><h3>No domingo</h3><p>Ir junto a pé ou de transporte público, ficar com as crianças, explicar a urna, achar a seção pelo celular: cada ajuda do seu jeito. Depois, marque o recado como resolvido.</p></div></li>
+        <li><span class="num">3</span><div><h3>No domingo</h3><p>Ir junto a pé ou de transporte público, ficar com as crianças, explicar a urna, achar a seção pelo celular: cada ajuda do seu jeito. Quem pediu ajuda e encontrou marca “Já consegui ajuda”.</p></div></li>
       </ol>
     </section>
 
@@ -576,7 +576,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       <ul class="dados-lista">
         <li>O mural mostra só primeiro nome, bairro, cidade e o texto que você escreveu.</li>
         <li>WhatsApp e Instagram aparecem apenas para quem tocar em “Entrar em contato”, com limite por pessoa contra robôs.</li>
-        <li>Você marca como resolvido ou apaga quando quiser, no topo do mural ou pelo link secreto que recebe ao publicar.</li>
+        <li>Quem pediu ajuda marca “Já consegui ajuda” quando encontrar alguém. Qualquer anúncio pode ser apagado quando você quiser, no topo do mural ou pelo link secreto que recebe ao publicar.</li>
         <li>A busca de bairro usa o mapa aberto OpenStreetMap. Guardamos só a posição aproximada do bairro, arredondada para cerca de 1 km, para mostrar quem está perto. Nunca o ponto exato.</li>
         <li>Tudo é apagado em 26 de outubro.</li>
       </ul>
@@ -700,7 +700,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       <div class="divulgue" data-divulgue="sucesso"></div>
       <div class="gestao">
         <h3>Guarde seu link secreto</h3>
-        <p>Com ele você marca como resolvido ou apaga o anúncio de qualquer aparelho. Neste aparelho, os botões ficam no topo do mural.</p>
+        <p id="suc-gestao">Com ele você apaga o anúncio de qualquer aparelho. Neste aparelho, os botões ficam no topo do mural.</p>
         <div class="gestao-acoes">
           <button class="mini" type="button" id="suc-copiar"><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg>Copiar link</button>
           <button class="mini" type="button" id="suc-enviar" hidden><svg class="i" aria-hidden="true"><use href="#i-share"/></svg>Enviar o link</button>
@@ -1113,7 +1113,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     var onde = st.busca ? '“' + st.busca + '”' : (st.uf ? nomeUf(st.uf) : 'no Brasil');
     $('#stats').textContent = abertos.pedido + (abertos.pedido === 1 ? ' pedido' : ' pedidos') + ' · ' +
       abertos.oferta + (abertos.oferta === 1 ? ' oferta' : ' ofertas') + ' · ' +
-      resolvidos + (resolvidos === 1 ? ' resolvido' : ' resolvidos') + (st.uf || st.busca ? ' em ' + onde : '');
+      resolvidos + ' com ajuda encontrada' + (st.uf || st.busca ? ' em ' + onde : '');
 
     renderPerto();
     var desta = todos.filter(function (p) { return p.tipo === st.tab; });
@@ -1148,7 +1148,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
 
   function cardHtml(p) {
     var meu = eMeu(p.id);
-    var selo = p.resolvido ? icon('check') + 'Resolvido' : (p.tipo === 'pedido' ? 'Precisa de ajuda' : 'Pode ajudar');
+    var selo = p.resolvido ? icon('check') + (p.tipo === 'pedido' ? 'Ajuda encontrada' : 'Indisponível') : (p.tipo === 'pedido' ? 'Precisa de ajuda' : 'Pode ajudar');
     var h = '<article class="card card-' + p.tipo + (p.resolvido ? ' is-ok' : '') + '" data-id="' + esc(p.id) + '">';
     h += '<div class="card-top"><span><span class="selo selo-' + p.tipo + '">' + selo + '</span>' + (meu ? '<span class="seu">Seu</span>' : '') + '</span>' +
       '<time datetime="' + esc(p.criado_em) + '">' + haQuanto(p.criado_em) + '</time></div>';
@@ -1259,10 +1259,15 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     box.hidden = false;
     box.innerHTML = '<h2>Você publicou</h2><ul>' + lista.map(function (m) {
       var tipo = m.tipo === 'oferta' ? 'Oferta' : (m.tipo === 'pedido' ? 'Pedido' : 'Anúncio');
-      var info = (m.resolvido ? 'Resolvido' : 'No mural') + (m.bairro ? ' · ' + esc(titulo(m.bairro)) : (m.cidade ? ' · ' + esc(titulo(m.cidade)) : '')) + (m.criado_em ? ' · ' + haQuanto(m.criado_em) : '');
+      var pedido = m.tipo === 'pedido';
+      var estado = m.resolvido ? (pedido ? 'Ajuda encontrada' : 'Fora do mural') : 'No mural';
+      var info = estado + (m.bairro ? ' · ' + esc(titulo(m.bairro)) : (m.cidade ? ' · ' + esc(titulo(m.cidade)) : '')) + (m.criado_em ? ' · ' + haQuanto(m.criado_em) : '');
+      // Pedido: "Já consegui ajuda". Oferta: sem botão (uma oferta pode ajudar várias pessoas); só volta ao mural se já estava fechada.
+      var botao = '';
+      if (pedido) botao = '<button class="mini' + (m.resolvido ? '' : ' primario') + '" type="button" data-meu-acao="resolver">' + icon('check') + (m.resolvido ? 'Ainda preciso de ajuda' : 'Já consegui ajuda') + '</button>';
+      else if (m.tipo === 'oferta' && m.resolvido) botao = '<button class="mini primario" type="button" data-meu-acao="resolver">' + icon('check') + 'Voltar ao mural</button>';
       return '<li data-meu="' + esc(m.id) + '"><div class="meu-info"><strong>' + tipo + (m.nome ? ' · ' + esc(m.nome) : '') + '</strong><span>' + info + '</span></div>' +
-        '<div class="meu-acoes">' +
-        '<button class="mini' + (m.resolvido ? '' : ' primario') + '" type="button" data-meu-acao="resolver">' + icon('check') + (m.resolvido ? 'Reabrir' : 'Já resolvi') + '</button>' +
+        '<div class="meu-acoes">' + botao +
         '<button class="mini" type="button" data-meu-acao="link">' + icon('copy') + 'Copiar link</button>' +
         '<button class="mini perigo" type="button" data-meu-acao="apagar">' + icon('trash') + (st.apagando[m.id] ? 'Confirmar: apagar' : 'Apagar') + '</button>' +
         '</div></li>';
@@ -1280,7 +1285,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
         m.resolvido = novo; salvarMeus(lista);
         var p = acharPost(m.id); if (p) p.resolvido = novo;
         renderLista(); renderMeus();
-        toast(novo ? 'Marcado como resolvido. Obrigado!' : 'Seu anúncio voltou para o mural.');
+        toast(novo ? 'Que bom! Seu pedido não recebe mais contatos.' : 'Seu anúncio voltou para o mural.');
       }, function (e) { toast(msg(e, 'gerenciar')); });
       return;
     }
@@ -1628,6 +1633,9 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       ? 'Quem puder ajudar vai chamar você. Fique de olho no telefone. Enquanto isso, veja quem já se ofereceu perto de você.'
       : 'Quem precisar vai chamar você. Você também pode procurar pedidos perto de você e chamar primeiro.';
     $('[data-divulgue="sucesso"]').innerHTML = divulgueHtml('sucesso', pedido ? TEXTO_DIVULGA.pedido : TEXTO_DIVULGA.oferta);
+    $('#suc-gestao').textContent = pedido
+      ? 'Com ele você marca “Já consegui ajuda” ou apaga o pedido de qualquer aparelho. Neste aparelho, os botões ficam no topo do mural.'
+      : 'Com ele você apaga a oferta de qualquer aparelho. Neste aparelho, o botão fica no topo do mural.';
     $('#suc-link').value = baseUrl() + '#gerenciar.' + r.id + '.' + r.token;
     $('#suc-linkbox').hidden = true;
     $('#suc-enviar').hidden = !navigator.share;
