@@ -77,7 +77,9 @@ Para o link aparecer com imagem no WhatsApp e no Telegram, abra `index.html` e t
 - A página inicial tem só duas ações: **Preciso de ajuda** e **Posso ajudar**. O mural e "Mais informações" ficam em páginas próprias, com links discretos.
 - O formulário faz uma pergunta por tela, em 4 passos: primeiro nome, onde mora, contato (WhatsApp ou Instagram, pelo menos um) e um texto opcional.
 - No passo "Onde você mora?", a pessoa digita o bairro ou a cidade e escolhe na lista, toca em **Usar onde eu estou** (GPS do celular) ou escreve o endereço à mão. A busca usa o mapa aberto OpenStreetMap, pelo serviço gratuito Photon (`photon.komoot.io`). A localização não é guardada.
-- No mural, dá para filtrar por estado, buscar por cidade ou bairro e tocar em **Perto de mim** para ver primeiro quem é do seu bairro (usa a localização do aparelho, que não é guardada).
+- No mural, dá para filtrar por estado, buscar por cidade ou bairro e tocar em **Perto de mim** para ver do mais perto ao mais longe, com a distância em cada cartão. A localização do aparelho fica só na memória do navegador.
+- Acima da lista aparecem os bairros com anúncios e a contagem de cada um. Um toque filtra, outro toque limpa.
+- Cada anúncio guarda a posição aproximada do bairro, arredondada para 0,01 grau (cerca de 1 km). Quem usa o buscador ou o GPS tem a posição arredondada no próprio aparelho antes de enviar. Quem escreve o endereço à mão recebe o centro do bairro pelo OpenStreetMap, se ele for encontrado. O banco arredonda de novo ao gravar. O ponto exato nunca é enviado.
 - O mural mostra primeiro nome, bairro, cidade, o texto e quais canais de contato existem. O número e o @ só aparecem quando alguém toca em **Entrar em contato**. Daí dá para abrir o WhatsApp, ligar ou mandar mensagem no Instagram.
 - Quem publicou vê seus anúncios no topo do mural (no mesmo aparelho) e pode marcar como resolvido ou apagar. Também recebe um link secreto para gerenciar de outro aparelho.
 - Depois das 17h de 25/10, o site para de aceitar publicações.
@@ -101,6 +103,7 @@ Abra **https://teajudoavotar.com.br/admin.html** e entre com a senha de moderaç
 
 - **Denunciados:** aba que abre primeiro. Leia o anúncio e decida.
 - **Esconder:** tira do mural sem apagar. Dá para mostrar de novo.
+- **Completar localizações:** procura no OpenStreetMap o bairro (ou a cidade) dos anúncios publicados antes desta versão e guarda a posição arredondada. Rode uma vez depois de atualizar o banco; os anúncios novos já chegam com a posição.
 - **Zerar denúncias:** para anúncios legítimos que foram denunciados de má-fé.
 - **Apagar:** definitivo. Pede confirmação com um segundo toque.
 

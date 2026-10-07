@@ -180,6 +180,18 @@ h1:focus-visible, h2:focus-visible { outline: none; }
 .btn-perto span { display: none; }
 @media (min-width: 600px) { .btn-perto { width: auto; padding: 0 16px; } .btn-perto span { display: inline; } }
 .btn-perto[disabled] { opacity: .6; cursor: progress; }
+.perto-status { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; margin: 0; font-size: .9rem; font-weight: 600; color: var(--muted); }
+.perto-status .i { width: 18px; height: 18px; flex: none; color: var(--green-ink); }
+.perto-status button { padding: 0; border: 0; background: none; color: var(--green-ink); font: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.bairros { display: flex; gap: 8px; margin: -6px -4px 0; padding: 2px 4px 6px; overflow-x: auto; scrollbar-width: none; }
+.bairros::-webkit-scrollbar { display: none; }
+@media (min-width: 600px) { .bairros { flex-wrap: wrap; overflow: visible; } }
+.chip { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 12px; border: 1.5px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font-size: .92rem; font-weight: 700; cursor: pointer; }
+.chip small { font-size: .85em; font-weight: 600; color: var(--muted); }
+.chip b { min-width: 1.6em; padding: 0 6px; border-radius: 999px; background: var(--surface-2); font-size: .8rem; text-align: center; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chip[aria-pressed="true"] small, .chip[aria-pressed="true"] b { color: inherit; background: rgba(128, 128, 128, .3); }
+.card-meta .dist { color: var(--green-ink); }
 select, input, textarea { width: 100%; min-height: 48px; padding: 9px 14px; border: 1.5px solid var(--line); border-radius: var(--r-sm); background: var(--surface); color: var(--ink); font-weight: 600; }
 textarea { resize: vertical; min-height: 96px; }
 input::placeholder, textarea::placeholder { color: var(--muted); opacity: .85; }
@@ -191,7 +203,13 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .busca .i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--muted); }
 .busca input { padding-left: 44px; }
 .lista { display: grid; gap: 16px; }
-@media (min-width: 760px) { .lista { grid-template-columns: 1fr 1fr; align-items: start; gap: 20px; } .lista > .esqueleto { grid-column: 1 / -1; } }
+@media (min-width: 760px) {
+  .lista { grid-template-columns: 1fr 1fr; align-items: start; gap: 20px; }
+  .lista > .esqueleto { grid-column: 1 / -1; }
+  /* Masonry: cada cartão ocupa N faixas de 4px conforme a altura medida; o próximo entra na coluna mais curta. */
+  .lista.masonry { grid-auto-rows: 4px; grid-auto-flow: dense; row-gap: 0; }
+  .lista.masonry > .card { margin-bottom: 20px; }
+}
 .card { display: grid; gap: 12px; padding: 22px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow); min-width: 0; }
 .card-pedido { --accent: var(--green); --on-accent: var(--on-green); --accent-soft: var(--green-soft); --accent-ink: var(--green-ink); }
 .card-oferta { --accent: var(--blue); --on-accent: var(--on-blue); --accent-soft: var(--blue-soft); --accent-ink: var(--blue-ink); }
@@ -489,7 +507,9 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
           </div>
           <button class="btn-perto" type="button" id="perto" aria-label="Perto de mim" title="Mostrar quem está perto de mim"><svg class="i" aria-hidden="true"><use href="#i-locate"/></svg><span>Perto de mim</span></button>
         </div>
+        <p class="perto-status" id="perto-status" hidden></p>
       </div>
+      <div class="bairros" id="bairros" role="group" aria-label="Bairros com anúncios" hidden></div>
       <div class="lista" id="lista" role="tabpanel"></div>
       <button class="mini mais" type="button" id="mais" hidden>Mostrar mais</button>
       <div class="divulgue" data-divulgue="mural"></div>
@@ -559,7 +579,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
         <li>O mural mostra só primeiro nome, bairro, cidade e o texto que você escreveu.</li>
         <li>WhatsApp e Instagram aparecem apenas para quem tocar em “Entrar em contato”, com limite por pessoa contra robôs.</li>
         <li>Você marca como resolvido ou apaga quando quiser, no topo do mural ou pelo link secreto que recebe ao publicar.</li>
-        <li>A busca de bairro usa o mapa aberto OpenStreetMap. Sua localização não fica guardada.</li>
+        <li>A busca de bairro usa o mapa aberto OpenStreetMap. Guardamos só a posição aproximada do bairro, arredondada para cerca de 1 km, para mostrar quem está perto. Nunca o ponto exato.</li>
         <li>Tudo é apagado em 26 de outubro.</li>
       </ul>
     </section>
@@ -838,10 +858,11 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       }, function () { throw erro('rede'); });
   }
   var remoto = {
-    listar: function (uf) { return rpc('listar', { p_uf: uf || null }); },
+    listar: function (uf) { return rpc('mural', { p_uf: uf || null }); },
     criar: function (p) {
       return rpc('criar', { p_tipo: p.tipo, p_nome: p.nome, p_uf: p.uf, p_cidade: p.cidade, p_bairro: p.bairro || null,
-        p_detalhes: p.detalhes || null, p_telefone: p.telefone || null, p_instagram: p.instagram || null });
+        p_detalhes: p.detalhes || null, p_telefone: p.telefone || null, p_instagram: p.instagram || null,
+        p_lat: p.lat == null ? null : p.lat, p_lng: p.lng == null ? null : p.lng });
     },
     verContato: function (id) { return rpc('ver_contato', { p_id: id }); },
     atualizar: function (id, token, r) { return rpc('atualizar', { p_id: id, p_token: token, p_resolvido: r }); },
@@ -851,23 +872,25 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
 
   // ---------- dados: demonstração (fica no aparelho) ----------
   function demo() {
-    var KEY = 'tav-demo-v2';
+    var KEY = 'tav-demo-v3';
     function ha(h) { return new Date(Date.now() - h * 3600e3).toISOString(); }
-    function ex(i, tipo, nome, uf, cidade, bairro, detalhes, telefone, instagram, h, resolvido) {
+    function ex(i, tipo, nome, uf, cidade, bairro, detalhes, telefone, instagram, h, resolvido, lat, lng) {
       return { id: 'exemplo-' + i, token: 'exemplo', exemplo: true, tipo: tipo, nome: nome, uf: uf, cidade: cidade, bairro: bairro,
-        detalhes: detalhes, telefone: telefone, instagram: instagram, criado_em: ha(h), resolvido: !!resolvido };
+        detalhes: detalhes, telefone: telefone, instagram: instagram, criado_em: ha(h), resolvido: !!resolvido, lat: lat, lng: lng };
     }
     var dados = lsGet(KEY, null);
     if (!dados) {
       dados = [
-        ex(1, 'pedido', 'Dona Lúcia', 'SP', 'São Paulo', 'Vila Mariana', 'Uso andador e minha seção fica no 2º andar da escola. Preciso de alguém para ir junto de manhã.', '11900000000', null, 2),
-        ex(2, 'oferta', 'Rafa', 'SP', 'São Paulo', 'Vila Mariana', 'Moro perto da escola do bairro. Posso ir junto e ajudar com o e-Título.', '11900000000', 'rafa.ajuda', 5),
-        ex(3, 'pedido', 'Seu Antônio', 'PE', 'Recife', 'Casa Amarela', 'Perdi o título e não sei onde voto.', '81900000000', null, 7),
-        ex(4, 'oferta', 'Bia', 'RJ', 'Rio de Janeiro', 'Tijuca', 'Sou professora. Fico com as crianças na praça enquanto você vota.', null, 'bia.tijuca', 9),
-        ex(5, 'pedido', 'Marcos', 'MG', 'Belo Horizonte', 'Santa Tereza', 'Cuido da minha mãe acamada e não posso deixar ela sozinha por uma hora.', '31900000000', null, 20),
-        ex(6, 'oferta', 'Dani', 'BA', 'Salvador', 'Rio Vermelho', 'Trabalho como cuidadora. Posso empurrar cadeira de rodas.', '71900000000', null, 26),
-        ex(7, 'oferta', 'Léo', 'CE', 'Fortaleza', 'Benfica', 'Explico como funciona a urna e ajudo a achar o local de votação pelo celular.', '85900000000', 'leo.fortal', 30),
-        ex(8, 'pedido', 'Cida', 'RS', 'Porto Alegre', 'Partenon', 'Tenho 82 anos e não gosto de ir sozinha.', '51900000000', null, 40, true)
+        ex(1, 'pedido', 'Dona Lúcia', 'SP', 'São Paulo', 'Vila Mariana', 'Uso andador e minha seção fica no 2º andar da escola. Preciso de alguém para ir junto de manhã.', '11900000000', null, 2, false, -23.59, -46.63),
+        ex(2, 'oferta', 'Rafa', 'SP', 'São Paulo', 'Vila Mariana', 'Moro perto da escola do bairro. Posso ir junto e ajudar com o e-Título.', '11900000000', 'rafa.ajuda', 5, false, -23.59, -46.64),
+        ex(3, 'pedido', 'Seu Antônio', 'PE', 'Recife', 'Casa Amarela', 'Perdi o título e não sei onde voto.', '81900000000', null, 7, false, -8.03, -34.92),
+        ex(4, 'oferta', 'Bia', 'RJ', 'Rio de Janeiro', 'Tijuca', 'Sou professora. Fico com as crianças na praça enquanto você vota.', null, 'bia.tijuca', 9, false, -22.93, -43.23),
+        ex(5, 'pedido', 'Marcos', 'MG', 'Belo Horizonte', 'Santa Tereza', 'Cuido da minha mãe acamada e não posso deixar ela sozinha por uma hora.', '31900000000', null, 20, false, -19.92, -43.92),
+        ex(6, 'oferta', 'Dani', 'BA', 'Salvador', 'Rio Vermelho', 'Trabalho como cuidadora. Posso empurrar cadeira de rodas.', '71900000000', null, 26, false, -13.01, -38.49),
+        ex(7, 'oferta', 'Léo', 'CE', 'Fortaleza', 'Benfica', 'Explico como funciona a urna e ajudo a achar o local de votação pelo celular.', '85900000000', 'leo.fortal', 30, false, -3.74, -38.54),
+        ex(8, 'pedido', 'Cida', 'RS', 'Porto Alegre', 'Partenon', 'Tenho 82 anos e não gosto de ir sozinha.', '51900000000', null, 40, true, -30.06, -51.17),
+        ex(9, 'oferta', 'Tiago', 'SP', 'São Paulo', 'Pinheiros', 'Posso ir junto e explicar a urna.', '11900000001', null, 12, false, -23.56, -46.69),
+        ex(10, 'pedido', 'Dona Zefa', 'SP', 'São Paulo', 'Mooca', 'Tenho dificuldade para andar. Preciso de companhia até a seção.', '11900000002', null, 15, false, -23.55, -46.60)
       ];
       lsSet(KEY, dados);
     }
@@ -886,7 +909,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
           .sort(function (a, b) { return a.resolvido === b.resolvido ? (a.criado_em < b.criado_em ? 1 : -1) : (a.resolvido ? 1 : -1); })
           .map(function (p) {
             return { id: p.id, criado_em: p.criado_em, tipo: p.tipo, nome: p.nome, uf: p.uf, cidade: p.cidade, bairro: p.bairro,
-              detalhes: p.detalhes, canais: canaisDe(p), resolvido: p.resolvido, exemplo: !!p.exemplo };
+              detalhes: p.detalhes, canais: canaisDe(p), resolvido: p.resolvido, exemplo: !!p.exemplo, lat: p.lat == null ? null : p.lat, lng: p.lng == null ? null : p.lng };
           });
         return depois(l);
       },
@@ -895,7 +918,8 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
         if (!p.telefone && !p.instagram) return falha('dados');
         var n = { id: novoId(), token: novoId(), tipo: p.tipo, nome: p.nome.trim(), uf: p.uf, cidade: p.cidade.trim(),
           bairro: (p.bairro || '').trim() || null, detalhes: (p.detalhes || '').trim() || null, telefone: p.telefone || null,
-          instagram: p.instagram || null, resolvido: false, criado_em: new Date().toISOString() };
+          instagram: p.instagram || null, resolvido: false, criado_em: new Date().toISOString(),
+          lat: p.lat == null ? null : arred(p.lat), lng: p.lng == null ? null : arred(p.lng) };
         dados.unshift(n); salvar();
         return depois({ id: n.id, token: n.token, criado_em: n.criado_em });
       },
@@ -927,7 +951,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     posts: [], carregando: true, erroLista: null,
     uf: filtrosSalvos.uf || '', tab: filtrosSalvos.tab === 'oferta' ? 'oferta' : 'pedido', busca: '',
     limite: 40, contatos: {}, denuncia: {}, apagando: {},
-    view: 'home', tipoForm: null, passo: 0, onde: null, sugestoes: [], formEnviado: false, ultimo: null, perto: null
+    view: 'home', tipoForm: null, passo: 0, onde: null, sugestoes: [], formEnviado: false, ultimo: null, perto: null, bairro: ''
   };
   function salvarFiltros() { lsSet('tav-filtros', { uf: st.uf, tab: st.tab }); }
   function meus() { return lsGet('tav-meus', []); }
@@ -958,10 +982,48 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     $('#link-mural').textContent = n ? 'Ver o mural · ' + n + (n === 1 ? ' anúncio' : ' anúncios') : 'Ver o mural';
   }
 
+  // Coordenadas sempre arredondadas para 0,01 grau (cerca de 1 km). O ponto exato nunca sai do aparelho.
+  function arred(v) { return Math.round(Number(v) * 100) / 100; }
+  function distanciaKm(a, b) {
+    var R = 6371, r = Math.PI / 180, dl = (b.lat - a.lat) * r, dn = (b.lng - a.lng) * r;
+    var s = Math.sin(dl / 2) * Math.sin(dl / 2) + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dn / 2) * Math.sin(dn / 2);
+    return 2 * R * Math.asin(Math.sqrt(s));
+  }
+  function distanciaDe(p) {
+    var o = st.perto && st.perto.pos;
+    if (!o || p.lat == null || p.lng == null) return null;
+    return distanciaKm(o, { lat: Number(p.lat), lng: Number(p.lng) });
+  }
+  // Sem coordenadas (anúncios antigos ou endereço não encontrado): mesmo bairro conta como 1 km, mesma cidade como 8 km.
+  function rankDe(p) {
+    var d = distanciaDe(p);
+    if (d != null) return d;
+    if (!st.perto || !st.perto.pos) return Infinity;
+    var mesmaCidade = norm(p.cidade) === norm(st.perto.cidade);
+    if (mesmaCidade && st.perto.bairro && norm(p.bairro || '') === norm(st.perto.bairro)) return 1;
+    return mesmaCidade ? 8 : Infinity;
+  }
+  function rotuloDist(p) {
+    var d = distanciaDe(p);
+    if (d != null) return distanciaTxt(d);
+    if (!st.perto || !st.perto.pos) return '';
+    var r = rankDe(p);
+    return r === 1 ? 'no seu bairro' : r === 8 ? 'na sua cidade' : '';
+  }
+  function distanciaTxt(km) {
+    if (km < 1.5) return 'bem perto de você';
+    if (km < 10) return 'a cerca de ' + Math.round(km) + ' km de você';
+    if (km < 100) return 'a cerca de ' + Math.round(km / 5) * 5 + ' km de você';
+    return 'a ' + Math.round(km) + ' km de você';
+  }
+
   function filtrados() {
     var q = norm(st.busca);
     var l = !q ? st.posts.slice() : st.posts.filter(function (p) { return norm(p.cidade + ' ' + (p.bairro || '')).indexOf(q) >= 0; });
-    if (st.perto && st.perto.bairro) {
+    if (st.perto && st.perto.pos) {
+      l = l.map(function (p, i) { return { p: p, i: i, d: rankDe(p) }; })
+        .sort(function (x, y) { return x.d - y.d || x.i - y.i; }).map(function (x) { return x.p; });
+    } else if (st.perto && st.perto.bairro) {
       var b = norm(st.perto.bairro);
       l = l.map(function (p, i) { return { p: p, i: i, k: norm(p.bairro || '') === b ? 0 : 1 }; })
         .sort(function (x, y) { return x.k - y.k || x.i - y.i; }).map(function (x) { return x.p; });
@@ -972,10 +1034,39 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
   function pertoDeMim() {
     var b = $('#perto'); b.disabled = true; toast('Procurando você no mapa…');
     ondeEstou().then(function (l) {
-      st.perto = l; st.uf = l.uf; $('#f-uf').value = l.uf; st.busca = l.cidade; $('#f-busca').value = l.cidade;
+      st.perto = l; st.uf = l.uf; $('#f-uf').value = l.uf; st.busca = ''; $('#f-busca').value = ''; st.bairro = '';
       st.limite = 40; st.posts = []; salvarFiltros();
-      return carregar().then(function () { toast('Mostrando ' + l.rotulo); });
+      return carregar().then(function () { toast(l.pos ? 'Do mais perto para o mais longe' : 'Mostrando ' + l.rotulo); });
     }, function () { toast('Não deu para achar sua localização. Use os filtros.'); }).then(function () { b.disabled = false; });
+  }
+  function limparPerto() { st.perto = null; st.limite = 40; renderLista(); }
+  function renderPerto() {
+    var el = $('#perto-status');
+    if (!st.perto) { el.hidden = true; el.innerHTML = ''; return; }
+    el.innerHTML = icon('locate') + '<span>Perto de ' + esc(st.perto.bairro || st.perto.cidade) + (st.perto.pos ? ' · do mais perto ao mais longe' : '') + '</span><button type="button" data-acao="limpar-perto">Limpar</button>';
+    el.hidden = false;
+  }
+
+  // Bairros com anúncios na lista atual: um toque filtra, outro toque limpa.
+  function chaveBairro(p) { return norm(p.cidade) + '|' + norm(p.bairro || ''); }
+  function renderBairros(lista) {
+    var el = $('#bairros'), grupos = {}, cidades = {};
+    lista.forEach(function (p) {
+      if (!p.bairro || p.resolvido) return;
+      var k = chaveBairro(p); cidades[norm(p.cidade)] = 1;
+      var g = grupos[k] || (grupos[k] = { k: k, bairro: p.bairro, cidade: p.cidade, n: 0, d: Infinity });
+      g.n++; var d = rankDe(p); if (d < g.d) g.d = d;
+    });
+    if (st.bairro && !grupos[st.bairro]) st.bairro = '';
+    var arr = Object.keys(grupos).map(function (k) { return grupos[k]; });
+    if (arr.length < 2) { el.hidden = true; el.innerHTML = ''; return; }
+    var multi = Object.keys(cidades).length > 1, porDist = !!(st.perto && st.perto.pos);
+    arr.sort(function (a, b) { return porDist ? (a.d - b.d || b.n - a.n) : (b.n - a.n || a.bairro.localeCompare(b.bairro)); });
+    el.innerHTML = arr.slice(0, 12).map(function (g) {
+      return '<button class="chip" type="button" data-bairro="' + esc(g.k) + '" aria-pressed="' + (st.bairro === g.k) + '">' +
+        esc(g.bairro) + (multi ? ' <small>' + esc(g.cidade) + '</small>' : '') + ' <b>' + g.n + '</b></button>';
+    }).join('');
+    el.hidden = false;
   }
 
   function renderLista() {
@@ -989,9 +1080,10 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
 
     if (st.carregando) {
       lista.innerHTML = '<div class="esqueleto" aria-label="Carregando o mural" role="status"><div class="esq"></div><div class="esq"></div><div class="esq"></div></div>';
-      $('#stats').textContent = ''; $('#mais').hidden = true; return;
+      $('#stats').textContent = ''; $('#mais').hidden = true; $('#bairros').hidden = true; lista.classList.remove('masonry'); return;
     }
     if (st.erroLista) {
+      $('#bairros').hidden = true; lista.classList.remove('masonry');
       lista.innerHTML = '<div class="vazio"><p>' + esc(st.erroLista) + '</p><button class="btn-contato" type="button" data-acao="recarregar">Tentar de novo</button></div>';
       $('#mais').hidden = true; return;
     }
@@ -1001,12 +1093,17 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       abertos.oferta + (abertos.oferta === 1 ? ' oferta' : ' ofertas') + ' · ' +
       resolvidos + (resolvidos === 1 ? ' resolvido' : ' resolvidos') + (st.uf || st.busca ? ' em ' + onde : '');
 
+    renderPerto();
     var desta = todos.filter(function (p) { return p.tipo === st.tab; });
+    renderBairros(desta);
+    if (st.bairro) desta = desta.filter(function (p) { return chaveBairro(p) === st.bairro; });
     if (!desta.length) {
-      lista.innerHTML = vazioHtml();
+      lista.classList.remove('masonry'); lista.innerHTML = vazioHtml();
       $('#mais').hidden = true; return;
     }
+    lista.classList.add('masonry');
     lista.innerHTML = desta.slice(0, st.limite).map(cardHtml).join('');
+    masonry();
     var resto = desta.length - st.limite;
     $('#mais').hidden = resto <= 0;
     if (resto > 0) $('#mais').textContent = 'Mostrar mais (' + resto + ')';
@@ -1036,7 +1133,9 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       '<time datetime="' + esc(p.criado_em) + '">' + haQuanto(p.criado_em) + '</time></div>';
     h += '<h3 class="card-nome">' + esc(p.nome) + '</h3>';
     var canais = (p.canais || []).filter(function (c) { return CANAL_NOME[c]; }).map(function (c) { return icon(c) + CANAL_NOME[c]; }).join('</span><span>');
+    var dist = rotuloDist(p);
     h += '<p class="card-meta"><span>' + icon('local') + esc(p.bairro ? p.bairro + ' · ' : '') + esc(p.cidade) + '/' + esc(p.uf) + '</span>' +
+      (dist ? '<span class="dist">' + icon('locate') + dist + '</span>' : '') +
       (canais ? '<span>' + canais + '</span>' : '') + '</p>';
     if (p.detalhes) h += '<p class="card-det">' + esc(p.detalhes) + '</p>';
     if (p.exemplo) h += '<span class="exemplo">Exemplo</span>';
@@ -1092,8 +1191,21 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
   function renderCard(id) {
     var el = document.querySelector('.card[data-id="' + id + '"]');
     var p = acharPost(id);
-    if (el && p) el.outerHTML = cardHtml(p);
+    if (el && p) { el.outerHTML = cardHtml(p); masonry(); }
   }
+
+  // Mede cada cartão e diz quantas faixas de 4px ele ocupa. Em uma coluna (celular) não faz nada.
+  var masonryT = null;
+  function masonry() {
+    var lista = $('#lista'), cards = lista.children;
+    var ativo = lista.classList.contains('masonry') && window.matchMedia('(min-width: 760px)').matches;
+    for (var i = 0; i < cards.length; i++) {
+      var c = cards[i];
+      if (!ativo || !c.classList.contains('card')) { c.style.gridRowEnd = ''; continue; }
+      c.style.gridRowEnd = 'span ' + Math.max(1, Math.ceil((c.getBoundingClientRect().height + 20) / 4));
+    }
+  }
+  function masonryDepois() { clearTimeout(masonryT); masonryT = setTimeout(masonry, 80); }
 
   function abrirContato(p) {
     st.contatos[p.id] = 'carregando'; renderCard(p.id);
@@ -1238,7 +1350,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       var vistos = {}, lista = [];
       ((d && d.features) || []).forEach(function (f) {
         var l = lugarDeFeature(f.properties, false);
-        if (l && !vistos[norm(l.rotulo)]) { vistos[norm(l.rotulo)] = 1; lista.push(l); }
+        if (l && !vistos[norm(l.rotulo)]) { vistos[norm(l.rotulo)] = 1; comCoordenadas(l, f); lista.push(l); }
       });
       lista = lista.slice(0, 4);
       geoCache[k] = lista;
@@ -1246,6 +1358,11 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     });
   }
 
+  function comCoordenadas(l, f) {
+    var c = f && f.geometry && f.geometry.coordinates;
+    if (c && isFinite(c[0]) && isFinite(c[1])) { l.lat = arred(c[1]); l.lng = arred(c[0]); }
+    return l;
+  }
   function ondeEstou() {
     return new Promise(function (res, rej) {
       if (!navigator.geolocation) return rej(erro('geo'));
@@ -1254,10 +1371,31 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
         fetchJson(GEO + '/reverse?lon=' + c.longitude + '&lat=' + c.latitude + '&lang=default&limit=1').then(function (d) {
           var f = d && d.features && d.features[0];
           var l = f && lugarDeFeature(f.properties, true);
-          if (l) res(l); else rej(erro('geo'));
+          if (!l) return rej(erro('geo'));
+          l.lat = arred(c.latitude); l.lng = arred(c.longitude);   // o que pode ser publicado: arredondado
+          l.pos = { lat: c.latitude, lng: c.longitude };            // só na memória, para ordenar por distância
+          res(l);
         }, function () { rej(erro('geo')); });
       }, function () { rej(erro('geo')); }, { timeout: 12000, maximumAge: 120000 });
     });
+  }
+  // Quem escreve o endereço à mão: tenta achar o centro do bairro. Se não der, publica sem coordenadas.
+  function coordenadasDe(d) {
+    if (d.lat != null && d.lng != null) return Promise.resolve(d);
+    if (!d.cidade || !d.uf) return Promise.resolve(d);
+    var q = [d.bairro, d.cidade, nomeUf(d.uf)].filter(Boolean).join(', ');
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var t = setTimeout(function () { if (ctrl) ctrl.abort(); }, 4000);
+    return fetchJson(GEO + '/api/?q=' + encodeURIComponent(q) + '&limit=5&lang=default&bbox=-74,-34,-28,6', ctrl ? { signal: ctrl.signal } : {})
+      .then(function (r) {
+        var fs = (r && r.features) || [];
+        for (var i = 0; i < fs.length; i++) {
+          var f = fs[i], pr = f.properties || {};
+          if (ufDeEstado(pr.state) === d.uf && f.geometry && f.geometry.coordinates) { comCoordenadas(d, f); break; }
+        }
+        return d;
+      }, function () { return d; })
+      .then(function (x) { clearTimeout(t); return x; });
   }
 
   function renderSugestoes(lista) {
@@ -1416,6 +1554,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     var o = st.onde || {};
     return {
       tipo: st.tipoForm, nome: $('#c-nome').value.trim(), uf: o.uf, cidade: o.cidade, bairro: o.bairro || '',
+      lat: o.lat == null ? null : o.lat, lng: o.lng == null ? null : o.lng,
       detalhes: $('#c-detalhes').value.trim(), telefone: digitos($('#c-telefone').value) || '', instagram: igLimpar($('#c-instagram').value) || '',
       hp: $('#c-site').value
     };
@@ -1440,7 +1579,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     var btn = $('#c-avancar'), rot = btn.innerHTML;
     if (d.hp) { sucesso({ id: 'x', token: 'x' }, d); return; }
     btn.disabled = true; btn.textContent = 'Publicando…';
-    api.criar(d).then(function (r) {
+    coordenadasDe(d).then(function (d2) { return api.criar(d2); }).then(function (r) {
       var l = meus().filter(function (x) { return x.id !== r.id; });
       l.unshift({ id: r.id, token: r.token, tipo: d.tipo, nome: d.nome, bairro: d.bairro, cidade: d.cidade, uf: d.uf, criado_em: r.criado_em, resolvido: false });
       salvarMeus(l);
@@ -1592,14 +1731,19 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
 
     $('#compartilhar').addEventListener('click', compartilhar);
     document.querySelectorAll('.aba').forEach(function (b) {
-      b.addEventListener('click', function () { st.tab = b.getAttribute('data-tab'); st.limite = 40; salvarFiltros(); renderLista(); });
+      b.addEventListener('click', function () { st.tab = b.getAttribute('data-tab'); st.bairro = ''; st.limite = 40; salvarFiltros(); renderLista(); });
     });
-    $('#f-uf').addEventListener('change', function () { st.uf = this.value; st.perto = null; st.limite = 40; st.posts = []; salvarFiltros(); carregar(); });
+    $('#f-uf').addEventListener('change', function () { st.uf = this.value; st.perto = null; st.bairro = ''; st.limite = 40; st.posts = []; salvarFiltros(); carregar(); });
+    $('#perto-status').addEventListener('click', function (ev) { if (ev.target.closest('[data-acao="limpar-perto"]')) limparPerto(); });
+    $('#bairros').addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-bairro]'); if (!b) return;
+      var k = b.getAttribute('data-bairro'); st.bairro = st.bairro === k ? '' : k; st.limite = 40; renderLista();
+    });
     $('#perto').addEventListener('click', pertoDeMim);
     var filtroT;
     $('#f-busca').addEventListener('input', function () {
       var v = this.value; clearTimeout(filtroT);
-      filtroT = setTimeout(function () { st.busca = v.trim(); st.perto = null; st.limite = 40; renderLista(); }, 150);
+      filtroT = setTimeout(function () { st.busca = v.trim(); st.perto = null; st.bairro = ''; st.limite = 40; renderLista(); }, 150);
     });
     $('#mais').addEventListener('click', function () { st.limite += 40; renderLista(); });
 
@@ -1638,6 +1782,8 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       window.visualViewport.addEventListener('scroll', ajustarAcoes);
     }
     window.addEventListener('resize', ajustarAcoes);
+    window.addEventListener('resize', masonryDepois);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(masonryDepois);
     f.addEventListener('focusin', function (ev) {
       if (!ev.target.matches('input, textarea, select') || window.innerWidth > 700) return;
       document.body.classList.add('teclado');

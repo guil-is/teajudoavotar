@@ -81,6 +81,7 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
 <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
 <symbol id="i-trash" viewBox="0 0 24 24"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
 <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
 <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/></symbol>
 </svg>
 
@@ -92,6 +93,7 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
     </a>
     <div class="topo-acoes" id="topo-acoes" hidden>
       <button class="mini" type="button" id="atualizar"><svg class="i"><use href="#i-refresh"/></svg>Atualizar</button>
+      <button class="mini" type="button" id="localizar" title="Procura no mapa o bairro dos anúncios publicados sem posição aproximada"><svg class="i"><use href="#i-pin"/></svg>Completar localizações</button>
       <button class="mini" type="button" id="sair">Sair</button>
     </div>
   </div>
@@ -127,6 +129,8 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
   'use strict';
   var CFG = window.TAV_CONFIG || {};
   var KEY = 'tav-admin';
+  var GEO = (CFG.GEOCODER || 'https://photon.komoot.io').replace(/\/+$/, '');
+  var UF_NOME = { AC: 'Acre', AL: 'Alagoas', AP: 'Amapá', AM: 'Amazonas', BA: 'Bahia', CE: 'Ceará', DF: 'Distrito Federal', ES: 'Espírito Santo', GO: 'Goiás', MA: 'Maranhão', MT: 'Mato Grosso', MS: 'Mato Grosso do Sul', MG: 'Minas Gerais', PA: 'Pará', PB: 'Paraíba', PR: 'Paraná', PE: 'Pernambuco', PI: 'Piauí', RJ: 'Rio de Janeiro', RN: 'Rio Grande do Norte', RS: 'Rio Grande do Sul', RO: 'Rondônia', RR: 'Roraima', SC: 'Santa Catarina', SP: 'São Paulo', SE: 'Sergipe', TO: 'Tocantins' };
   var st = { senha: '', posts: [], filtro: 'denunciados', busca: '', apagando: {}, carregando: false };
 
   function $(s) { return document.querySelector(s); }
@@ -241,6 +245,53 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
     });
   }
 
+  // Anúncios publicados antes das coordenadas: procura o centro do bairro (ou da cidade) e guarda arredondado a 0,01 grau.
+  function ufDeEstado(nome) {
+    var n = norm(nome); if (!n) return '';
+    for (var k in UF_NOME) if (norm(UF_NOME[k]) === n || k.toLowerCase() === n) return k;
+    return '';
+  }
+  function geocodificar(p) {
+    function busca(q) {
+      var url = GEO + '/api/?q=' + encodeURIComponent(q) + '&limit=5&lang=default&bbox=-74,-34,-28,6';
+      return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+        var fs = (d && d.features) || [];
+        for (var i = 0; i < fs.length; i++) {
+          var f = fs[i], pr = f.properties || {}, c = f.geometry && f.geometry.coordinates;
+          if (pr.countrycode && String(pr.countrycode).toUpperCase() !== 'BR') continue;
+          if (ufDeEstado(pr.state) !== p.uf || !c) continue;
+          return { lat: Math.round(c[1] * 100) / 100, lng: Math.round(c[0] * 100) / 100 };
+        }
+        return null;
+      }, function () { return null; });
+    }
+    var estado = UF_NOME[p.uf] || p.uf;
+    return busca([p.bairro, p.cidade, estado].filter(Boolean).join(', ')).then(function (c) {
+      return c || (p.bairro ? busca(p.cidade + ', ' + estado) : null);
+    });
+  }
+  function completarLocalizacoes() {
+    var b = $('#localizar'); b.disabled = true;
+    rpc('admin_pendentes', { p_segredo: st.senha }).then(function (l) {
+      l = l || [];
+      if (!l.length) { toast('Todos os anúncios já têm localização.'); return; }
+      toast('Procurando ' + l.length + ' no mapa…');
+      var ok = 0, falhou = 0, i = 0;
+      function proximo() {
+        if (i >= l.length) { toast(ok + ' com localização, ' + falhou + ' não encontrados.'); return; }
+        var p = l[i++];
+        return geocodificar(p).then(function (c) {
+          if (!c) { falhou++; return; }
+          return rpc('admin_coordenadas', { p_segredo: st.senha, p_id: p.id, p_lat: c.lat, p_lng: c.lng }).then(function () { ok++; }, function () { falhou++; });
+        }).then(function () { return new Promise(function (r) { setTimeout(r, 400); }); }).then(proximo);
+      }
+      return proximo();
+    }, function (e) {
+      if (e.codigo === 'nao_autorizado' || e.codigo === 'limite') { sair(msg(e)); return; }
+      toast(msg(e));
+    }).then(function () { b.disabled = false; });
+  }
+
   function entrar(senha) {
     st.senha = senha;
     return rpc('admin_listar', { p_segredo: senha }).then(function (l) {
@@ -267,6 +318,7 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
   });
   $('#sair').addEventListener('click', function () { sair(); });
   $('#atualizar').addEventListener('click', carregar);
+  $('#localizar').addEventListener('click', completarLocalizacoes);
   document.querySelectorAll('.aba').forEach(function (b) { b.addEventListener('click', function () { st.filtro = b.getAttribute('data-f'); render(); }); });
   var bt;
   $('#busca').addEventListener('input', function () { var v = this.value; clearTimeout(bt); bt = setTimeout(function () { st.busca = v; render(); }, 150); });

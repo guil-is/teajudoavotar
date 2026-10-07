@@ -22,7 +22,10 @@ create table if not exists public.posts (
   denuncias  int not null default 0,
   contatos   int not null default 0,           -- quantas vezes alguém abriu o contato
   token      uuid not null default gen_random_uuid(),  -- chave secreta de quem publicou
-  constraint posts_contato_check check (telefone is not null or instagram is not null)
+  lat        numeric(5,2),                   -- posição aproximada do bairro (0,01 grau ≈ 1 km), nunca o ponto exato
+  lng        numeric(5,2),
+  constraint posts_contato_check check (telefone is not null or instagram is not null),
+  constraint posts_coord_check check ((lat is null and lng is null) or (lat between -34 and 6 and lng between -74 and -28))
 );
 
 -- Atualiza um banco criado com a versão anterior do site (sem efeito num banco novo).
@@ -42,6 +45,10 @@ alter table public.posts drop constraint if exists posts_instagram_check;
 alter table public.posts add constraint posts_instagram_check check (instagram is null or instagram ~ '^[A-Za-z0-9._]{1,30}$');
 alter table public.posts drop constraint if exists posts_contato_check;
 alter table public.posts add constraint posts_contato_check check (telefone is not null or instagram is not null);
+alter table public.posts add column if not exists lat numeric(5,2);
+alter table public.posts add column if not exists lng numeric(5,2);
+alter table public.posts drop constraint if exists posts_coord_check;
+alter table public.posts add constraint posts_coord_check check ((lat is null and lng is null) or (lat between -34 and 6 and lng between -74 and -28));
 
 create index if not exists posts_uf_idx on public.posts (uf, criado_em desc);
 
@@ -99,14 +106,16 @@ $$;
 
 -- Versões antigas (assinatura ou retorno diferentes) saem antes de criar as novas.
 drop function if exists public.listar(text);
+drop function if exists public.mural(text);
 drop function if exists public.criar(text, text[], text, text, text, text, text, text, text, text[]);
 drop function if exists public.criar(text, text, text, text, text, text, text, text);
+drop function if exists public.criar(text, text, text, text, text, text, text, text, double precision, double precision);
 
--- Lista o mural (sem telefone nem instagram; só diz quais canais existem).
-create function public.listar(p_uf text default null)
+-- Lista o mural (sem telefone nem instagram; só diz quais canais existem) com a posição aproximada.
+create function public.mural(p_uf text default null)
 returns table (
   id uuid, criado_em timestamptz, tipo text, nome text, uf text,
-  cidade text, bairro text, detalhes text, canais text[], resolvido boolean
+  cidade text, bairro text, detalhes text, canais text[], resolvido boolean, lat numeric, lng numeric
 )
 language sql stable security definer
 set search_path = ''
@@ -116,7 +125,7 @@ as $$
            case when p.telefone is not null then 'whatsapp' end,
            case when p.instagram is not null then 'instagram' end
          ], null) as canais,
-         p.resolvido
+         p.resolvido, p.lat, p.lng
     from public.posts p
    where not p.oculto
      and (p_uf is null or p.uf = upper(p_uf))
@@ -125,9 +134,10 @@ as $$
 $$;
 
 -- Publica um pedido ou oferta. Devolve o id e a chave secreta.
+-- As coordenadas chegam já arredondadas do site e são arredondadas de novo aqui (0,01 grau ≈ 1 km).
 create function public.criar(
   p_tipo text, p_nome text, p_uf text, p_cidade text, p_bairro text,
-  p_detalhes text, p_telefone text, p_instagram text
+  p_detalhes text, p_telefone text, p_instagram text, p_lat double precision, p_lng double precision
 )
 returns json
 language plpgsql security definer
@@ -137,6 +147,8 @@ declare
   r public.posts;
   fone text := regexp_replace(coalesce(p_telefone, ''), '\D', '', 'g');
   insta text := regexp_replace(btrim(coalesce(p_instagram, '')), '^@+', '');
+  la numeric := null;
+  lo numeric := null;
 begin
   if now() > timestamptz '2026-10-25 17:00:00-03' then
     raise exception 'encerrado';
@@ -145,16 +157,20 @@ begin
     fone := substr(fone, 3);
   end if;
   fone := regexp_replace(fone, '^0', '');
+  if p_lat is not null and p_lng is not null and p_lat between -34 and 6 and p_lng between -74 and -28 then
+    la := round(p_lat::numeric, 2);
+    lo := round(p_lng::numeric, 2);
+  end if;
 
   perform public._limitar('criar', 6, interval '1 hour');
   delete from public.limites where em < now() - interval '1 day';
 
   begin
-    insert into public.posts (tipo, nome, uf, cidade, bairro, detalhes, telefone, instagram)
+    insert into public.posts (tipo, nome, uf, cidade, bairro, detalhes, telefone, instagram, lat, lng)
     values (p_tipo, btrim(p_nome), upper(btrim(p_uf)), btrim(p_cidade),
             nullif(btrim(coalesce(p_bairro, '')), ''),
             nullif(btrim(coalesce(p_detalhes, '')), ''),
-            nullif(fone, ''), nullif(insta, ''))
+            nullif(fone, ''), nullif(insta, ''), la, lo)
     returning * into r;
   exception when check_violation or not_null_violation then
     raise exception 'dados';
@@ -234,15 +250,15 @@ $$;
 revoke execute on function public._origem() from public, anon, authenticated;
 revoke execute on function public._limitar(text, int, interval) from public, anon, authenticated;
 
-revoke execute on function public.listar(text) from public;
-revoke execute on function public.criar(text, text, text, text, text, text, text, text) from public;
+revoke execute on function public.mural(text) from public;
+revoke execute on function public.criar(text, text, text, text, text, text, text, text, double precision, double precision) from public;
 revoke execute on function public.ver_contato(uuid) from public;
 revoke execute on function public.atualizar(uuid, uuid, boolean) from public;
 revoke execute on function public.apagar(uuid, uuid) from public;
 revoke execute on function public.denunciar(uuid) from public;
 
-grant execute on function public.listar(text) to anon, authenticated;
-grant execute on function public.criar(text, text, text, text, text, text, text, text) to anon, authenticated;
+grant execute on function public.mural(text) to anon, authenticated;
+grant execute on function public.criar(text, text, text, text, text, text, text, text, double precision, double precision) to anon, authenticated;
 grant execute on function public.ver_contato(uuid) to anon, authenticated;
 grant execute on function public.atualizar(uuid, uuid, boolean) to anon, authenticated;
 grant execute on function public.apagar(uuid, uuid) to anon, authenticated;
@@ -326,11 +342,48 @@ begin
 end;
 $$;
 
+-- Anúncios sem posição aproximada (os publicados antes desta versão). O painel completa pelo OpenStreetMap.
+create or replace function public.admin_pendentes(p_segredo text)
+returns table (id uuid, uf text, cidade text, bairro text)
+language plpgsql security definer
+set search_path = ''
+as $$
+begin
+  perform public._admin_ok(p_segredo);
+  return query
+    select p.id, p.uf, p.cidade, p.bairro
+      from public.posts p
+     where p.lat is null
+     order by p.criado_em desc
+     limit 500;
+end;
+$$;
+
+create or replace function public.admin_coordenadas(p_segredo text, p_id uuid, p_lat double precision, p_lng double precision)
+returns boolean
+language plpgsql security definer
+set search_path = ''
+as $$
+begin
+  perform public._admin_ok(p_segredo);
+  if p_lat is null or p_lng is null or p_lat not between -34 and 6 or p_lng not between -74 and -28 then
+    raise exception 'dados';
+  end if;
+  update public.posts set lat = round(p_lat::numeric, 2), lng = round(p_lng::numeric, 2) where id = p_id;
+  if not found then raise exception 'nao_encontrado'; end if;
+  return true;
+end;
+$$;
+
 revoke execute on function public._admin_ok(text) from public, anon, authenticated;
 revoke execute on function public.admin_listar(text) from public;
 revoke execute on function public.admin_moderar(text, uuid, text) from public;
+revoke execute on function public.admin_pendentes(text) from public;
+revoke execute on function public.admin_coordenadas(text, uuid, double precision, double precision) from public;
 grant execute on function public.admin_listar(text) to anon, authenticated;
 grant execute on function public.admin_moderar(text, uuid, text) to anon, authenticated;
+grant execute on function public.admin_pendentes(text) to anon, authenticated;
+grant execute on function public.admin_coordenadas(text, uuid, double precision, double precision) to anon, authenticated;
 
 -- 6. Depois da eleição ----------------------------------------------------
 -- Em 26/10, apague tudo rodando estas duas linhas:
