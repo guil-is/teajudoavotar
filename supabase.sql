@@ -161,6 +161,10 @@ begin
     la := round(p_lat::numeric, 2);
     lo := round(p_lng::numeric, 2);
   end if;
+  -- Carona de carro não pode (Lei 6.091/1974). "Transporte público" e "coletivo" passam.
+  if coalesce(p_detalhes, '') ~* '\m(carona|carro|dirij\w*|uber|moto|motorista|levar|levo|busco|buscar|pego|pegar)\M|\mtransport\w*\M(?!\s+(p[úu]blico|coletivo|de massa))' then
+    raise exception 'carona';
+  end if;
 
   perform public._limitar('criar', 6, interval '1 hour');
   delete from public.limites where em < now() - interval '1 day';
@@ -359,6 +363,22 @@ begin
 end;
 $$;
 
+-- Edita o texto de um anúncio (ex.: tirar a frase da carona). Só com a senha.
+create or replace function public.admin_editar(p_segredo text, p_id uuid, p_detalhes text)
+returns boolean
+language plpgsql security definer
+set search_path = ''
+as $$
+declare t text := nullif(btrim(coalesce(p_detalhes, '')), '');
+begin
+  perform public._admin_ok(p_segredo);
+  if t is not null and char_length(t) > 300 then raise exception 'dados'; end if;
+  update public.posts set detalhes = t where id = p_id;
+  if not found then raise exception 'nao_encontrado'; end if;
+  return true;
+end;
+$$;
+
 create or replace function public.admin_coordenadas(p_segredo text, p_id uuid, p_lat double precision, p_lng double precision)
 returns boolean
 language plpgsql security definer
@@ -380,10 +400,12 @@ revoke execute on function public.admin_listar(text) from public;
 revoke execute on function public.admin_moderar(text, uuid, text) from public;
 revoke execute on function public.admin_pendentes(text) from public;
 revoke execute on function public.admin_coordenadas(text, uuid, double precision, double precision) from public;
+revoke execute on function public.admin_editar(text, uuid, text) from public;
 grant execute on function public.admin_listar(text) to anon, authenticated;
 grant execute on function public.admin_moderar(text, uuid, text) to anon, authenticated;
 grant execute on function public.admin_pendentes(text) to anon, authenticated;
 grant execute on function public.admin_coordenadas(text, uuid, double precision, double precision) to anon, authenticated;
+grant execute on function public.admin_editar(text, uuid, text) to anon, authenticated;
 
 -- 6. Depois da eleição ----------------------------------------------------
 -- Em 26/10, apague tudo rodando estas duas linhas:

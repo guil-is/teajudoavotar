@@ -673,7 +673,9 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
 
         <section class="passo" data-passo="texto" hidden>
           <label class="pergunta" for="c-detalhes" id="p-texto">Quer contar mais? <span class="opc">(opcional)</span></label>
-          <textarea id="c-detalhes" maxlength="300" rows="3" aria-describedby="d-detalhes"></textarea>
+          <textarea id="c-detalhes" maxlength="300" rows="3" aria-describedby="d-regras d-detalhes"></textarea>
+          <p class="erro" id="e-texto" role="alert" hidden></p>
+          <p class="dica" id="d-regras"></p>
           <p class="dica" id="d-detalhes"><span id="c-conta">0</span> de 300 letras</p>
         </section>
 
@@ -817,12 +819,23 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     } else { reserva(); }
   }
   function erro(c) { var e = new Error(c); e.codigo = c; return e; }
+  // Carona de carro não pode (Lei 6.091/1974). "Transporte público" e "coletivo" passam.
+  var CARONA_RE = /\b(carona|carro|dirij\w*|uber|moto|motorista|levar|levo|busco|buscar|pego|pegar)\b|\btransport\w*\b(?!\s+(p[úu]blico|coletivo|de massa))/i;
+  var MSG_CARONA = {
+    oferta: 'Carona de carro não pode. A lei eleitoral proíbe transportar eleitores no dia da votação. Troque por: ir junto a pé ou de transporte público, ficar com as crianças, explicar a urna, achar a seção.',
+    pedido: 'Carona de carro não pode: a lei eleitoral proíbe transportar eleitores no dia da votação. Peça companhia a pé ou de transporte público, ajuda com documentos ou alguém para ficar com as crianças.'
+  };
+  var REGRAS_TEXTO = {
+    oferta: 'Vale: ir junto a pé ou de transporte público, ficar com as crianças, explicar a urna, achar a seção. Não vale: carona de carro, a lei eleitoral proíbe.',
+    pedido: 'Pode pedir: companhia até a seção, ajuda com o e‑Título, alguém para ficar com as crianças. Não pode: carona de carro, a lei eleitoral proíbe.'
+  };
   function msg(e, ctx) {
     var c = (e && e.codigo) || 'rede';
     if (c === 'limite') return ctx === 'criar'
       ? 'Muitas publicações seguidas desta conexão. Espere uma hora e tente de novo.'
       : 'Muitas tentativas em pouco tempo. Espere alguns minutos e tente de novo.';
     if (c === 'encerrado') return 'A votação já terminou. Obrigado por participar!';
+    if (c === 'carona') return MSG_CARONA[st.tipoForm === 'pedido' ? 'pedido' : 'oferta'];
     if (c === 'dados') return 'Algum campo ficou com problema. Confira os dados e tente de novo.';
     if (c === 'nao_encontrado') return ctx === 'contato'
       ? 'Este anúncio não está mais disponível.'
@@ -835,7 +848,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
   }
   function detalhe(e) {
     var c = (e && e.codigo) || '';
-    var conhecido = ['limite', 'encerrado', 'dados', 'nao_encontrado', 'rede'].indexOf(c) >= 0;
+    var conhecido = ['limite', 'encerrado', 'dados', 'nao_encontrado', 'rede', 'carona'].indexOf(c) >= 0;
     return e && e.pg && !conhecido ? e.pg + ': ' + (e.detalhe || c) : '';
   }
   function nomeUf(uf) { for (var i = 0; i < UFS.length; i++) if (UFS[i][0] === uf) return UFS[i][1]; return uf; }
@@ -924,6 +937,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       criar: function (p) {
         if (encerrado()) return falha('encerrado');
         if (!p.telefone && !p.instagram) return falha('dados');
+        if (CARONA_RE.test(p.detalhes || '')) return falha('carona');
         var n = { id: novoId(), token: novoId(), tipo: p.tipo, nome: p.nome.trim(), uf: p.uf, cidade: p.cidade.trim(),
           bairro: (p.bairro || '').trim() || null, detalhes: (p.detalhes || '').trim() || null, telefone: p.telefone || null,
           instagram: p.instagram || null, resolvido: false, criado_em: new Date().toISOString(),
@@ -1482,6 +1496,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       ? 'Pode publicar por outra pessoa, com a permissão dela.'
       : 'Só o primeiro nome já basta.';
     $('#p-texto').innerHTML = (pedido ? 'O que você precisa?' : 'Como pode ajudar?') + ' <span class="opc">(opcional)</span>';
+    $('#d-regras').textContent = REGRAS_TEXTO[pedido ? 'pedido' : 'oferta'];
     $('#c-detalhes').placeholder = pedido
       ? 'Ex.: Uso andador e minha seção fica no 2º andar da escola. Preciso de alguém para ir junto de manhã.'
       : 'Ex.: Posso ir junto, ficar com as crianças ou ajudar a achar a seção pelo celular.';
@@ -1549,6 +1564,9 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       }
       return { t: 'Escolha seu bairro ou cidade na lista, use sua localização ou escreva o endereço.', c: '#c-busca' };
     }
+    if (k === 'texto') {
+      if (CARONA_RE.test($('#c-detalhes').value)) return { t: MSG_CARONA[st.tipoForm === 'pedido' ? 'pedido' : 'oferta'], c: '#c-detalhes' };
+    }
     if (k === 'contato') {
       var tel = digitos($('#c-telefone').value), ig = igLimpar($('#c-instagram').value);
       if (!tel && !ig) return { t: 'Escreva seu WhatsApp ou seu Instagram.', c: '#c-telefone' };
@@ -1596,6 +1614,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       sucesso(r, d);
       carregar();
     }, function (err) {
+      if (err && err.codigo === 'carona') { irPasso(PASSOS.indexOf('texto')); mostrarErro('texto', msg(err, 'criar'), '#c-detalhes'); return; }
       var g = $('#e-geral'), det = detalhe(err);
       g.innerHTML = esc(msg(err, 'criar')) + (det ? '<br><small style="font-weight:600;opacity:.8">' + esc(det) + '</small>' : '');
       g.hidden = false; g.scrollIntoView({ block: 'center' });

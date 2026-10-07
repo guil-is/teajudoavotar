@@ -64,6 +64,10 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
 .selo-pedido { background: var(--blue-soft); color: var(--blue-ink); }
 .selo-oferta { background: var(--green-soft); color: var(--green-ink); }
 .selo-alerta { background: var(--danger); color: #fff; }
+.selo-carona { background: #E3B341; color: #2A2000; }
+.edicao { display: grid; gap: 8px; }
+.edicao textarea { width: 100%; min-height: 96px; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 12px; font: inherit; font-weight: 500; resize: vertical; }
+.edicao .nota { margin: 0; }
 .card h3 { font-size: 1.15rem; font-weight: 900; overflow-wrap: anywhere; }
 .meta { color: var(--muted); font-weight: 600; font-size: .95rem; overflow-wrap: anywhere; }
 .texto { overflow-wrap: anywhere; }
@@ -112,6 +116,7 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
     <div class="filtros">
       <div class="abas" role="tablist">
         <button class="aba" type="button" role="tab" data-f="denunciados" aria-selected="true">Denunciados <span id="n-den">0</span></button>
+        <button class="aba" type="button" role="tab" data-f="carona" aria-selected="false">Carona <span id="n-car">0</span></button>
         <button class="aba" type="button" role="tab" data-f="ocultos" aria-selected="false">Escondidos <span id="n-ocu">0</span></button>
         <button class="aba" type="button" role="tab" data-f="todos" aria-selected="false">Todos <span id="n-tod">0</span></button>
       </div>
@@ -131,7 +136,10 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
   var KEY = 'tav-admin';
   var GEO = (CFG.GEOCODER || 'https://photon.komoot.io').replace(/\/+$/, '');
   var UF_NOME = { AC: 'Acre', AL: 'Alagoas', AP: 'Amapá', AM: 'Amazonas', BA: 'Bahia', CE: 'Ceará', DF: 'Distrito Federal', ES: 'Espírito Santo', GO: 'Goiás', MA: 'Maranhão', MT: 'Mato Grosso', MS: 'Mato Grosso do Sul', MG: 'Minas Gerais', PA: 'Pará', PB: 'Paraíba', PR: 'Paraná', PE: 'Pernambuco', PI: 'Piauí', RJ: 'Rio de Janeiro', RN: 'Rio Grande do Norte', RS: 'Rio Grande do Sul', RO: 'Rondônia', RR: 'Roraima', SC: 'Santa Catarina', SP: 'São Paulo', SE: 'Sergipe', TO: 'Tocantins' };
-  var st = { senha: '', posts: [], filtro: 'denunciados', busca: '', apagando: {}, carregando: false };
+  var st = { senha: '', posts: [], filtro: 'denunciados', busca: '', apagando: {}, carregando: false, editando: {}, rascunho: {} };
+  // Mesmo padrão do site e do banco: carona de carro não pode.
+  var CARONA_RE = /\b(carona|carro|dirij\w*|uber|moto|motorista|levar|levo|busco|buscar|pego|pegar)\b|\btransport\w*\b(?!\s+(p[úu]blico|coletivo|de massa))/i;
+  function mencionaCarona(p) { return CARONA_RE.test(p.detalhes || ''); }
 
   function $(s) { return document.querySelector(s); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -156,6 +164,7 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
     if (c === 'nao_autorizado') return 'Senha errada.';
     if (c === 'limite') return 'Muitas tentativas. Espere uma hora.';
     if (c === 'nao_encontrado') return 'Esse anúncio já não existe.';
+    if (c === 'dados') return 'Texto inválido: até 300 letras.';
     if (e && e.pg) return 'O banco respondeu com um erro: ' + c;
     return 'Sem conexão com o banco. Confira a internet.';
   }
@@ -190,15 +199,16 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
     return st.posts.filter(function (p) {
       if (st.filtro === 'denunciados' && !(p.denuncias > 0)) return false;
       if (st.filtro === 'ocultos' && !p.oculto) return false;
+      if (st.filtro === 'carona' && !mencionaCarona(p)) return false;
       if (!q) return true;
       return norm([p.nome, p.cidade, p.bairro, p.detalhes, p.telefone, p.instagram].join(' ')).indexOf(q) >= 0;
     });
   }
 
   function render() {
-    var den = 0, ocu = 0, abertos = 0;
-    st.posts.forEach(function (p) { if (p.denuncias > 0) den++; if (p.oculto) ocu++; if (!p.oculto && !p.resolvido) abertos++; });
-    $('#n-den').textContent = den; $('#n-ocu').textContent = ocu; $('#n-tod').textContent = st.posts.length;
+    var den = 0, ocu = 0, abertos = 0, car = 0;
+    st.posts.forEach(function (p) { if (p.denuncias > 0) den++; if (p.oculto) ocu++; if (!p.oculto && !p.resolvido) abertos++; if (mencionaCarona(p)) car++; });
+    $('#n-den').textContent = den; $('#n-ocu').textContent = ocu; $('#n-tod').textContent = st.posts.length; $('#n-car').textContent = car;
     $('#resumo').innerHTML = '<span><b>' + abertos + '</b> no mural</span><span><b>' + den + '</b> com denúncia</span><span><b>' + ocu + '</b> escondidos</span><span><b>' + st.posts.length + '</b> no total</span>';
     document.querySelectorAll('.aba').forEach(function (b) { b.setAttribute('aria-selected', String(b.getAttribute('data-f') === st.filtro)); });
     var l = filtrados();
@@ -216,11 +226,17 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
     if (p.oculto) h += '<span class="selo selo-alerta">Escondido</span>';
     if (p.resolvido) h += '<span>Resolvido</span>';
     if (p.denuncias > 0) h += '<span>' + icon('flag') + p.denuncias + (p.denuncias === 1 ? ' denúncia' : ' denúncias') + '</span>';
+    if (mencionaCarona(p)) h += '<span class="selo selo-carona">menciona carona</span>';
     h += '<span>' + p.contatos + (p.contatos === 1 ? ' contato aberto' : ' contatos abertos') + '</span>';
     h += '<span>' + quando(p.criado_em) + '</span></div>';
     h += '<h3>' + esc(p.nome) + '</h3>';
     h += '<p class="meta">' + esc(p.bairro ? titulo(p.bairro) + ' · ' : '') + esc(titulo(p.cidade)) + '/' + esc(p.uf) + '</p>';
-    if (p.detalhes) h += '<p class="texto">' + esc(p.detalhes) + '</p>';
+    if (st.editando[p.id]) {
+      h += '<div class="edicao"><textarea class="edit-texto" maxlength="300" aria-label="Texto do anúncio">' + esc(st.rascunho[p.id] != null ? st.rascunho[p.id] : (p.detalhes || '')) + '</textarea>' +
+        '<p class="nota">Tire só o que não pode, como a frase da carona, e avise a pessoa.</p>' +
+        '<div class="acoes"><button class="mini primario" type="button" data-acao="salvar-texto">' + icon('check') + 'Salvar texto</button>' +
+        '<button class="mini" type="button" data-acao="cancelar-texto">Cancelar</button></div></div>';
+    } else if (p.detalhes) h += '<p class="texto">' + esc(p.detalhes) + '</p>';
     var c = [];
     if (p.telefone) c.push('WhatsApp ' + foneFmt(p.telefone));
     if (p.instagram) c.push('Instagram @' + esc(p.instagram));
@@ -230,12 +246,26 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
       ? '<button class="mini primario" type="button" data-acao="mostrar">' + icon('eye') + 'Mostrar no mural</button>'
       : '<button class="mini" type="button" data-acao="ocultar">' + icon('eye-off') + 'Esconder</button>';
     if (p.denuncias > 0) h += '<button class="mini" type="button" data-acao="zerar">' + icon('check') + 'Zerar denúncias</button>';
+    if (!st.editando[p.id]) h += '<button class="mini" type="button" data-acao="editar">' + icon('pin') + 'Editar texto</button>';
     h += '<button class="mini perigo' + (st.apagando[p.id] ? ' confirmar' : '') + '" type="button" data-acao="apagar">' + icon('trash') + (st.apagando[p.id] ? 'Confirmar: apagar' : 'Apagar') + '</button>';
     h += '</div></article>';
     return h;
   }
 
   function moderar(id, acao) {
+    if (acao === 'editar') { st.editando[id] = true; render(); var ta = document.querySelector('.card[data-id="' + id + '"] .edit-texto'); if (ta) ta.focus(); return; }
+    if (acao === 'cancelar-texto') { delete st.editando[id]; delete st.rascunho[id]; render(); return; }
+    if (acao === 'salvar-texto') {
+      var ta2 = document.querySelector('.card[data-id="' + id + '"] .edit-texto'), novo = ta2 ? ta2.value.trim() : '';
+      rpc('admin_editar', { p_segredo: st.senha, p_id: id, p_detalhes: novo || null }).then(function () {
+        st.posts.forEach(function (x) { if (x.id === id) x.detalhes = novo || null; });
+        delete st.editando[id]; delete st.rascunho[id]; render(); toast('Texto salvo.');
+      }, function (e) {
+        if (e.codigo === 'nao_autorizado' || e.codigo === 'limite') { sair(msg(e)); return; }
+        toast(msg(e));
+      });
+      return;
+    }
     if (acao === 'apagar' && !st.apagando[id]) {
       st.apagando[id] = true; render();
       setTimeout(function () { if (st.apagando[id]) { delete st.apagando[id]; render(); } }, 5000);
@@ -331,6 +361,9 @@ input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px 
   document.querySelectorAll('.aba').forEach(function (b) { b.addEventListener('click', function () { st.filtro = b.getAttribute('data-f'); render(); }); });
   var bt;
   $('#busca').addEventListener('input', function () { var v = this.value; clearTimeout(bt); bt = setTimeout(function () { st.busca = v; render(); }, 150); });
+  $('#lista').addEventListener('input', function (ev) {
+    var ta = ev.target.closest('.edit-texto'); if (ta) st.rascunho[ta.closest('[data-id]').getAttribute('data-id')] = ta.value;
+  });
   $('#lista').addEventListener('click', function (ev) {
     var b = ev.target.closest('[data-acao]'); if (!b) return;
     moderar(b.closest('[data-id]').getAttribute('data-id'), b.getAttribute('data-acao'));

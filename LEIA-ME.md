@@ -103,6 +103,8 @@ Abra **https://teajudoavotar.com.br/admin.html** e entre com a senha de moderaç
 
 - **Denunciados:** aba que abre primeiro. Leia o anúncio e decida.
 - **Esconder:** tira do mural sem apagar. Dá para mostrar de novo.
+- **Carona:** aba com os anúncios que mencionam carona, carro, levar, Uber, moto ou transporte (menos "transporte público" e "coletivo"), com um selo no cartão.
+- **Editar texto:** abre o texto do anúncio para tirar só o que não pode, como a frase da carona. Avise a pessoa.
 - **Completar localizações:** procura no OpenStreetMap o bairro (ou a cidade) dos anúncios publicados antes desta versão e guarda a posição arredondada. Rode uma vez depois de atualizar o banco; os anúncios novos já chegam com a posição.
 - **Zerar denúncias:** para anúncios legítimos que foram denunciados de má-fé.
 - **Apagar:** definitivo. Pede confirmação com um segundo toque.
@@ -145,4 +147,4 @@ Ou apague o projeto inteiro em **Project Settings > General > Delete project**.
 
 ## Sobre carona
 
-O site não oferece carona de carro de propósito. A Lei 6.091/1974 limita o transporte de eleitores no dia da eleição, e um mural público organizando caronas pode ser lido como transporte irregular. Para o deslocamento, a ajuda fica em ir junto a pé ou de transporte público, que deve ser gratuito no dia da votação.
+O site não oferece carona de carro de propósito, e barra quem tenta: o formulário mostra a regra no passo do texto, recusa textos com carona, carro, levar, Uber, moto ou transporte (menos "transporte público" e "coletivo") e explica o motivo; o banco faz a mesma checagem. O site não oferece carona de carro de propósito. A Lei 6.091/1974 limita o transporte de eleitores no dia da eleição, e um mural público organizando caronas pode ser lido como transporte irregular. Para o deslocamento, a ajuda fica em ir junto a pé ou de transporte público, que deve ser gratuito no dia da votação.
