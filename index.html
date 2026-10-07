@@ -4,17 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Te Ajudo a Votar</title>
-<meta name="description" content="Peça e ofereça ajuda para votar no 2º turno, domingo, 25 de outubro. Sem cadastro.">
+<meta name="description" content="Peça ou ofereça ajuda a quem mora perto de você para votar no 2º turno, domingo, 25 de outubro. Sem cadastro.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://teajudoavotar.com.br/">
 <link rel="canonical" href="https://teajudoavotar.com.br/">
 <meta property="og:title" content="Ajuda para votar · 2º turno, 25 de outubro">
-<meta property="og:description" content="Peça e ofereça ajuda à sua comunidade para chegar até a urna. Sem cadastro.">
-<meta property="og:image" content="https://teajudoavotar.com.br/assets/compartilhar.jpg">
+<meta property="og:description" content="Peça ou ofereça ajuda a quem mora perto de você para chegar até a urna. Sem cadastro, leva 1 minuto.">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Te Ajudo a Votar">
+<meta property="og:image" content="https://teajudoavotar.com.br/assets/compartilhar.jpg?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Ajuda para votar: vizinhos acompanham uma senhora e uma jovem em cadeira de rodas até a urna.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#FCF2B4">
+<meta name="theme-color" content="#FCF2B4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C1C17" media="(prefers-color-scheme: dark)">
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="assets/icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icone-180.png">
 <link rel="preload" href="assets/figtree.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face {
@@ -114,8 +122,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 6px; }
 .marca { display: inline-flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1.05rem; letter-spacing: -.01em; color: var(--green-ink); text-decoration: none; white-space: nowrap; }
 .marca svg { width: 30px; height: 30px; flex: none; }
-.btn-share { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--green-ink); font-weight: 700; font-size: .95rem; cursor: pointer; }
-@media (max-width: 399px) { .btn-share { width: 44px; padding: 8px; justify-content: center; } .btn-share span { display: none; } }
+.topo-acoes { display: flex; gap: 8px; }
+.btn-share { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--green-ink); font-weight: 700; font-size: .95rem; text-decoration: none; cursor: pointer; }
+@media (max-width: 479px) { .btn-share { width: 44px; padding: 8px; justify-content: center; } .btn-share span { display: none; } }
 .hero-main { display: grid; gap: 32px; align-content: center; flex: 1; width: 100%; max-width: 720px; padding-block: 24px; }
 @media (min-width: 900px) { .hero-main { gap: 40px; } }
 .frase { font-size: clamp(1.9rem, 7.5vw, 3rem); font-weight: 700; line-height: 1.2; letter-spacing: -.02em; color: var(--green-ink); text-wrap: pretty; }
@@ -169,7 +178,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .busca .i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--muted); }
 .busca input { padding-left: 44px; }
 .lista { display: grid; gap: 16px; }
-@media (min-width: 760px) { .lista { grid-template-columns: 1fr 1fr; align-items: start; gap: 20px; } }
+@media (min-width: 760px) { .lista { grid-template-columns: 1fr 1fr; align-items: start; gap: 20px; } .lista > .esqueleto { grid-column: 1 / -1; } }
 .card { display: grid; gap: 12px; padding: 22px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow); min-width: 0; }
 .card-pedido { --accent: var(--green); --on-accent: var(--on-green); --accent-soft: var(--green-soft); --accent-ink: var(--green-ink); }
 .card-oferta { --accent: var(--blue); --on-accent: var(--on-blue); --accent-soft: var(--blue-soft); --accent-ink: var(--blue-ink); }
@@ -301,6 +310,42 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .gestao-acoes { display: flex; flex-wrap: wrap; gap: 10px; }
 .linkbox input { min-width: 0; font-size: .9rem; }
 .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 10; max-width: calc(100% - 32px); transform: translateX(-50%); padding: 12px 20px; border-radius: 999px; background: var(--ink); color: var(--bg); font-weight: 700; box-shadow: var(--shadow); text-align: center; }
+/* Movimento: entradas curtas, resposta ao toque, foco visível */
+@keyframes entrar { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes entrar-frente { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+@keyframes entrar-volta { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: none; } }
+@keyframes pop { from { opacity: 0; transform: scale(.9); } 65% { transform: scale(1.03); } to { opacity: 1; transform: none; } }
+@keyframes subir { from { opacity: 0; transform: translate(-50%, 14px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes brilho { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.anima { animation: entrar .3s cubic-bezier(.2, .7, .2, 1) both; }
+.hero-main > * { animation: entrar .55s cubic-bezier(.2, .7, .2, 1) both; }
+.hero-main > .portas { animation-delay: .12s; }
+.hero-main > .confianca { animation-delay: .24s; }
+.home-links { animation: entrar .55s .32s cubic-bezier(.2, .7, .2, 1) both; }
+.passo.frente { animation: entrar-frente .28s cubic-bezier(.2, .7, .2, 1) both; }
+.passo.volta { animation: entrar-volta .28s cubic-bezier(.2, .7, .2, 1) both; }
+.card { animation: entrar .35s cubic-bezier(.2, .7, .2, 1) both; }
+.card:nth-child(2) { animation-delay: .05s; } .card:nth-child(3) { animation-delay: .1s; } .card:nth-child(4) { animation-delay: .15s; }
+.card:nth-child(5) { animation-delay: .2s; } .card:nth-child(6) { animation-delay: .25s; }
+.contato, .sugestoes, .vazio, .meus { animation: entrar .25s cubic-bezier(.2, .7, .2, 1) both; }
+.escolhido, .sucesso-ico { animation: pop .4s cubic-bezier(.2, .7, .2, 1) both; }
+.sucesso > h2, .sucesso > p, .gestao, .sucesso > .btn-big { animation: entrar .45s cubic-bezier(.2, .7, .2, 1) both; }
+.sucesso > h2 { animation-delay: .1s; } .sucesso > p { animation-delay: .18s; } .gestao { animation-delay: .26s; } .sucesso > .btn-big { animation-delay: .34s; }
+.erro, .erro-geral { animation: entrar .2s ease-out both; }
+.toast { animation: subir .25s cubic-bezier(.2, .7, .2, 1) both; }
+.porta, .btn-big, .btn-contato, .canal, .mini, .btn-local, .aba, .link, .btn-share, .sugestoes button { transition: transform .12s ease, background-color .18s ease, color .18s ease, box-shadow .18s ease, border-color .18s ease, opacity .18s ease; }
+.porta:active, .btn-big:active, .btn-contato:active, .canal:active, .mini:active, .btn-local:active, .btn-share:active { transform: scale(.97); }
+.sugestoes button:active { background: var(--accent-soft); }
+.btn-big:hover, .btn-contato:hover, .canal:hover, .btn-local:hover { filter: brightness(1.06); }
+.mini:hover { border-color: var(--muted); }
+select, input, textarea { transition: border-color .15s ease, box-shadow .15s ease; }
+select:focus, input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.tile, .card.is-ok { transition: opacity .2s ease; }
+.barra i { transition: width .35s cubic-bezier(.2, .7, .2, 1); }
+.confianca { color: var(--green-ink); font-weight: 600; font-size: .98rem; opacity: .85; }
+.esqueleto { display: grid; gap: 16px; }
+@media (min-width: 760px) { .esqueleto { grid-template-columns: 1fr 1fr; gap: 20px; } }
+.esq { height: 168px; border-radius: var(--r-lg); background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface) 50%, var(--surface-2) 75%); background-size: 200% 100%; animation: brilho 1.4s linear infinite; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 </head>
@@ -342,7 +387,10 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
         <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 53S9 40 9 24.5A11.5 11.5 0 0 1 32 19a11.5 11.5 0 0 1 23 5.5C55 40 32 53 32 53z" style="fill:var(--red)"/><path d="M22.5 30.5l6.5 6.5 12.5-12.5" style="fill:none;stroke:var(--on-red)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Te Ajudo a Votar
       </a>
-      <button class="btn-share" type="button" id="compartilhar" aria-label="Compartilhar"><svg class="i" aria-hidden="true"><use href="#i-share"/></svg><span>Compartilhar</span></button>
+      <div class="topo-acoes">
+        <a class="btn-share" id="insta-topo" href="https://www.instagram.com/teajudoavotar/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="i" aria-hidden="true"><use href="#i-instagram"/></svg><span>Instagram</span></a>
+        <button class="btn-share" type="button" id="compartilhar" aria-label="Compartilhar"><svg class="i" aria-hidden="true"><use href="#i-share"/></svg><span>Compartilhar</span></button>
+      </div>
     </div>
     <div class="hero-main">
       <h1 class="frase"><span class="frase-dias" id="contagem">Eleições 2026.</span> <span id="frase-txt">Peça ou ofereça ajuda a quem mora perto de você.</span></h1>
@@ -356,6 +404,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
           <span><strong>Posso ajudar</strong></span>
         </a>
       </div>
+      <p class="confianca">Sem cadastro · De graça · Apartidário</p>
     </div>
     <p class="home-links">
       <a href="#mural" data-ir="mural"><svg class="i" aria-hidden="true"><use href="#i-list"/></svg><span id="link-mural">Ver o mural</span></a>
@@ -463,7 +512,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
       <form id="form" novalidate>
         <section class="passo" data-passo="nome">
           <label class="pergunta" for="c-nome" id="p-nome">Qual é o seu primeiro nome?</label>
-          <input id="c-nome" maxlength="40" autocomplete="given-name" enterkeyhint="next" aria-describedby="d-nome e-nome">
+          <input id="c-nome" maxlength="40" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" aria-describedby="d-nome e-nome">
           <p class="dica" id="d-nome"></p>
           <p class="erro" id="e-nome" hidden></p>
         </section>
@@ -479,7 +528,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
               <button class="limpar" type="button" id="c-busca-limpar" aria-label="Limpar" hidden><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
             </div>
             <ul class="sugestoes" id="sugestoes" hidden></ul>
-            <p class="nota" id="onde-status" hidden></p>
+            <p class="nota" id="onde-status" aria-live="polite" hidden></p>
             <button class="link" type="button" id="c-manual" style="justify-self:start">Escrever o endereço à mão</button>
           </div>
           <div class="escolhido" id="onde-escolhido" hidden>
@@ -493,11 +542,11 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
             </div>
             <div class="campo-sub">
               <label for="c-cidade">Cidade</label>
-              <input id="c-cidade" maxlength="60" autocomplete="address-level2" enterkeyhint="next">
+              <input id="c-cidade" maxlength="60" autocomplete="address-level2" autocapitalize="words" enterkeyhint="next">
             </div>
             <div class="full campo-sub">
               <label for="c-bairro">Bairro <span class="opc">(opcional)</span></label>
-              <input id="c-bairro" maxlength="60" autocomplete="address-level3" enterkeyhint="next">
+              <input id="c-bairro" maxlength="60" autocomplete="address-level3" autocapitalize="words" enterkeyhint="next">
             </div>
           </div>
           <p class="erro" id="e-onde" hidden></p>
@@ -829,7 +878,10 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     $('#n-oferta').textContent = abertos.oferta;
     document.querySelectorAll('.aba').forEach(function (b) { b.setAttribute('aria-selected', String(b.getAttribute('data-tab') === st.tab)); });
 
-    if (st.carregando) { lista.innerHTML = '<p class="carregando">Carregando o mural…</p>'; $('#stats').textContent = ''; $('#mais').hidden = true; return; }
+    if (st.carregando) {
+      lista.innerHTML = '<div class="esqueleto" aria-label="Carregando o mural" role="status"><div class="esq"></div><div class="esq"></div><div class="esq"></div></div>';
+      $('#stats').textContent = ''; $('#mais').hidden = true; return;
+    }
     if (st.erroLista) {
       lista.innerHTML = '<div class="vazio"><p>' + esc(st.erroLista) + '</p><button class="btn-contato" type="button" data-acao="recarregar">Tentar de novo</button></div>';
       $('#mais').hidden = true; return;
@@ -1189,9 +1241,14 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
   }
 
   function irPasso(n, semFoco) {
+    var anterior = st.passo;
     st.passo = n;
     var k = PASSOS[n], ultimo = n === PASSOS.length - 1;
-    document.querySelectorAll('#form .passo[data-passo]').forEach(function (s) { s.hidden = s.getAttribute('data-passo') !== k; });
+    document.querySelectorAll('#form .passo[data-passo]').forEach(function (s) {
+      var ativo = s.getAttribute('data-passo') === k;
+      s.hidden = !ativo;
+      if (ativo && n !== anterior) { s.classList.remove('frente', 'volta'); void s.offsetWidth; s.classList.add(n > anterior ? 'frente' : 'volta'); }
+    });
     $('#passo-n').textContent = (n + 1) + ' de ' + PASSOS.length;
     $('#barra').style.width = Math.round(((n + 1) / PASSOS.length) * 100) + '%';
     $('#c-avancar').innerHTML = ultimo
@@ -1323,10 +1380,16 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 
   // ---------- navegação ----------
   var VIEWS = { home: '#home', mural: '#mural-view', info: '#info-view', form: '#form-view' };
+  function reanimar(el, classe) {
+    if (!el) return;
+    el.classList.remove(classe); void el.offsetWidth; el.classList.add(classe);
+  }
   function mostrar(view) {
+    var mudou = st.view !== view;
     Object.keys(VIEWS).forEach(function (k) { $(VIEWS[k]).hidden = k !== view; });
     st.view = view;
     window.scrollTo(0, 0);
+    if (mudou) reanimar($(VIEWS[view]), 'anima');
   }
 
   function aplicarRota(h) {
@@ -1366,7 +1429,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
   // ---------- início ----------
   function iniciar() {
     $('#demo').hidden = REMOTO;
-    if (CFG.INSTAGRAM) $('#link-insta').href = CFG.INSTAGRAM;
+    if (CFG.INSTAGRAM) { $('#link-insta').href = CFG.INSTAGRAM; $('#insta-topo').href = CFG.INSTAGRAM; }
     montarForm();
     $('#f-uf').value = st.uf;
 
