@@ -18,7 +18,7 @@ Para mudar o site, edite os arquivos aqui no GitHub. O GitHub Pages publica sozi
 |---|---|
 | `index.html` | O site inteiro |
 | `config.js` | Onde você cola o endereço e a chave do banco de dados |
-| `assets/` | Fonte, ilustração, ícone e imagem de compartilhamento |
+| `assets/` | Fonte (Figtree, licença OFL em `figtree-OFL.txt`), ícone e imagem de compartilhamento |
 | `supabase.sql` | Cria o banco de dados (rodar uma vez no Supabase) |
 
 Sem o banco configurado, o site abre em **modo demonstração**: mostra exemplos e guarda o que a pessoa publica só no próprio aparelho. Serve para testar e mostrar para o time.
@@ -72,7 +72,7 @@ Para o link aparecer com imagem no WhatsApp e no Telegram, abra `index.html` e t
 
 ## Como funciona
 
-- A página inicial tem só duas ações: **Preciso de ajuda** e **Posso ajudar**. O mural e o "Bom saber para domingo" ficam em páginas próprias, com links discretos.
+- A página inicial tem só duas ações: **Preciso de ajuda** e **Posso ajudar**. O mural e "Mais informações" ficam em páginas próprias, com links discretos.
 - O formulário faz uma pergunta por tela, em 4 passos: primeiro nome, onde mora, contato (WhatsApp ou Instagram, pelo menos um) e um texto opcional.
 - No passo "Onde você mora?", a pessoa digita o bairro ou a cidade e escolhe na lista, toca em **Usar onde eu estou** (GPS do celular) ou escreve o endereço à mão. A busca usa o mapa aberto OpenStreetMap, pelo serviço gratuito Photon (`photon.komoot.io`). A localização não é guardada.
 - O mural mostra primeiro nome, bairro, cidade, o texto e quais canais de contato existem. O número e o @ só aparecem quando alguém toca em **Entrar em contato**. Daí dá para abrir o WhatsApp, ligar ou mandar mensagem no Instagram.
@@ -85,7 +85,7 @@ Se um dia o Photon sair do ar, a pessoa ainda consegue publicar escrevendo o end
 
 - Ninguém lê a tabela direto: o site só fala com o banco por funções que validam tudo.
 - Cada conexão pode publicar até 6 anúncios por hora e abrir até 60 contatos por hora. Isso atrapalha robôs que querem coletar telefones.
-- Três denúncias de pessoas diferentes tiram um anúncio do mural.
+- Denúncias só contam. Nenhum anúncio sai do mural sozinho: um limite automático seria alvo fácil de ataque coordenado contra anúncios legítimos. Quem esconde é a moderação (veja abaixo).
 - O banco guarda só um código embaralhado do IP para esses limites, nunca o IP.
 
 ## Moderação
@@ -93,10 +93,10 @@ Se um dia o Photon sair do ar, a pessoa ainda consegue publicar escrevendo o end
 No Supabase, abra **Table Editor > posts**.
 
 - **Esconder um anúncio:** mude `oculto` para `true`.
-- **Trazer de volta um denunciado:** mude `oculto` para `false` e `denuncias` para `0`.
+- **Limpar as denúncias de um anúncio legítimo:** mude `denuncias` para `0`.
 - **Apagar:** selecione a linha e apague.
 
-Para ver o que foi denunciado, rode no SQL Editor:
+Denúncias não escondem nada automaticamente. Combine com o time de olhar a lista de denunciados pelo menos duas vezes por dia na última semana e no domingo da votação. Para ver o que foi denunciado, rode no SQL Editor:
 
 ```sql
 select nome, bairro, cidade, detalhes, denuncias, oculto from posts where denuncias > 0 order by denuncias desc;

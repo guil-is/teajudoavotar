@@ -15,12 +15,12 @@
 <meta name="theme-color" content="#FCF2B4">
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="assets/icone.svg" type="image/svg+xml">
-<link rel="preload" href="assets/nunito.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/figtree.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face {
-  font-family: "Nunito";
-  src: url("assets/nunito.woff2") format("woff2");
-  font-weight: 200 1000;
+  font-family: "Figtree";
+  src: url("assets/figtree.woff2") format("woff2");
+  font-weight: 300 900;
   font-style: normal;
   font-display: swap;
 }
@@ -56,7 +56,7 @@
   --accent-soft: var(--green-soft);
   --accent-ink: var(--green-ink);
   --shadow: 0 1px 2px rgba(19, 53, 44, .05), 0 8px 20px -14px rgba(19, 53, 44, .18);
-  --font: "Nunito", ui-rounded, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --r-lg: 22px;
   --r: 16px;
   --r-sm: 12px;
@@ -143,8 +143,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .fim { background: var(--surface); border-radius: var(--r); padding: 18px 20px; font-weight: 700; box-shadow: var(--shadow); }
 
 /* Páginas internas */
-.pagina { padding-block: 12px 64px; }
-.voltar { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; color: var(--green-ink); font-weight: 700; text-decoration: none; }
+.pagina { padding-block: 8px 64px; }
+.voltar { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--green-ink); font-weight: 700; text-decoration: none; }
 .pagina-cab { display: grid; gap: 8px; margin-block: 8px 24px; }
 .pagina-cab h1 { font-size: clamp(2rem, 8vw, 2.7rem); font-weight: 900; letter-spacing: -.02em; color: var(--green-ink); }
 .pagina-cab p { font-size: 1.1rem; font-weight: 500; color: var(--muted); }
@@ -229,7 +229,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .saber-grid h3 { margin-bottom: 4px; font-size: 1.12rem; font-weight: 800; }
 .saber-grid p { color: var(--muted); font-size: 1rem; font-weight: 500; }
 .combinados { padding-block: 40px 0; }
-.combinados h2 { font-size: 1.6rem; font-weight: 900; color: var(--green-ink); }
+.saber h2, .combinados h2 { font-size: 1.6rem; font-weight: 900; color: var(--green-ink); }
 .combinados-box { display: grid; gap: 16px; padding: 26px 24px; border-radius: var(--r-lg); background: var(--green-soft); }
 @media (min-width: 760px) { .combinados-box { padding: 32px 36px; } }
 .combinados ul { display: grid; gap: 12px; margin: 0; padding-left: 1.2em; }
@@ -241,12 +241,12 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .form-pedido { --accent: var(--blue); --on-accent: var(--on-blue); --accent-soft: var(--blue-soft); --accent-ink: var(--blue-ink); }
 .form-oferta { --accent: var(--green); --on-accent: var(--on-green); --accent-soft: var(--green-soft); --accent-ink: var(--green-ink); }
 .form-wrap { max-width: 640px; }
-.form-cab { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; margin-block: 8px 20px; }
+.form-cab { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; margin-block: 4px 14px; }
 .form-cab h1 { font-size: 1.3rem; font-weight: 900; color: var(--accent-ink); }
 .form-cab span { color: var(--muted); font-size: .95rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-.barra { height: 6px; margin-bottom: 32px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+.barra { height: 6px; margin-bottom: 22px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
 .barra i { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--accent); transition: width .2s ease; }
-.pergunta { display: block; margin-bottom: 14px; font-size: clamp(1.55rem, 6.5vw, 2rem); font-weight: 900; line-height: 1.15; letter-spacing: -.015em; }
+.pergunta { display: block; margin-bottom: 10px; font-size: clamp(1.45rem, 6vw, 1.9rem); font-weight: 900; line-height: 1.15; letter-spacing: -.015em; }
 .pergunta .opc { font-size: 1rem; letter-spacing: 0; }
 .passo { display: grid; gap: 12px; }
 .opc { color: var(--muted); font-weight: 600; }
@@ -260,7 +260,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .busca-onde input { padding-right: 48px; }
 .limpar { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 50%; background: none; color: var(--muted); cursor: pointer; }
 .onde-ou { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; color: var(--muted); font-weight: 600; }
-.btn-local { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 10px 20px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 1.05rem; cursor: pointer; }
+.btn-local { justify-self: start; display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 10px 20px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 1.05rem; cursor: pointer; }
 .btn-local[disabled] { opacity: .6; cursor: progress; }
 .sugestoes { display: grid; margin: 0; padding: 0; list-style: none; border: 1.5px solid var(--line); border-radius: var(--r); background: var(--surface); overflow: hidden; }
 .sugestoes li + li { border-top: 1px solid var(--line); }
@@ -273,8 +273,15 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .onde { display: grid; gap: 14px; }
 @media (min-width: 540px) { .onde { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); } .onde .full { grid-column: 1 / -1; } }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.passo-acoes { display: grid; gap: 8px; margin-top: 28px; }
-.passo-acoes .link { justify-self: center; }
+.passo-acoes { display: grid; gap: 10px; margin-top: 24px; }
+.acoes-linha { display: flex; align-items: center; gap: 12px; }
+.acoes-linha .btn-big { flex: 1; width: auto; }
+.acoes-linha .link { flex: none; }
+@media (max-width: 700px) {
+  .passo-acoes { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; margin: 0; padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--bg); box-shadow: 0 -8px 24px -16px rgba(19, 53, 44, .35); }
+  #form { padding-bottom: 200px; }
+  .btn-big { min-height: 58px; }
+}
 .btn-big { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 64px; padding: 12px 24px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 1.2rem; text-decoration: none; cursor: pointer; }
 .btn-big[disabled] { opacity: .6; cursor: progress; }
 .erro-geral { padding: 12px 14px; border-radius: var(--r-sm); background: var(--surface-2); color: var(--danger); font-weight: 700; }
@@ -295,6 +302,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
 <symbol id="i-local" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+<symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></symbol>
 <symbol id="i-acessibilidade" viewBox="0 0 24 24"><circle cx="16" cy="4" r="1"/><path d="m18 19 1-7-6 1"/><path d="m5 8 3-3 5.5 3-2.36 3.5"/><path d="M4.24 14.5a5 5 0 0 0 6.88 6"/><path d="M13.76 17.5a5 5 0 0 0-6.88-6"/></symbol>
 <symbol id="i-phone" viewBox="0 0 24 24"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></symbol>
 <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/></symbol>
@@ -335,7 +343,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
       <h1 class="frase"><span class="frase-dias" id="contagem">Eleições 2026.</span> <span id="frase-txt">Peça ou ofereça ajuda a quem mora perto de você.</span></h1>
       <div class="portas portas-grandes" id="portas">
         <a class="porta porta-pedir" href="#pedir" data-ir="pedir">
-          <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-acessibilidade"/></svg></span>
+          <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-hand"/></svg></span>
           <span><strong>Preciso de ajuda</strong><small>Para mim ou alguém próximo</small></span>
         </a>
         <a class="porta porta-ajudar" href="#oferecer" data-ir="oferecer">
@@ -346,7 +354,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     </div>
     <p class="home-links">
       <a href="#mural" data-ir="mural"><svg class="i" aria-hidden="true"><use href="#i-list"/></svg><span id="link-mural">Ver o mural</span></a>
-      <a href="#info" data-ir="info"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg>Bom saber para domingo</a>
+      <a href="#info" data-ir="info"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg>Mais informações</a>
     </p>
   </div>
 </header>
@@ -384,7 +392,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
         <p>Não achou o que procura? Publique no mural.</p>
         <div class="portas">
           <a class="porta porta-pedir" href="#pedir" data-ir="pedir">
-            <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-acessibilidade"/></svg></span>
+            <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-hand"/></svg></span>
             <span><strong>Preciso de ajuda</strong><small>Para mim ou alguém próximo</small></span>
           </a>
           <a class="porta porta-ajudar" href="#oferecer" data-ir="oferecer">
@@ -402,9 +410,10 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
   <div class="wrap">
     <a class="voltar" href="#" data-ir=""><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Início</a>
     <div class="pagina-cab">
-      <h1 id="saber-t" tabindex="-1">Bom saber para domingo</h1>
+      <h1 id="info-t" tabindex="-1">Mais informações</h1>
     </div>
     <section class="saber" aria-labelledby="saber-t">
+      <h2 id="saber-t">Bom saber para domingo</h2>
       <ul class="saber-grid">
         <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-calendar"/></svg></span><div><h3>Quando</h3><p>Domingo, 25 de outubro, das 8h às 17h, horário de Brasília. Quem estiver na fila às 17h ainda vota.</p></div></li>
         <li><span class="saber-ico"><svg class="i" aria-hidden="true"><use href="#i-idcard"/></svg></span><div><h3>O que levar</h3><p>Documento oficial com foto: RG, CNH, carteira de trabalho ou passaporte. O e-Título vale se tiver sua foto.</p></div></li>
@@ -422,7 +431,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
           <li><strong>Sem campanha.</strong> Aqui ninguém fala de candidato nem pede voto. O voto é secreto.</li>
           <li><strong>Sem carona de carro.</strong> A lei eleitoral limita o transporte de eleitores. Vá junto a pé ou de transporte público.</li>
           <li><strong>Segurança primeiro.</strong> Combine antes por telefone, encontre em lugar movimentado e avise alguém da família. Nunca passe documentos, senhas ou dinheiro.</li>
-          <li><strong>Viu algo errado?</strong> Toque em “Denunciar”. Com três denúncias, o anúncio sai do mural.</li>
+          <li><strong>Viu algo errado?</strong> Toque em “Denunciar”. A moderação confere e, se for o caso, tira o anúncio do mural.</li>
         </ul>
       </div>
     </section>
@@ -458,18 +467,16 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
         <section class="passo" data-passo="onde" hidden>
           <p class="pergunta" id="p-onde">Onde você mora?</p>
           <div class="passo" id="onde-busca">
+            <button class="btn-local" type="button" id="c-local"><svg class="i" aria-hidden="true"><use href="#i-locate"/></svg>Usar onde eu estou</button>
             <div class="busca busca-onde">
-              <label class="sr-only" for="c-busca">Bairro ou cidade</label>
+              <label class="sr-only" for="c-busca">Ou digite o bairro ou a cidade</label>
               <svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
-              <input id="c-busca" type="text" placeholder="Bairro ou cidade" autocomplete="off" autocapitalize="words" enterkeyhint="search" aria-describedby="e-onde">
+              <input id="c-busca" type="text" placeholder="Ou digite o bairro ou a cidade" autocomplete="off" autocapitalize="words" enterkeyhint="search" aria-describedby="e-onde">
               <button class="limpar" type="button" id="c-busca-limpar" aria-label="Limpar" hidden><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
             </div>
             <ul class="sugestoes" id="sugestoes" hidden></ul>
             <p class="nota" id="onde-status" hidden></p>
-            <div class="onde-ou">
-              <button class="btn-local" type="button" id="c-local"><svg class="i" aria-hidden="true"><use href="#i-locate"/></svg>Usar onde eu estou</button>
-              <button class="link" type="button" id="c-manual">ou escrever o endereço</button>
-            </div>
+            <button class="link" type="button" id="c-manual" style="justify-self:start">Escrever o endereço à mão</button>
           </div>
           <div class="escolhido" id="onde-escolhido" hidden>
             <span><svg class="i" aria-hidden="true"><use href="#i-local"/></svg><span id="onde-txt"></span></span>
@@ -490,7 +497,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
             </div>
           </div>
           <p class="erro" id="e-onde" hidden></p>
-          <p class="dica" id="d-onde">Sua localização serve só para achar o bairro. Ela não fica guardada.</p>
+          <p class="dica" id="d-onde">Sua localização não fica guardada.</p>
         </section>
 
         <section class="passo" data-passo="contato" hidden>
@@ -516,10 +523,12 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
         <div class="hp" aria-hidden="true"><label>Não preencha este campo <input id="c-site" tabindex="-1" autocomplete="off"></label></div>
         <p class="erro-geral" id="e-geral" role="alert" hidden></p>
 
-        <div class="passo-acoes">
-          <button class="btn-big" type="submit" id="c-avancar">Continuar<svg class="i" aria-hidden="true"><use href="#i-next"/></svg></button>
-          <button class="link" type="button" id="c-voltar" hidden><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Voltar</button>
+        <div class="passo-acoes" id="acoes">
           <p class="dica" id="aviso-publicar" hidden>Ao publicar, seu primeiro nome e bairro ficam no mural. Seu contato só aparece para quem tocar em “Entrar em contato”. Tudo é apagado em 26 de outubro.</p>
+          <div class="acoes-linha">
+            <button class="link" type="button" id="c-voltar" hidden><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Voltar</button>
+            <button class="btn-big" type="submit" id="c-avancar">Continuar<svg class="i" aria-hidden="true"><use href="#i-next"/></svg></button>
+          </div>
         </div>
       </form>
     </div>
@@ -841,7 +850,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     var aqui = st.busca ? 'em “' + esc(st.busca) + '”' : (st.uf ? 'em ' + esc(nomeUf(st.uf)) : 'ainda');
     if (st.tab === 'pedido') {
       return '<div class="vazio" style="--accent:var(--blue);--on-accent:var(--on-blue)"><p>Nenhum pedido de ajuda ' + aqui + '.<br>Conhece alguém que precisa? Você pode publicar por essa pessoa, com a permissão dela.</p>' +
-        '<button class="btn-contato" type="button" data-acao="ir-pedir">' + icon('acessibilidade') + 'Publicar um pedido</button></div>';
+        '<button class="btn-contato" type="button" data-acao="ir-pedir">' + icon('hand') + 'Publicar um pedido</button></div>';
     }
     return '<div class="vazio"><p>Ninguém se ofereceu para ajudar ' + aqui + '.<br>Que tal ser a primeira pessoa?</p>' +
       '<button class="btn-contato" type="button" data-acao="ir-oferecer">' + icon('brand') + 'Posso ajudar</button></div>';
@@ -929,7 +938,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
   function denunciar(p) {
     api.denunciar(p.id).then(null, function (e) { if (e.codigo !== 'limite') throw e; }).then(function () {
       var l = lsGet('tav-denuncias', []); l.push(p.id); lsSet('tav-denuncias', l);
-      st.denuncia[p.id] = 'ok'; renderCard(p.id); toast('Obrigado. A denúncia foi registrada.');
+      st.denuncia[p.id] = 'ok'; renderCard(p.id); toast('Obrigado. A moderação vai conferir.');
     }, function (e) { delete st.denuncia[p.id]; renderCard(p.id); toast(msg(e, 'denunciar')); });
   }
 
@@ -1170,7 +1179,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     $('#onde-busca').hidden = false; $('#onde-escolhido').hidden = true; $('#onde-manual').hidden = true; $('#d-onde').hidden = false;
     $('#c-busca-limpar').hidden = true; renderSugestoes([]); ondeStatus('');
     limparErros();
-    irPasso(0, true);
+    irPasso(0);
   }
 
   function irPasso(n, semFoco) {
@@ -1287,6 +1296,15 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     $('#suc-t').focus();
   }
 
+  // Barra de ações do formulário: no celular fica fixa logo acima do teclado.
+  function ajustarAcoes() {
+    var bar = $('#acoes'), vv = window.visualViewport;
+    if (!bar) return;
+    if (!vv || window.innerWidth > 700) { bar.style.bottom = ''; return; }
+    var dif = Math.round(window.innerHeight - vv.height - vv.offsetTop);
+    bar.style.bottom = (dif > 0 ? dif : 0) + 'px';
+  }
+
   // ---------- navegação ----------
   var VIEWS = { home: '#home', mural: '#mural-view', info: '#info-view', form: '#form-view' };
   function mostrar(view) {
@@ -1301,22 +1319,24 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
       var tipo = h === 'pedir' ? 'pedido' : 'oferta';
       var novo = st.tipoForm !== tipo || st.formEnviado;
       textosForm(tipo);
-      if (novo) resetForm(tipo);
       $('#form-area').hidden = false; $('#sucesso').hidden = true;
       mostrar('form');
-      if (novo) $('#form-t').focus(); else irPasso(st.passo);
+      if (novo) resetForm(tipo); else irPasso(st.passo);
       return;
     }
     if (h.indexOf('gerenciar.') === 0) { tratarGerenciar(h); h = 'mural'; }
     if (h === 'mural') { mostrar('mural'); carregar(); $('#mural-t').focus(); return; }
-    if (h === 'info') { mostrar('info'); $('#saber-t').focus(); return; }
+    if (h === 'info') { mostrar('info'); $('#info-t').focus(); return; }
     mostrar('home');
   }
 
   function ir(h) {
+    // Aplica a rota já no toque (assim o teclado do celular abre junto com o foco) e só depois registra no histórico.
+    aplicarRota(h);
     var atual = (location.hash || '').replace(/^#/, '');
-    if (atual === h) { aplicarRota(h); return; }
-    try { location.hash = h; } catch (e) { aplicarRota(h); }
+    if (atual === h) return;
+    try { history.pushState(null, '', h ? '#' + h : location.pathname + location.search); }
+    catch (e) { try { location.hash = h; } catch (x) {} }
   }
 
   function compartilhar() {
@@ -1381,6 +1401,12 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     $('#c-voltar').addEventListener('click', function () { if (st.passo > 0) irPasso(st.passo - 1); });
     $('#c-detalhes').addEventListener('input', function () { $('#c-conta').textContent = this.value.length; });
     $('#c-telefone').addEventListener('blur', function () { var d = digitos(this.value); if (foneOk(d)) this.value = foneFmt(d); });
+    $('#c-telefone').addEventListener('keydown', function (ev) { if (ev.key === 'Enter') { ev.preventDefault(); $('#c-instagram').focus(); } });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', ajustarAcoes);
+      window.visualViewport.addEventListener('scroll', ajustarAcoes);
+    }
+    window.addEventListener('resize', ajustarAcoes);
     $('#c-instagram').addEventListener('blur', function () { var u = igLimpar(this.value); if (u) this.value = u; });
 
     // onde

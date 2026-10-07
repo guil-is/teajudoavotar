@@ -215,7 +215,8 @@ begin
 end;
 $$;
 
--- Denúncia. Com 3 denúncias de pessoas diferentes, o post some do mural.
+-- Denúncia: só registra e conta. Esconder um anúncio é decisão humana (coluna oculto).
+-- Um limite automático (ex.: 3 denúncias) seria alvo fácil de ataque coordenado contra anúncios legítimos.
 create or replace function public.denunciar(p_id uuid)
 returns boolean
 language plpgsql security definer
@@ -224,10 +225,7 @@ as $$
 begin
   perform public._limitar('denunciar', 20, interval '1 hour');
   perform public._limitar('denunciar:' || p_id::text, 1, interval '1 day');
-  update public.posts
-     set denuncias = denuncias + 1,
-         oculto = oculto or denuncias + 1 >= 3
-   where id = p_id;
+  update public.posts set denuncias = denuncias + 1 where id = p_id;
   return true;
 end;
 $$;
