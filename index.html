@@ -284,19 +284,12 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .onde { display: grid; gap: 14px; }
 @media (min-width: 540px) { .onde { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); } .onde .full { grid-column: 1 / -1; } }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.passo-acoes { display: grid; gap: 10px; margin-top: 24px; }
-.acoes-linha { display: flex; align-items: center; gap: 12px; }
-.acoes-linha .btn-big { flex: 1; width: auto; }
-.acoes-linha .link { flex: none; }
-@media (max-width: 700px) {
-  .passo-acoes { position: fixed; left: 16px; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 5; margin: 0; padding: 10px 12px; border-radius: 24px; background: var(--surface); box-shadow: 0 2px 4px rgba(19, 53, 44, .06), 0 16px 32px -12px rgba(19, 53, 44, .35); }
-  body.teclado .passo-acoes { left: 0; right: 0; border-radius: 0; padding: 8px 16px; background: var(--bg); box-shadow: 0 -8px 24px -16px rgba(19, 53, 44, .35); }
-  .acoes-linha { justify-content: space-between; gap: 10px; }
-  .acoes-linha .btn-big { flex: 0 1 auto; width: auto; margin-left: auto; min-height: 46px; padding: 8px 22px; font-size: 1.05rem; }
-  .acoes-linha .link { min-height: 40px; padding: 4px 8px; }
-  #form { padding-bottom: 96px; }
-  body.teclado #form { padding-bottom: 70vh; }
-}
+.passo-acoes { display: grid; gap: 12px; margin-top: 14px; }
+.acoes-linha { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.acoes-linha .btn-big { flex: 0 1 auto; width: auto; min-width: 11em; margin-left: auto; min-height: 48px; padding: 8px 24px; font-size: 1.05rem; }
+.acoes-linha .link { flex: none; min-height: 40px; padding: 4px 8px; }
+#form { padding-bottom: 24px; }
+body.teclado #form { padding-bottom: 60vh; }
 .btn-big { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 64px; padding: 12px 24px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 1.2rem; text-decoration: none; cursor: pointer; }
 .btn-big[disabled] { opacity: .6; cursor: progress; }
 .erro-geral { padding: 12px 14px; border-radius: var(--r-sm); background: var(--surface-2); color: var(--danger); font-weight: 700; }
@@ -551,7 +544,6 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
             </div>
           </div>
           <p class="erro" id="e-onde" hidden></p>
-          <p class="dica" id="d-onde">Sua localização não fica guardada.</p>
         </section>
 
         <section class="passo" data-passo="contato" hidden>
@@ -561,10 +553,9 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
             <input id="c-telefone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(11) 91234-5678" enterkeyhint="next">
           </div>
           <div class="campo-sub">
-            <label for="c-instagram">Instagram</label>
+            <label for="c-instagram">ou Instagram</label>
             <div class="prefixo"><span aria-hidden="true">@</span><input id="c-instagram" maxlength="60" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="seu.usuario" enterkeyhint="next"></div>
           </div>
-          <p class="dica">Pelo menos um dos dois.</p>
           <p class="erro" id="e-contato" hidden></p>
         </section>
 
@@ -572,7 +563,6 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
           <label class="pergunta" for="c-detalhes" id="p-texto">Quer contar mais? <span class="opc">(opcional)</span></label>
           <textarea id="c-detalhes" maxlength="300" rows="3" aria-describedby="d-detalhes"></textarea>
           <p class="dica" id="d-detalhes"><span id="c-conta">0</span> de 300 letras</p>
-          <p class="dica" id="aviso-publicar">Nome e bairro ficam no mural. O contato só aparece para quem tocar em “Entrar em contato”. Tudo é apagado em 26/10.</p>
         </section>
 
         <div class="hp" aria-hidden="true"><label>Não preencha este campo <input id="c-site" tabindex="-1" autocomplete="off"></label></div>
@@ -583,6 +573,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
             <button class="link" type="button" id="c-voltar" hidden><svg class="i" aria-hidden="true"><use href="#i-back"/></svg>Voltar</button>
             <button class="btn-big" type="submit" id="c-avancar">Continuar<svg class="i" aria-hidden="true"><use href="#i-next"/></svg></button>
           </div>
+          <p class="dica" id="aviso-publicar" hidden>Nome e bairro ficam no mural. O contato só aparece para quem tocar em “Entrar em contato”. Tudo é apagado em 26/10.</p>
         </div>
       </form>
     </div>
@@ -1180,7 +1171,6 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     st.onde = l;
     $('#onde-txt').textContent = l.rotulo;
     $('#onde-busca').hidden = true; $('#onde-manual').hidden = true; $('#onde-escolhido').hidden = false;
-    $('#d-onde').hidden = true;
     limparErro('onde');
     renderSugestoes([]); ondeStatus('');
     $('#c-avancar').focus();
@@ -1188,21 +1178,21 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
 
   function trocarLugar() {
     st.onde = null;
-    $('#onde-escolhido').hidden = true; $('#onde-manual').hidden = true; $('#onde-busca').hidden = false; $('#d-onde').hidden = false;
+    $('#onde-escolhido').hidden = true; $('#onde-manual').hidden = true; $('#onde-busca').hidden = false; 
     $('#c-busca').value = ''; $('#c-busca-limpar').hidden = true; $('#c-local').hidden = false; $('#c-manual').hidden = false; renderSugestoes([]); ondeStatus('');
     $('#c-busca').focus();
   }
 
   function escreverEndereco() {
     st.onde = null;
-    $('#onde-busca').hidden = true; $('#onde-escolhido').hidden = true; $('#onde-manual').hidden = false; $('#d-onde').hidden = true;
+    $('#onde-busca').hidden = true; $('#onde-escolhido').hidden = true; $('#onde-manual').hidden = false; 
     renderSugestoes([]); ondeStatus('');
     $('#c-uf').focus();
   }
 
   function usarOndeEstou() {
     var b = $('#c-local');
-    b.disabled = true; ondeStatus('Pegando sua localização…');
+    b.disabled = true; ondeStatus('Pegando sua localização… Ela não fica guardada.');
     ondeEstou().then(function (l) { escolherLugar(l); }, function () {
       ondeStatus('Não deu para achar sua localização. Digite o nome do seu bairro.');
       $('#c-busca').focus();
@@ -1235,7 +1225,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     $('#c-uf').value = st.uf || '';
     $('#c-conta').textContent = '0';
     st.tipoForm = tipo; st.formEnviado = false; st.onde = null;
-    $('#onde-busca').hidden = false; $('#onde-escolhido').hidden = true; $('#onde-manual').hidden = true; $('#d-onde').hidden = false;
+    $('#onde-busca').hidden = false; $('#onde-escolhido').hidden = true; $('#onde-manual').hidden = true; 
     $('#c-busca-limpar').hidden = true; $('#c-local').hidden = false; $('#c-manual').hidden = false; renderSugestoes([]); ondeStatus('');
     limparErros();
     irPasso(0);
@@ -1256,6 +1246,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       ? (st.tipoForm === 'pedido' ? 'Publicar pedido' : 'Publicar oferta')
       : 'Continuar' + icon('next');
     $('#c-voltar').hidden = n === 0;
+    $('#aviso-publicar').hidden = !ultimo;
     $('#e-geral').hidden = true;
     window.scrollTo(0, 0);
     if (semFoco) return;
@@ -1362,21 +1353,20 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
   // Barra de ações do formulário: no celular fica fixa logo acima do teclado.
   var tecladoAberto = false;
   function ajustarAcoes() {
-    var bar = $('#acoes'), vv = window.visualViewport;
-    if (!bar) return;
-    if (!vv || window.innerWidth > 700) { bar.style.bottom = ''; document.body.classList.remove('teclado'); return; }
-    var dif = Math.round(window.innerHeight - vv.height - vv.offsetTop);
+    var vv = window.visualViewport;
+    if (!vv || window.innerWidth > 700) { document.body.classList.remove('teclado'); return; }
     var aberto = (window.innerHeight - vv.height) > 150;
-    bar.style.bottom = aberto ? (dif > 0 ? dif : 0) + 'px' : '';
     if (aberto !== tecladoAberto) {
       tecladoAberto = aberto;
       document.body.classList.toggle('teclado', aberto);
-      if (aberto && st.view === 'form') {
-        // Com o teclado aberto, a pergunta vai para o topo da tela para sobrar espaço.
-        var q = document.querySelector('#form .passo[data-passo]:not([hidden]) .pergunta');
-        if (q) setTimeout(function () { window.scrollTo({ top: q.getBoundingClientRect().top + window.pageYOffset - 8, behavior: 'smooth' }); }, 60);
-      }
+      if (aberto && st.view === 'form') setTimeout(perguntaNoTopo, 60);
     }
+  }
+  // Com o teclado aberto, a pergunta vai para o topo da tela para sobrar espaço.
+  function perguntaNoTopo() {
+    if (st.view !== 'form') return;
+    var q = document.querySelector('#form .passo[data-passo]:not([hidden]) .pergunta');
+    if (q) window.scrollTo({ top: q.getBoundingClientRect().top + window.pageYOffset - 8, behavior: 'smooth' });
   }
 
   // ---------- navegação ----------
@@ -1487,12 +1477,23 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       window.visualViewport.addEventListener('scroll', ajustarAcoes);
     }
     window.addEventListener('resize', ajustarAcoes);
+    f.addEventListener('focusin', function (ev) {
+      if (!ev.target.matches('input, textarea, select') || window.innerWidth > 700) return;
+      document.body.classList.add('teclado');
+      setTimeout(perguntaNoTopo, 350);
+    });
+    f.addEventListener('focusout', function () {
+      setTimeout(function () {
+        var a = document.activeElement;
+        if (!a || !a.matches('#form input, #form textarea, #form select')) document.body.classList.remove('teclado');
+      }, 150);
+    });
     $('#c-instagram').addEventListener('blur', function () { var u = igLimpar(this.value); if (u) this.value = u; });
 
     // onde
     var busca = $('#c-busca');
     busca.addEventListener('input', function () {
-      var v = this.value; $('#c-busca-limpar').hidden = !v; $('#c-local').hidden = !!v; $('#d-onde').hidden = !!v;
+      var v = this.value; $('#c-busca-limpar').hidden = !v; $('#c-local').hidden = !!v;
       clearTimeout(buscaT); buscaT = setTimeout(function () { pesquisar(v); }, 350);
     });
     busca.addEventListener('keydown', function (ev) {
@@ -1501,7 +1502,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       if (st.sugestoes && st.sugestoes.length) { escolherLugar(st.sugestoes[0]); return; }
       clearTimeout(buscaT); pesquisar(this.value);
     });
-    $('#c-busca-limpar').addEventListener('click', function () { busca.value = ''; this.hidden = true; $('#c-local').hidden = false; $('#c-manual').hidden = false; $('#d-onde').hidden = false; renderSugestoes([]); ondeStatus(''); busca.focus(); });
+    $('#c-busca-limpar').addEventListener('click', function () { busca.value = ''; this.hidden = true; $('#c-local').hidden = false; $('#c-manual').hidden = false;  renderSugestoes([]); ondeStatus(''); busca.focus(); });
     $('#sugestoes').addEventListener('click', function (ev) {
       var b = ev.target.closest('[data-lugar]'); if (!b) return;
       var l = st.sugestoes[Number(b.getAttribute('data-lugar'))]; if (l) escolherLugar(l);
