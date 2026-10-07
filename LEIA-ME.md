@@ -69,7 +69,7 @@ Para o link aparecer com imagem no WhatsApp e no Telegram, abra `index.html` e t
 
 ## Como funciona
 
-- A página inicial tem só duas ações: **Preciso de ajuda** e **Quero ajudar**. O mural e o "Bom saber para domingo" ficam em páginas próprias, com links discretos.
+- A página inicial tem só duas ações: **Preciso de ajuda** e **Posso ajudar**. O mural e o "Bom saber para domingo" ficam em páginas próprias, com links discretos.
 - O formulário faz uma pergunta por tela, em 4 passos: primeiro nome, onde mora, contato (WhatsApp ou Instagram, pelo menos um) e um texto opcional.
 - No passo "Onde você mora?", a pessoa digita o bairro ou a cidade e escolhe na lista, toca em **Usar onde eu estou** (GPS do celular) ou escreve o endereço à mão. A busca usa o mapa aberto OpenStreetMap, pelo serviço gratuito Photon (`photon.komoot.io`). A localização não é guardada.
 - O mural mostra primeiro nome, bairro, cidade, o texto e quais canais de contato existem. O número e o @ só aparecem quando alguém toca em **Entrar em contato**. Daí dá para abrir o WhatsApp, ligar ou mandar mensagem no Instagram.

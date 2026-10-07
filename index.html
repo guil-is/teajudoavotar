@@ -107,23 +107,18 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* Aviso de demonstração */
 .demo { background: var(--yellow-soft); border-bottom: 1px solid var(--line); font-size: .95rem; font-weight: 700; padding-block: 10px; text-align: center; }
 
-/* Abertura (página inicial) */
-.hero { background: linear-gradient(135deg, var(--sun) 0%, var(--mint) 52%, var(--sky) 100%); padding-block: 12px 0; overflow: hidden; }
-@media (min-width: 900px) { .hero { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; padding-bottom: 40px; } .hero > .wrap { display: flex; flex-direction: column; flex: 1; } }
+/* Abertura (página inicial): uma frase e duas portas grandes */
+.hero { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; background: linear-gradient(135deg, var(--sun) 0%, var(--mint) 52%, var(--sky) 100%); padding-block: 12px 20px; overflow: hidden; }
+.hero > .wrap { display: flex; flex-direction: column; flex: 1; gap: 24px; }
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 6px; }
-.marca { display: inline-flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1.05rem; letter-spacing: -.01em; color: var(--green-ink); text-decoration: none; }
+.marca { display: inline-flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1.05rem; letter-spacing: -.01em; color: var(--green-ink); text-decoration: none; white-space: nowrap; }
 .marca svg { width: 30px; height: 30px; flex: none; }
 .btn-share { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--green-ink); font-weight: 700; font-size: .95rem; cursor: pointer; }
-.hero-grid { display: grid; gap: 28px; padding-block: 28px 0; }
-@media (min-width: 900px) { .hero-grid { grid-template-columns: 1.05fr 1fr; align-items: center; gap: 48px; padding-block: 24px 0; flex: 1; } }
-.hero-text { display: grid; gap: 22px; }
-.quando { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; font-weight: 700; font-size: 1rem; color: var(--green-ink); }
-.contagem { background: var(--yellow); color: var(--on-yellow); border-radius: 999px; padding: 4px 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
-.titulo { font-weight: 900; font-size: clamp(2.7rem, 12vw, 4.8rem); line-height: .98; letter-spacing: -.025em; color: var(--green-ink); }
-.titulo span { display: block; }
-.titulo .votar { display: flex; align-items: center; gap: .14em; color: var(--blue-ink); }
-.raios { width: .4em; height: .62em; color: var(--yellow); flex: none; }
-.lede { font-size: 1.25rem; font-weight: 600; color: var(--green-ink); max-width: 32ch; }
+@media (max-width: 399px) { .btn-share { width: 44px; padding: 8px; justify-content: center; } .btn-share span { display: none; } }
+.hero-main { display: grid; gap: 32px; align-content: center; flex: 1; width: 100%; max-width: 720px; padding-block: 24px; }
+@media (min-width: 900px) { .hero-main { gap: 40px; } }
+.frase { font-size: clamp(1.9rem, 7.5vw, 3rem); font-weight: 700; line-height: 1.2; letter-spacing: -.02em; color: var(--green-ink); text-wrap: pretty; }
+.frase-dias { display: block; font-weight: 900; color: var(--blue-ink); }
 .portas { display: grid; gap: 14px; }
 @media (min-width: 560px) { .portas { grid-template-columns: 1fr 1fr; } }
 .porta { display: flex; align-items: center; gap: 16px; min-height: 92px; padding: 18px 20px; border-radius: var(--r-lg); text-decoration: none; box-shadow: var(--shadow); transition: transform .15s ease; }
@@ -136,13 +131,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .porta-ajudar .ico { color: var(--green-ink); }
 .porta strong { display: block; font-size: 1.35rem; font-weight: 900; line-height: 1.15; }
 .porta small { display: block; margin-top: 2px; font-size: .95rem; font-weight: 600; opacity: .92; }
-.home-links { display: flex; flex-wrap: wrap; gap: 4px 24px; }
+.portas-grandes { gap: 16px; }
+.portas-grandes .porta { min-height: 116px; padding: 20px; gap: 16px; border-radius: 28px; box-shadow: 0 2px 4px rgba(19, 53, 44, .08), 0 16px 32px -16px rgba(19, 53, 44, .35); }
+.portas-grandes .porta .ico { width: 56px; height: 56px; }
+.portas-grandes .porta .ico .i { width: 30px; height: 30px; }
+.portas-grandes .porta strong { font-size: clamp(1.35rem, 6.2vw, 1.65rem); }
+.portas-grandes .porta small { margin-top: 4px; font-size: 1.02rem; }
+.home-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 28px; }
 .home-links a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--green-ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 .fim { background: var(--surface); border-radius: var(--r); padding: 18px 20px; font-weight: 700; box-shadow: var(--shadow); }
-.hero-art { margin: 0; }
-.hero-art img { display: block; width: 100%; height: auto; border-radius: var(--r-lg) var(--r-lg) 0 0; }
-@media (max-width: 899px) { .hero-art img { aspect-ratio: 16 / 8; object-fit: cover; object-position: 50% 30%; } }
-@media (min-width: 900px) { .hero-art img { border-radius: var(--r-lg); box-shadow: var(--shadow); } }
 
 /* Páginas internas */
 .pagina { padding-block: 12px 64px; }
@@ -331,38 +328,25 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
         <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 53S9 40 9 24.5A11.5 11.5 0 0 1 32 19a11.5 11.5 0 0 1 23 5.5C55 40 32 53 32 53z" style="fill:var(--red)"/><path d="M22.5 30.5l6.5 6.5 12.5-12.5" style="fill:none;stroke:var(--on-red)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Te Ajudo a Votar
       </a>
-      <button class="btn-share" type="button" id="compartilhar"><svg class="i" aria-hidden="true"><use href="#i-share"/></svg>Compartilhar</button>
+      <button class="btn-share" type="button" id="compartilhar" aria-label="Compartilhar"><svg class="i" aria-hidden="true"><use href="#i-share"/></svg><span>Compartilhar</span></button>
     </div>
-    <div class="hero-grid">
-      <div class="hero-text">
-        <p class="quando"><span class="contagem" id="contagem">Eleições 2026</span><span>2º turno · domingo, 25 de outubro · 8h às 17h</span></p>
-        <h1 class="titulo">
-          <span>Ajuda para</span>
-          <span class="votar">
-            <svg class="raios" viewBox="0 0 26 40" aria-hidden="true"><path d="M5 7l15 6M3 20h17M5 33l15-6" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/></svg>votar<svg class="raios" viewBox="0 0 26 40" aria-hidden="true"><path d="M21 7L6 13M23 20H6M21 33L6 27" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/></svg>
-          </span>
-        </h1>
-        <p class="lede">Peça ou ofereça ajuda a quem mora perto de você. Sem cadastro, leva 1 minuto.</p>
-        <div class="portas" id="portas">
-          <a class="porta porta-pedir" href="#pedir" data-ir="pedir">
-            <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-acessibilidade"/></svg></span>
-            <span><strong>Preciso de ajuda</strong><small>Para mim ou para alguém da família</small></span>
-          </a>
-          <a class="porta porta-ajudar" href="#oferecer" data-ir="oferecer">
-            <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-brand"/></svg></span>
-            <span><strong>Quero ajudar</strong><small>Ir junto, explicar, dar uma força</small></span>
-          </a>
-        </div>
-        <p class="fim" id="fim" hidden>A votação terminou. Obrigado a todo mundo que pediu e ofereceu ajuda.</p>
-        <p class="home-links">
-          <a href="#mural" data-ir="mural"><svg class="i" aria-hidden="true"><use href="#i-list"/></svg><span id="link-mural">Ver o mural</span></a>
-          <a href="#info" data-ir="info"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg>Bom saber para domingo</a>
-        </p>
+    <div class="hero-main">
+      <h1 class="frase"><span class="frase-dias" id="contagem">Eleições 2026.</span> <span id="frase-txt">Peça ou ofereça ajuda a quem mora perto de você.</span></h1>
+      <div class="portas portas-grandes" id="portas">
+        <a class="porta porta-pedir" href="#pedir" data-ir="pedir">
+          <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-acessibilidade"/></svg></span>
+          <span><strong>Preciso de ajuda</strong><small>Para mim ou alguém próximo</small></span>
+        </a>
+        <a class="porta porta-ajudar" href="#oferecer" data-ir="oferecer">
+          <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-brand"/></svg></span>
+          <span><strong>Posso ajudar</strong></span>
+        </a>
       </div>
-      <figure class="hero-art">
-        <img src="assets/ilustracao.webp" width="1100" height="709" alt="Vizinhos acompanham uma senhora de bengala e uma jovem em cadeira de rodas até a urna.">
-      </figure>
     </div>
+    <p class="home-links">
+      <a href="#mural" data-ir="mural"><svg class="i" aria-hidden="true"><use href="#i-list"/></svg><span id="link-mural">Ver o mural</span></a>
+      <a href="#info" data-ir="info"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg>Bom saber para domingo</a>
+    </p>
   </div>
 </header>
 
@@ -400,11 +384,11 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
         <div class="portas">
           <a class="porta porta-pedir" href="#pedir" data-ir="pedir">
             <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-acessibilidade"/></svg></span>
-            <span><strong>Preciso de ajuda</strong><small>Leva 1 minuto</small></span>
+            <span><strong>Preciso de ajuda</strong><small>Para mim ou alguém próximo</small></span>
           </a>
           <a class="porta porta-ajudar" href="#oferecer" data-ir="oferecer">
             <span class="ico"><svg class="i" aria-hidden="true"><use href="#i-brand"/></svg></span>
-            <span><strong>Quero ajudar</strong><small>Leva 1 minuto</small></span>
+            <span><strong>Posso ajudar</strong></span>
           </a>
         </div>
       </div>
@@ -859,7 +843,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
         '<button class="btn-contato" type="button" data-acao="ir-pedir">' + icon('acessibilidade') + 'Publicar um pedido</button></div>';
     }
     return '<div class="vazio"><p>Ninguém se ofereceu para ajudar ' + aqui + '.<br>Que tal ser a primeira pessoa?</p>' +
-      '<button class="btn-contato" type="button" data-acao="ir-oferecer">' + icon('brand') + 'Quero ajudar</button></div>';
+      '<button class="btn-contato" type="button" data-acao="ir-oferecer">' + icon('brand') + 'Posso ajudar</button></div>';
   }
 
   var CANAL_NOME = { whatsapp: 'WhatsApp', instagram: 'Instagram' };
@@ -1019,15 +1003,15 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     var b = new Date(agora - 3 * 3600e3);
     var hoje = Date.UTC(b.getUTCFullYear(), b.getUTCMonth(), b.getUTCDate());
     var dias = Math.round((DIA - hoje) / 86400e3);
-    var t;
-    if (agora >= FIM) t = 'Votação encerrada';
-    else if (agora >= INICIO) t = 'É hoje! Vote até as 17h';
-    else if (dias <= 0) t = 'É hoje! Começa às 8h';
-    else if (dias === 1) t = 'É amanhã';
-    else t = 'Faltam ' + dias + ' dias';
-    $('#contagem').textContent = t;
+    var t, txt = 'Peça ou ofereça ajuda a quem mora perto de você.';
+    if (agora >= FIM) { t = 'A votação terminou.'; txt = 'Obrigado a todo mundo que pediu e ofereceu ajuda.'; }
+    else if (agora >= INICIO) t = 'É hoje! Vote até as 17h.';
+    else if (dias <= 0) t = 'É hoje!';
+    else if (dias === 1) t = 'É amanhã.';
+    else t = 'Faltam ' + dias + ' dias.';
+    $('#contagem').textContent = t; $('#frase-txt').textContent = txt;
     var fim = agora >= FIM;
-    $('#portas').hidden = fim; $('#fim').hidden = !fim; $('#chamada').hidden = fim;
+    $('#portas').hidden = fim; $('#chamada').hidden = fim;
     $('#form').hidden = fim; $('#form-fim').hidden = !fim;
   }
 
@@ -1167,7 +1151,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     var pedido = tipo === 'pedido';
     var v = $('#form-view');
     v.classList.toggle('form-pedido', pedido); v.classList.toggle('form-oferta', !pedido);
-    $('#form-t').textContent = pedido ? 'Preciso de ajuda' : 'Quero ajudar';
+    $('#form-t').textContent = pedido ? 'Preciso de ajuda' : 'Posso ajudar';
     $('#d-nome').textContent = pedido
       ? 'Pode publicar por outra pessoa, com a permissão dela. Ex.: Dona Lúcia.'
       : 'Só o primeiro nome já basta.';
