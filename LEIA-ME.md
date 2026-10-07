@@ -33,6 +33,8 @@ Sem o banco configurado, o site abre em **modo demonstração**: mostra exemplos
 5. Abra o arquivo `supabase.sql`, copie tudo, cole lá e clique em **Run**. Deve aparecer "Success". Avisos em amarelo ("already exists", "does not exist, skipping") são normais.
 
    **Se o banco já existia:** sempre que o `supabase.sql` mudar aqui no GitHub, rode ele de novo do mesmo jeito. Ele atualiza a tabela e as funções sem apagar o que já foi publicado.
+
+   **Situação em 7/10/2026:** o banco do projeto foi atualizado pelo Claude, direto pela conexão com o Supabase, de um jeito compatível: as colunas antigas `ajudas`, `periodo` e `canais` continuam lá (vazias), a função `criar` antiga continua ao lado da nova, e a limpeza automática da tabela `limites` ficou de fora. O site funciona assim. Para deixar o banco igual ao `supabase.sql`, rode o arquivo no SQL Editor uma vez: ele apaga as colunas e a função antigas e liga a limpeza.
 6. Pegue os dois dados de acesso:
    - **Project Settings > Data API**: copie a **Project URL** (algo como `https://abcdefgh.supabase.co`).
    - **Project Settings > API Keys**: copie a **Publishable key** (começa com `sb_publishable_`). Se só aparecer a antiga chave `anon`, pode usar ela.
