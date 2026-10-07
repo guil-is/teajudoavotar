@@ -90,17 +90,24 @@ Se um dia o Photon sair do ar, a pessoa ainda consegue publicar escrevendo o end
 
 ## Moderação
 
-No Supabase, abra **Table Editor > posts**.
+Abra **https://teajudoavotar.com.br/admin.html** e entre com a senha de moderação (quem cuida do site tem a senha; ela não fica em lugar nenhum do código). O painel mostra tudo, inclusive anúncios escondidos, com o contato de cada um.
 
-- **Esconder um anúncio:** mude `oculto` para `true`.
-- **Limpar as denúncias de um anúncio legítimo:** mude `denuncias` para `0`.
-- **Apagar:** selecione a linha e apague.
+- **Denunciados:** aba que abre primeiro. Leia o anúncio e decida.
+- **Esconder:** tira do mural sem apagar. Dá para mostrar de novo.
+- **Zerar denúncias:** para anúncios legítimos que foram denunciados de má-fé.
+- **Apagar:** definitivo. Pede confirmação com um segundo toque.
 
-Denúncias não escondem nada automaticamente. Combine com o time de olhar a lista de denunciados pelo menos duas vezes por dia na última semana e no domingo da votação. Para ver o que foi denunciado, rode no SQL Editor:
+Denúncias não escondem nada automaticamente. Combine com o time de olhar a aba "Denunciados" pelo menos duas vezes por dia na última semana e no domingo da votação. Dez senhas erradas seguidas bloqueiam o painel por uma hora.
+
+**Trocar a senha:** no SQL Editor do Supabase, rode (com a sua senha nova no lugar):
 
 ```sql
-select nome, bairro, cidade, detalhes, denuncias, oculto from posts where denuncias > 0 order by denuncias desc;
+update public.admin_config
+   set segredo_hash = encode(sha256(convert_to('SUA-NOVA-SENHA', 'UTF8')), 'hex'), atualizado_em = now()
+ where id = 1;
 ```
+
+O painel também funciona pela tabela: em **Table Editor > posts**, `oculto = true` esconde e `denuncias = 0` limpa as denúncias.
 
 Números da ação:
 

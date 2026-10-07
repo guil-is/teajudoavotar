@@ -279,7 +279,8 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
 .acoes-linha .btn-big { flex: 1; width: auto; }
 .acoes-linha .link { flex: none; }
 @media (max-width: 700px) {
-  .passo-acoes { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; margin: 0; padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px)); background: var(--bg); box-shadow: 0 -8px 24px -16px rgba(19, 53, 44, .35); }
+  .passo-acoes { position: fixed; left: 16px; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 5; margin: 0; padding: 10px 12px; border-radius: 24px; background: var(--surface); box-shadow: 0 2px 4px rgba(19, 53, 44, .06), 0 16px 32px -12px rgba(19, 53, 44, .35); }
+  body.teclado .passo-acoes { left: 0; right: 0; border-radius: 0; padding: 8px 16px; background: var(--bg); box-shadow: 0 -8px 24px -16px rgba(19, 53, 44, .35); }
   .acoes-linha { justify-content: space-between; gap: 10px; }
   .acoes-linha .btn-big { flex: 0 1 auto; width: auto; margin-left: auto; min-height: 46px; padding: 8px 22px; font-size: 1.05rem; }
   .acoes-linha .link { min-height: 40px; padding: 4px 8px; }
@@ -1168,7 +1169,7 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     v.classList.toggle('form-pedido', pedido); v.classList.toggle('form-oferta', !pedido);
     $('#form-t').textContent = pedido ? 'Preciso de ajuda' : 'Posso ajudar';
     $('#d-nome').textContent = pedido
-      ? 'Pode publicar por outra pessoa, com a permissão dela. Ex.: Dona Lúcia.'
+      ? 'Pode publicar por outra pessoa, com a permissão dela.'
       : 'Só o primeiro nome já basta.';
     $('#p-texto').innerHTML = (pedido ? 'O que você precisa?' : 'Como pode ajudar?') + ' <span class="opc">(opcional)</span>';
     $('#c-detalhes').placeholder = pedido
@@ -1307,8 +1308,8 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     if (!bar) return;
     if (!vv || window.innerWidth > 700) { bar.style.bottom = ''; document.body.classList.remove('teclado'); return; }
     var dif = Math.round(window.innerHeight - vv.height - vv.offsetTop);
-    bar.style.bottom = (dif > 0 ? dif : 0) + 'px';
     var aberto = (window.innerHeight - vv.height) > 150;
+    bar.style.bottom = aberto ? (dif > 0 ? dif : 0) + 'px' : '';
     if (aberto !== tecladoAberto) {
       tecladoAberto = aberto;
       document.body.classList.toggle('teclado', aberto);

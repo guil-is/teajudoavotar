@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Moderação · Te Ajudo a Votar</title>
+<link rel="icon" href="assets/icone.svg" type="image/svg+xml">
+<style>
+@font-face { font-family: "Figtree"; src: url("assets/figtree.woff2") format("woff2"); font-weight: 300 900; font-style: normal; font-display: swap; }
+:root {
+  --bg: #F6FAF3; --surface: #FFFFFF; --surface-2: #ECF4E8; --ink: #13352C; --muted: #48655B; --line: #D2E2D7;
+  --green: #1D6A52; --on-green: #FFFFFF; --green-soft: #DDF0E4; --green-ink: #145440;
+  --blue: #0A62AC; --on-blue: #FFFFFF; --blue-soft: #E0EDF9; --blue-ink: #0A5799;
+  --yellow-soft: #FFF3C6; --danger: #B42318; --danger-soft: #FDE8E6; --focus: #0A62AC;
+  --shadow: 0 1px 2px rgba(19, 53, 44, .05), 0 8px 20px -14px rgba(19, 53, 44, .18);
+  --font: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --r: 16px; --r-sm: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C1C17; --surface: #132A23; --surface-2: #1A362D; --ink: #E8F3EC; --muted: #A3BFB4; --line: #29493F;
+    --green: #57D0A0; --on-green: #062219; --green-soft: #173B2F; --green-ink: #8BE2BD;
+    --blue: #7DB4FF; --on-blue: #04162B; --blue-soft: #13304F; --blue-ink: #A3CBFF;
+    --yellow-soft: #322F12; --danger: #FF8A80; --danger-soft: #3A1A18; --focus: #A3CBFF;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 24px -14px rgba(0, 0, 0, .7); color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 1rem; line-height: 1.5; font-weight: 500; }
+h1, h2, h3, p { margin: 0; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 8px; }
+[hidden] { display: none !important; }
+.i { width: 1.1em; height: 1.1em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vertical-align: -.2em; }
+.wrap { width: 100%; max-width: 920px; margin-inline: auto; padding: 16px 20px 80px; }
+.topo { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.marca { display: inline-flex; align-items: center; gap: 8px; font-weight: 900; color: var(--green-ink); text-decoration: none; }
+.marca svg { width: 28px; height: 28px; }
+.topo-acoes { display: flex; gap: 8px; flex-wrap: wrap; }
+input, select { width: 100%; min-height: 46px; padding: 8px 14px; border: 1.5px solid var(--line); border-radius: var(--r-sm); background: var(--surface); color: var(--ink); font-weight: 600; }
+.mini { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 14px; border: 1.5px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font-size: .92rem; font-weight: 700; cursor: pointer; }
+.mini.primario { border-color: transparent; background: var(--green); color: var(--on-green); }
+.mini.perigo { color: var(--danger); }
+.mini.perigo.confirmar { background: var(--danger); border-color: transparent; color: #fff; }
+.mini[disabled] { opacity: .6; cursor: progress; }
+.entrar { display: grid; gap: 12px; max-width: 460px; margin-top: 24px; padding: 22px; border-radius: var(--r); background: var(--surface); box-shadow: var(--shadow); }
+.entrar h1 { font-size: 1.4rem; font-weight: 900; color: var(--green-ink); }
+.entrar p { color: var(--muted); font-weight: 500; }
+.erro { color: var(--danger); font-weight: 700; }
+.resumo { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 12px; color: var(--muted); font-weight: 600; font-size: .95rem; }
+.resumo b { color: var(--ink); }
+.filtros { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 16px; }
+@media (min-width: 640px) { .filtros { grid-template-columns: auto 1fr; align-items: center; } }
+.abas { display: flex; gap: 6px; padding: 4px; border-radius: 999px; background: var(--surface-2); width: max-content; max-width: 100%; overflow: auto; }
+.aba { min-height: 40px; padding: 6px 14px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font-weight: 800; font-size: .92rem; cursor: pointer; white-space: nowrap; }
+.aba[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+.lista { display: grid; gap: 12px; }
+.card { display: grid; gap: 8px; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); box-shadow: var(--shadow); }
+.card.oculto { border-color: var(--danger); background: var(--danger-soft); }
+.card.denunciado:not(.oculto) { border-color: #E3B341; background: var(--yellow-soft); }
+.card-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: .88rem; font-weight: 700; color: var(--muted); }
+.selo { padding: 2px 10px; border-radius: 999px; font-weight: 800; }
+.selo-pedido { background: var(--blue-soft); color: var(--blue-ink); }
+.selo-oferta { background: var(--green-soft); color: var(--green-ink); }
+.selo-alerta { background: var(--danger); color: #fff; }
+.card h3 { font-size: 1.15rem; font-weight: 900; overflow-wrap: anywhere; }
+.meta { color: var(--muted); font-weight: 600; font-size: .95rem; overflow-wrap: anywhere; }
+.texto { overflow-wrap: anywhere; }
+.contato { font-variant-numeric: tabular-nums; font-weight: 700; overflow-wrap: anywhere; }
+.acoes { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 6px; }
+.vazio { padding: 32px; border: 2px dashed var(--line); border-radius: var(--r); color: var(--muted); text-align: center; font-weight: 600; }
+.toast { position: fixed; left: 50%; bottom: 20px; z-index: 10; max-width: calc(100% - 32px); transform: translateX(-50%); padding: 10px 18px; border-radius: 999px; background: var(--ink); color: var(--bg); font-weight: 700; box-shadow: var(--shadow); text-align: center; }
+.nota { color: var(--muted); font-size: .9rem; font-weight: 500; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></symbol>
+<symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/></symbol>
+</svg>
+
+<div class="wrap">
+  <div class="topo">
+    <a class="marca" href="./">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 53S9 40 9 24.5A11.5 11.5 0 0 1 32 19a11.5 11.5 0 0 1 23 5.5C55 40 32 53 32 53z" fill="#E5484F"/><path d="M22.5 30.5l6.5 6.5 12.5-12.5" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Moderação
+    </a>
+    <div class="topo-acoes" id="topo-acoes" hidden>
+      <button class="mini" type="button" id="atualizar"><svg class="i"><use href="#i-refresh"/></svg>Atualizar</button>
+      <button class="mini" type="button" id="sair">Sair</button>
+    </div>
+  </div>
+
+  <form class="entrar" id="entrar">
+    <h1>Painel de moderação</h1>
+    <p>Só para quem cuida do site. Aqui dá para ver denúncias, esconder, mostrar e apagar anúncios.</p>
+    <label for="senha" class="nota">Senha de moderação</label>
+    <input id="senha" type="password" autocomplete="current-password" required>
+    <p class="erro" id="entrar-erro" hidden></p>
+    <button class="mini primario" type="submit" id="entrar-btn">Entrar</button>
+  </form>
+
+  <div id="painel" hidden>
+    <div class="resumo" id="resumo"></div>
+    <div class="filtros">
+      <div class="abas" role="tablist">
+        <button class="aba" type="button" role="tab" data-f="denunciados" aria-selected="true">Denunciados <span id="n-den">0</span></button>
+        <button class="aba" type="button" role="tab" data-f="ocultos" aria-selected="false">Escondidos <span id="n-ocu">0</span></button>
+        <button class="aba" type="button" role="tab" data-f="todos" aria-selected="false">Todos <span id="n-tod">0</span></button>
+      </div>
+      <input id="busca" type="search" placeholder="Buscar nome, cidade, bairro, telefone ou texto" autocomplete="off">
+    </div>
+    <div class="lista" id="lista"></div>
+    <p class="nota" style="margin-top:16px">Esconder tira do mural sem apagar. Apagar é definitivo. Denúncias nunca escondem sozinhas: a decisão é sua. A lista atualiza sozinha a cada minuto.</p>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="config.js"></script>
+<script>
+(function () {
+  'use strict';
+  var CFG = window.TAV_CONFIG || {};
+  var KEY = 'tav-admin';
+  var st = { senha: '', posts: [], filtro: 'denunciados', busca: '', apagando: {}, carregando: false };
+
+  function $(s) { return document.querySelector(s); }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function norm(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim(); }
+  function icon(n) { return '<svg class="i" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
+  function quando(iso) { var d = new Date(iso); return d.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }); }
+  function foneFmt(d) { return d.length === 11 ? '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7) : '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6); }
+  var toastT;
+  function toast(t) { var el = $('#toast'); el.textContent = t; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(function () { el.hidden = true; }, 3200); }
+  function erro(c) { var e = new Error(c); e.codigo = c; return e; }
+  function msg(e) {
+    var c = (e && e.codigo) || 'rede';
+    if (c === 'nao_autorizado') return 'Senha errada.';
+    if (c === 'limite') return 'Muitas tentativas. Espere uma hora.';
+    if (c === 'nao_encontrado') return 'Esse anúncio já não existe.';
+    if (e && e.pg) return 'O banco respondeu com um erro: ' + c;
+    return 'Sem conexão com o banco. Confira a internet.';
+  }
+
+  function rpc(fn, args) {
+    if (!CFG.SUPABASE_URL || !CFG.SUPABASE_KEY) return Promise.reject(erro('rede'));
+    var url = CFG.SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/rpc/' + fn;
+    var h = { 'Content-Type': 'application/json', 'apikey': CFG.SUPABASE_KEY };
+    if (/^eyJ/.test(CFG.SUPABASE_KEY)) h.Authorization = 'Bearer ' + CFG.SUPABASE_KEY;
+    return fetch(url, { method: 'POST', headers: h, body: JSON.stringify(args || {}) }).then(function (r) {
+      return r.text().then(function (t) {
+        var d = null; try { d = t ? JSON.parse(t) : null; } catch (e) {}
+        if (!r.ok) { var e = erro((d && d.message) || 'rede'); e.pg = (d && d.code) || ('http_' + r.status); throw e; }
+        return d;
+      });
+    }, function () { throw erro('rede'); });
+  }
+
+  function carregar() {
+    if (st.carregando) return Promise.resolve();
+    st.carregando = true; $('#atualizar').disabled = true;
+    return rpc('admin_listar', { p_segredo: st.senha }).then(function (l) {
+      st.posts = l || []; render();
+    }, function (e) {
+      if (e.codigo === 'nao_autorizado' || e.codigo === 'limite') { sair(msg(e)); return; }
+      toast(msg(e));
+    }).then(function () { st.carregando = false; $('#atualizar').disabled = false; });
+  }
+
+  function filtrados() {
+    var q = norm(st.busca);
+    return st.posts.filter(function (p) {
+      if (st.filtro === 'denunciados' && !(p.denuncias > 0)) return false;
+      if (st.filtro === 'ocultos' && !p.oculto) return false;
+      if (!q) return true;
+      return norm([p.nome, p.cidade, p.bairro, p.detalhes, p.telefone, p.instagram].join(' ')).indexOf(q) >= 0;
+    });
+  }
+
+  function render() {
+    var den = 0, ocu = 0, abertos = 0;
+    st.posts.forEach(function (p) { if (p.denuncias > 0) den++; if (p.oculto) ocu++; if (!p.oculto && !p.resolvido) abertos++; });
+    $('#n-den').textContent = den; $('#n-ocu').textContent = ocu; $('#n-tod').textContent = st.posts.length;
+    $('#resumo').innerHTML = '<span><b>' + abertos + '</b> no mural</span><span><b>' + den + '</b> com denúncia</span><span><b>' + ocu + '</b> escondidos</span><span><b>' + st.posts.length + '</b> no total</span>';
+    document.querySelectorAll('.aba').forEach(function (b) { b.setAttribute('aria-selected', String(b.getAttribute('data-f') === st.filtro)); });
+    var l = filtrados();
+    if (!l.length) {
+      $('#lista').innerHTML = '<div class="vazio">' + (st.filtro === 'denunciados' ? 'Nenhuma denúncia. Bom sinal.' : 'Nada por aqui.') + '</div>';
+      return;
+    }
+    $('#lista').innerHTML = l.map(cardHtml).join('');
+  }
+
+  function cardHtml(p) {
+    var cls = 'card' + (p.oculto ? ' oculto' : '') + (p.denuncias > 0 ? ' denunciado' : '');
+    var h = '<article class="' + cls + '" data-id="' + esc(p.id) + '">';
+    h += '<div class="card-top"><span class="selo selo-' + p.tipo + '">' + (p.tipo === 'pedido' ? 'Pedido' : 'Oferta') + '</span>';
+    if (p.oculto) h += '<span class="selo selo-alerta">Escondido</span>';
+    if (p.resolvido) h += '<span>Resolvido</span>';
+    if (p.denuncias > 0) h += '<span>' + icon('flag') + p.denuncias + (p.denuncias === 1 ? ' denúncia' : ' denúncias') + '</span>';
+    h += '<span>' + p.contatos + (p.contatos === 1 ? ' contato aberto' : ' contatos abertos') + '</span>';
+    h += '<span>' + quando(p.criado_em) + '</span></div>';
+    h += '<h3>' + esc(p.nome) + '</h3>';
+    h += '<p class="meta">' + esc(p.bairro ? p.bairro + ' · ' : '') + esc(p.cidade) + '/' + esc(p.uf) + '</p>';
+    if (p.detalhes) h += '<p class="texto">' + esc(p.detalhes) + '</p>';
+    var c = [];
+    if (p.telefone) c.push('WhatsApp ' + foneFmt(p.telefone));
+    if (p.instagram) c.push('Instagram @' + esc(p.instagram));
+    h += '<p class="contato">' + c.join(' · ') + '</p>';
+    h += '<div class="acoes">';
+    h += p.oculto
+      ? '<button class="mini primario" type="button" data-acao="mostrar">' + icon('eye') + 'Mostrar no mural</button>'
+      : '<button class="mini" type="button" data-acao="ocultar">' + icon('eye-off') + 'Esconder</button>';
+    if (p.denuncias > 0) h += '<button class="mini" type="button" data-acao="zerar">' + icon('check') + 'Zerar denúncias</button>';
+    h += '<button class="mini perigo' + (st.apagando[p.id] ? ' confirmar' : '') + '" type="button" data-acao="apagar">' + icon('trash') + (st.apagando[p.id] ? 'Confirmar: apagar' : 'Apagar') + '</button>';
+    h += '</div></article>';
+    return h;
+  }
+
+  function moderar(id, acao) {
+    if (acao === 'apagar' && !st.apagando[id]) {
+      st.apagando[id] = true; render();
+      setTimeout(function () { if (st.apagando[id]) { delete st.apagando[id]; render(); } }, 5000);
+      return;
+    }
+    delete st.apagando[id];
+    rpc('admin_moderar', { p_segredo: st.senha, p_id: id, p_acao: acao }).then(function () {
+      var p = null; st.posts.forEach(function (x) { if (x.id === id) p = x; });
+      if (acao === 'apagar') st.posts = st.posts.filter(function (x) { return x.id !== id; });
+      else if (p) { if (acao === 'ocultar') p.oculto = true; if (acao === 'mostrar') p.oculto = false; if (acao === 'zerar') p.denuncias = 0; }
+      render();
+      toast({ ocultar: 'Escondido do mural.', mostrar: 'De volta ao mural.', zerar: 'Denúncias zeradas.', apagar: 'Apagado.' }[acao]);
+    }, function (e) {
+      if (e.codigo === 'nao_autorizado' || e.codigo === 'limite') { sair(msg(e)); return; }
+      toast(msg(e)); carregar();
+    });
+  }
+
+  function entrar(senha) {
+    st.senha = senha;
+    return rpc('admin_listar', { p_segredo: senha }).then(function (l) {
+      st.posts = l || [];
+      try { localStorage.setItem(KEY, senha); } catch (e) {}
+      $('#entrar').hidden = true; $('#painel').hidden = false; $('#topo-acoes').hidden = false;
+      render();
+    });
+  }
+
+  function sair(aviso) {
+    st.senha = ''; st.posts = [];
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    $('#painel').hidden = true; $('#topo-acoes').hidden = true; $('#entrar').hidden = false;
+    $('#senha').value = '';
+    var e = $('#entrar-erro'); e.textContent = aviso || ''; e.hidden = !aviso;
+  }
+
+  $('#entrar').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var btn = $('#entrar-btn'); btn.disabled = true; $('#entrar-erro').hidden = true;
+    entrar($('#senha').value).then(null, function (e) { var p = $('#entrar-erro'); p.textContent = msg(e); p.hidden = false; })
+      .then(function () { btn.disabled = false; });
+  });
+  $('#sair').addEventListener('click', function () { sair(); });
+  $('#atualizar').addEventListener('click', carregar);
+  document.querySelectorAll('.aba').forEach(function (b) { b.addEventListener('click', function () { st.filtro = b.getAttribute('data-f'); render(); }); });
+  var bt;
+  $('#busca').addEventListener('input', function () { var v = this.value; clearTimeout(bt); bt = setTimeout(function () { st.busca = v; render(); }, 150); });
+  $('#lista').addEventListener('click', function (ev) {
+    var b = ev.target.closest('[data-acao]'); if (!b) return;
+    moderar(b.closest('[data-id]').getAttribute('data-id'), b.getAttribute('data-acao'));
+  });
+  setInterval(function () { if (st.senha && document.visibilityState === 'visible') carregar(); }, 60000);
+
+  var guardada = '';
+  try { guardada = localStorage.getItem(KEY) || ''; } catch (e) {}
+  if (guardada) entrar(guardada).then(null, function () { sair(); });
+})();
+</script>
+</body>
+</html>

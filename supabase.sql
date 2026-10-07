@@ -251,7 +251,88 @@ grant execute on function public.denunciar(uuid) to anon, authenticated;
 -- Avisa o PostgREST que o esquema mudou (o Supabase costuma fazer isso sozinho).
 notify pgrst, 'reload schema';
 
--- 5. Depois da eleição ----------------------------------------------------
+-- 5. Moderação (painel admin.html) ---------------------------------------
+-- A senha do painel fica guardada só como hash. Para trocar a senha, rode:
+--   update public.admin_config set segredo_hash = encode(sha256(convert_to('SUA-NOVA-SENHA', 'UTF8')), 'hex'), atualizado_em = now() where id = 1;
+create table if not exists public.admin_config (
+  id int primary key default 1 check (id = 1),
+  segredo_hash text not null,
+  atualizado_em timestamptz not null default now()
+);
+alter table public.admin_config enable row level security;
+revoke all on table public.admin_config from anon, authenticated;
+-- Num banco novo, defina a senha inicial trocando o hash abaixo (este é um valor de exemplo, não funciona):
+insert into public.admin_config (id, segredo_hash) values (1, 'troque-este-hash')
+  on conflict (id) do nothing;
+
+create or replace function public._admin_ok(p_segredo text)
+returns void
+language plpgsql security definer
+set search_path = ''
+as $$
+declare h text;
+begin
+  select segredo_hash into h from public.admin_config where id = 1;
+  if h is null or p_segredo is null or encode(sha256(convert_to(p_segredo, 'UTF8')), 'hex') <> h then
+    perform public._limitar('admin_falha', 10, interval '1 hour');
+    raise exception 'nao_autorizado';
+  end if;
+end;
+$$;
+
+-- Lista tudo, inclusive escondidos, com contato. Só com a senha.
+create or replace function public.admin_listar(p_segredo text)
+returns table (
+  id uuid, criado_em timestamptz, tipo text, nome text, uf text, cidade text, bairro text, detalhes text,
+  telefone text, instagram text, resolvido boolean, oculto boolean, denuncias int, contatos int
+)
+language plpgsql security definer
+set search_path = ''
+as $$
+begin
+  perform public._admin_ok(p_segredo);
+  return query
+    select p.id, p.criado_em, p.tipo, p.nome, p.uf, p.cidade, p.bairro, p.detalhes, p.telefone, p.instagram,
+           p.resolvido, p.oculto, p.denuncias, p.contatos
+      from public.posts p
+     order by p.denuncias desc, p.criado_em desc
+     limit 5000;
+end;
+$$;
+
+-- Ações: ocultar, mostrar, zerar (denúncias), resolver, reabrir, apagar.
+create or replace function public.admin_moderar(p_segredo text, p_id uuid, p_acao text)
+returns boolean
+language plpgsql security definer
+set search_path = ''
+as $$
+declare t uuid;
+begin
+  perform public._admin_ok(p_segredo);
+  if p_acao = 'ocultar' then update public.posts set oculto = true where id = p_id;
+  elsif p_acao = 'mostrar' then update public.posts set oculto = false where id = p_id;
+  elsif p_acao = 'zerar' then update public.posts set denuncias = 0 where id = p_id;
+  elsif p_acao = 'resolver' then update public.posts set resolvido = true where id = p_id;
+  elsif p_acao = 'reabrir' then update public.posts set resolvido = false where id = p_id;
+  elsif p_acao = 'apagar' then
+    select token into t from public.posts where id = p_id;
+    if t is null then raise exception 'nao_encontrado'; end if;
+    perform public.apagar(p_id, t);
+  else
+    raise exception 'dados';
+  end if;
+  if not found then raise exception 'nao_encontrado'; end if;
+  return true;
+end;
+$$;
+
+revoke execute on function public._admin_ok(text) from public, anon, authenticated;
+revoke execute on function public.admin_listar(text) from public;
+revoke execute on function public.admin_moderar(text, uuid, text) from public;
+grant execute on function public.admin_listar(text) to anon, authenticated;
+grant execute on function public.admin_moderar(text, uuid, text) to anon, authenticated;
+
+-- 6. Depois da eleição ----------------------------------------------------
 -- Em 26/10, apague tudo rodando estas duas linhas:
 --   delete from public.posts;
 --   delete from public.limites;
