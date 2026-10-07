@@ -1145,7 +1145,6 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
       '<div class="divulgue-acoes"><a class="btn-zap" href="' + linkZap(TEXTO_DIVULGA.geral) + '" target="_blank" rel="noopener">' + icon('whatsapp') + 'Mandar no WhatsApp</a></div>';
   }
 
-  var CANAL_NOME = { whatsapp: 'WhatsApp', instagram: 'Instagram' };
 
   function cardHtml(p) {
     var meu = eMeu(p.id);
@@ -1154,11 +1153,9 @@ select:focus, input:focus, textarea:focus { border-color: var(--accent); box-sha
     h += '<div class="card-top"><span><span class="selo selo-' + p.tipo + '">' + selo + '</span>' + (meu ? '<span class="seu">Seu</span>' : '') + '</span>' +
       '<time datetime="' + esc(p.criado_em) + '">' + haQuanto(p.criado_em) + '</time></div>';
     h += '<h3 class="card-nome">' + esc(p.nome) + '</h3>';
-    var canais = (p.canais || []).filter(function (c) { return CANAL_NOME[c]; }).map(function (c) { return icon(c) + CANAL_NOME[c]; }).join('</span><span>');
     var dist = rotuloDist(p);
     h += '<p class="card-meta"><span>' + icon('local') + esc(p.bairro ? titulo(p.bairro) + ' · ' : '') + esc(titulo(p.cidade)) + '/' + esc(p.uf) + '</span>' +
-      (dist ? '<span class="dist">' + icon('locate') + dist + '</span>' : '') +
-      (canais ? '<span>' + canais + '</span>' : '') + '</p>';
+      (dist ? '<span class="dist">' + icon('locate') + dist + '</span>' : '') + '</p>';
     if (p.detalhes) h += '<p class="card-det">' + esc(p.detalhes) + '</p>';
     if (p.exemplo) h += '<span class="exemplo">Exemplo</span>';
     if (!p.resolvido && !encerrado()) {
