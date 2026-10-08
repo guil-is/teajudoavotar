@@ -73,6 +73,7 @@ Para o link aparecer com imagem no WhatsApp e no Telegram, abra `index.html` e t
 ## Como funciona
 
 - Toda página pede para divulgar: um bloco "Ajude a espalhar" com botão de WhatsApp (mensagem pronta com o link), compartilhar ou copiar o link e Instagram. Ele aparece na abertura, no mural (inclusive quando a busca não acha nada), em Mais informações e logo depois de publicar.
+- Aparência: automático (segue o aparelho), claro ou escuro. Dá para trocar no botão redondo do topo da abertura ou no rodapé de qualquer página. A escolha fica salva no aparelho.
 - Todas as páginas terminam com um rodapé pequeno com os avisos: iniciativa voluntária e apartidária, sem cadastro, o que é guardado e quando tudo é apagado.
 - A página inicial tem só duas ações: **Preciso de ajuda** e **Posso ajudar**. O mural e "Mais informações" ficam em páginas próprias, com links discretos.
 - O formulário faz uma pergunta por tela, em 4 passos: primeiro nome, onde mora, contato (WhatsApp ou Instagram, pelo menos um) e um texto opcional.
